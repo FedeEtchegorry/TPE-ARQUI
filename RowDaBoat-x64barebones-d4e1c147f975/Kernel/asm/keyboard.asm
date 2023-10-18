@@ -9,11 +9,11 @@ keyboard_handler:
     mov rbp, rsp
 
     mov rax, 0
-      	in al, 64h
-    	test al, 0x01
-    	jz .exit
-        in al, 60h
-    	jmp .leave
+    in al, 64h
+    test al, 0x01
+    jz .exit
+    in al, 60h
+    jmp .leave
     .exit:
         mov rax, 0
     .leave
