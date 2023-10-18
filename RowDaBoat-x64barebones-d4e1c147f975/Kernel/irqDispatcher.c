@@ -2,13 +2,13 @@
 #include <stdint.h>
 #include <naiveConsole.h>
 
-
-static void int_30();
+static void int_21();
 static void int_20();
+
 
 typedef void (*int_xx)(void);
 
-static int_xx interruptions[2] = {&int_20, &int_30};
+static int_xx interruptions[2] = {&int_20, &int_21};
 
 static uint8_t * string = "Tick numero: ";
 
@@ -28,6 +28,6 @@ void int_20() {
 	}
 }
 
-void int_30() {
-	;
+void int_21() {
+	ncPrintChar(getPressedKey());
 }
