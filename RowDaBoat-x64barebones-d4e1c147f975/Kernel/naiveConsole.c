@@ -19,7 +19,7 @@ void ncPrint(const char * string)
 void ncPrintChar(char character)
 {
 	*currentVideo = character;
-	currentVideo += 2;
+	currentVideo += 2;	
 }
 
 void ncNewline()

@@ -3,5 +3,6 @@
 
 
 unsigned char keyboard_handler();
+unsigned char map();
 
 #endif

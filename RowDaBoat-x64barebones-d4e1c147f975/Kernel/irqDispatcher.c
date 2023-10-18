@@ -30,5 +30,5 @@ void int_20() {
 }
 
 void int_21() {
-	ncPrintChar(keyboard_handler());
+	ncPrintChar(map(keyboard_handler()));
 }
