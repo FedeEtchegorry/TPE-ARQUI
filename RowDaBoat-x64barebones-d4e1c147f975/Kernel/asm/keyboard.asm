@@ -9,14 +9,13 @@ keyboard_handler:
     mov rbp, rsp
 
     mov rax, 0
-    in al, 64h
-    test al, 0x01
-    jz .exit
-    in al, 60h
-    jmp .leave
-    .exit:
-        mov rax, 0
-    .leave
+    loop:
+        in al, 0x64
+        mov cl, al
+        and al, 0x01
+        cmp al, 0
+        je loop
+    in al, 0x60
     mov rsp, rbp
     pop rbp
     ret
