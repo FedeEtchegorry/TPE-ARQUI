@@ -6,11 +6,8 @@ static unsigned char kbd_US [128] =   {
         '\t', /* <-- Tab */
         'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '*', '+', '\n',     
             0, /* <-- control key */
-        'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '}', '{', 0 ,  0, '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '-',   0,
-        '*',
-            0,  /* Alt */
-        ' ',  /* Space bar */
-            0,  /* Caps lock */
+        'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '}', '{', 0 ,  0, '/', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '-',   0,
+        '*',0,  /* Alt */' ',  /* Space bar */0,  /* Caps lock */
             0,  /* 59 - F1 key ... > */
             0,   0,   0,   0,   0,   0,   0,   0,
             0,  /* < ... F10 */
@@ -36,5 +33,7 @@ static unsigned char kbd_US [128] =   {
         };
 
 unsigned char map(unsigned char c)  {
-    return kbd_US[c];
+    if (c<=78)
+        return kbd_US[c];
+    return '\0';
 }
