@@ -2,4 +2,6 @@
 #define _KEYBOARD_H_
 
 
-void keyboard_handler();
+unsigned char keyboard_handler();
+
+#endif
