@@ -2,7 +2,7 @@
 #define _KEYBOARD_H_
 
 
-unsigned int keyboard_handler();
+unsigned char keyboard_handler();
 unsigned char map(unsigned char c);
 
 #endif
