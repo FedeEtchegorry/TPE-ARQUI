@@ -8,7 +8,7 @@ void ncPrintChar(char character);
 void ncNewline();
 void ncBackspace();
 void ncTab();
-void WriteCharacterScroll(unsigned char c, unsigned char forAndBackolour, int x, int y)
+void WriteCharacterScroll(unsigned char c, unsigned char forAndBackolour, int x, int y);
 void scrollScreen();
 void setCurrentVideoLine();
 void ncPrintDec(uint64_t value);
