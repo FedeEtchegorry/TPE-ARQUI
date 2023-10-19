@@ -12,14 +12,13 @@ GLOBAL _irq02Handler
 GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
+GLOBAL _irq60Handler
+
 GLOBAL _exception0Handler
 
-EXTERN putStr
-EXTERN timer_handler
-EXTERN seconds_elapsed
 EXTERN irqDispatcher
+EXTERN int_80
 EXTERN exceptionDispatcher
-EXTERN ncPrint
 
 SECTION .text
 
@@ -141,6 +140,35 @@ _irq04Handler:
 ;USB
 _irq05Handler:
 	irqHandlerMaster 5
+
+;syscalls
+_irq60Handler: 
+	pushState
+
+; Argumentos de las syscalls:
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+
+; Argumentos por convencion de C en 64 bits:	
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	call int_80
+	
+	; signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+
+	popState
+	iretq
+	
 
 
 ;Zero Division Exception

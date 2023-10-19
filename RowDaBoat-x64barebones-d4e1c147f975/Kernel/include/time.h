@@ -5,5 +5,6 @@ void timer_handler();
 int ticks_elapsed();
 int seconds_elapsed();
 void reset_timer();
+int alarmAt(int at);
 
 #endif

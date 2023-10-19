@@ -6,6 +6,10 @@
 static void int_21();
 static void int_20();
 
+// Syscalls:
+
+	static void sysWrite(unsigned int fd, const char * buffer);
+
 
 typedef void (*int_xx)(void);
 
@@ -31,4 +35,36 @@ void int_20() {
 
 void int_21() {
 	ncPrintChar(map(keyboard_handler()));
+}
+
+// Syscalls:
+// La idea es que del userspace pueda hacer int 0x80 (en assembler) asi llama 
+// a esta función, hay que ver como implementarlo.
+void int_80(int id, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t esi, uint64_t edi){
+	
+	switch(id)	{
+		case 0x04:	
+			sysWrite( (unsigned int) rbx, (char *) rcx);
+			break;
+
+		//TO_DO : Excepcion por syscall invalida
+		default:	
+			break;
+	}
+}
+
+static void sysWrite(unsigned int fd, const char * buffer)	{
+	
+	switch(fd)	{
+	// fd = 1 : Salida estandar
+		case 1:	
+			ncPrint(buffer);
+			break;
+	// fd = 2 : Salida de error (salida estandar pero en rojo)
+		case 2:	
+			ncPrint(buffer);
+			//TO_DO : añadir comportamiento a ncPrint para cambiarle el color al texto
+			break;
+	}
+
 }
