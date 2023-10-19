@@ -1,5 +1,8 @@
 #include <naiveConsole.h>
 #include <lib.h>
+#include <colours.h>
+
+#define DEFAULT_COLOR WHITE
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
@@ -58,7 +61,7 @@ void scrollScreen(unsigned int linesToScroll) {
     // Llena con ' '
     for (int i = 25-linesToScroll; i < 25; i++) {
         for (int j = 0; j < 80; j++) {
-            WriteCharacterScroll(' ', 0x07, j, i);
+            WriteCharacterScroll(' ', DEFAULT_COLOR, j, i);
         }
     }
 
