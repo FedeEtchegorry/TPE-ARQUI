@@ -10,6 +10,6 @@ void * memcpy(void * destination, const void * source, uint64_t length);
 // libasm:
 
 char *cpuVendor(char *result);
-
+void script();
 
 #endif
