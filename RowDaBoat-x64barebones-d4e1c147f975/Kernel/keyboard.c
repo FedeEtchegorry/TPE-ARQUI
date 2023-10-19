@@ -21,15 +21,6 @@ static unsigned char kbd_US [128] =   {
             0,
             0,  /* Right Arrow */
         '+',
-            0,  /* 79 - End key*/
-            0,  /* Down Arrow */
-            0,  /* Page Down */
-            0,  /* Insert Key */
-            0,  /* Delete Key */
-            0,   0,   0,
-            0,  /* F11 Key */
-            0,  /* F12 Key */
-            0,  /* All other keys are undefined */
         };
 
 unsigned char map(unsigned char c)  {
