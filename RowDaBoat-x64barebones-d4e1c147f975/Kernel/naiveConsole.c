@@ -37,7 +37,7 @@ void ncPrintColored( char * string, unsigned char forAndBackolour )
 
 void paintPixel( unsigned char forAndBackolour )
 {
-	*(currentVideo-1) = forAndBackolour;
+	*(currentVideo+1) = forAndBackolour;
 }
 
 
