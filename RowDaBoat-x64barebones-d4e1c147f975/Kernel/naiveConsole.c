@@ -1,4 +1,5 @@
 #include <naiveConsole.h>
+#include <lib.h>
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
@@ -17,15 +18,56 @@ void ncPrint(const char * string){
 
 void ncPrintChar(char character){
 	*currentVideo = character;
-	currentVideo += 2;	
+	currentVideo += 2;
+    if(currentVideo>=video+height * width * 2)
+        scrollScreen(1);
 }
 
 void ncNewline(){
-	do
-	{
+	do{
 		ncPrintChar(' ');
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
+}
+void ncBackspace(){
+    if (currentVideo >= video+2) {
+        currentVideo -= 2;
+        *currentVideo = ' ';
+    }
+}
+
+void setCurrentVideoLine(unsigned int lines){
+    currentVideo-= (lines * width * 2);
+    if (currentVideo<video){
+        currentVideo = video;
+    }
+}
+void WriteCharacterScroll(unsigned char c, unsigned char forAndBackolour, int x, int y){
+    uint16_t * where;									// Esta variable combina el color de fondo y el color del carácter en un solo byte de 16 bits. Los primeros 4 bits (los más significativos) se utilizan para el color de fondo (backcolour), y los últimos 4 bits (los menos significativos) se utilizan para el color del carácter (forecolour). Estos 8 bits de atributo se almacenan en un solo valor de 16 bits.
+    where = (uint16_t *)0xB8000 + (y * 80 + x) ;
+    *where = c | (forAndBackolour << 8);								//Aquí, se escribe el carácter y su atributo en la ubicación de memoria calculada. c representa el carácter, y attrib << 8 coloca los atributos en los 8 bits más significativos del valor de 16 bits. Esta operación combina el carácter y los atributos en un solo valor que se almacena en la memoria de video
+}
+void scrollScreen(unsigned int linesToScroll) {
+    unsigned int rowSize = 80 * 2;
+    for (int i = 0; i < 25 - linesToScroll; i++) {
+        void* from = (void*)(0xB8000 + (i + linesToScroll) * rowSize);  // fila actual + líneas a mover
+        void* to = (void*)(0xB8000 + i * rowSize);  			// fila actual
+        memcpy(to, from, rowSize);
+    }
+    setCurrentVideoLine(linesToScroll);
+    // Llena con ' '
+    for (int i = 25-linesToScroll; i < 25; i++) {
+        for (int j = 0; j < 80; j++) {
+            WriteCharacterScroll(' ', 0x07, j, i);
+        }
+    }
+
+
+}
+
+
+void ncTab(){
+    ncPrint("   ");
 }
 
 void ncPrintDec(uint64_t value){
