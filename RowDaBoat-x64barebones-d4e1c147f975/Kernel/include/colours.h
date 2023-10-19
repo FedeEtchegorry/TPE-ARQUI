@@ -1,9 +1,7 @@
 #ifndef COLOURS_H_
 #define COLOURS_H_
 
-/* 
-    En caso de querer fondo de un color solo basta con hacer un shifteo en 4 posiciones 
-*/
+    #define collapseFB(fore, back) ( ((back) << 4) | (fore) )
 
     #define BLACK           0x00
     #define BLUE            0x01
@@ -15,7 +13,7 @@
     #define LIGHT_GRAY      0x07
     #define DARK_GRAY       0x08
     #define LIGHT_BLUE      0x09
-    #define LIGHR_GREEN     0x0A
+    #define LIGHT_GREEN     0x0A
     #define LIGHT_CYAN      0x0B
     #define LIGHT_RED       0x0C
     #define LIGHT_MAGENTA   0x0D

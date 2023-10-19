@@ -103,6 +103,7 @@ int main()
 	// ncPrint("[Finished]");
 	ncClear();
 	load_idt();
+	script();
 	while(1);
 	return 0;
 }

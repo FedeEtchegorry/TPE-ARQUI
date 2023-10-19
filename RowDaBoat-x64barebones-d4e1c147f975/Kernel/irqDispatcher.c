@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <naiveConsole.h>
 #include <keyboard.h>
+#include <colours.h>
 
 static void int_21();
 static void int_20();
@@ -35,8 +36,9 @@ void int_20() {
 
 void int_21() {
     char c=map(keyboard_handler());
-	if (c!='\0')
-        ncPrintChar(c);
+	if (c!='\0')	
+	    ncPrintChar(c);
+	
 }
 
 // Syscalls:
@@ -64,8 +66,7 @@ static void sysWrite(unsigned int fd, const char * buffer)	{
 			break;
 	// fd = 2 : Salida de error (salida estandar pero en rojo)
 		case 2:	
-			ncPrint(buffer);
-			//TO_DO : añadir comportamiento a ncPrint para cambiarle el color al texto
+			ncPrintColored(buffer, collapseFB(WHITE, RED));
 			break;
 	}
 

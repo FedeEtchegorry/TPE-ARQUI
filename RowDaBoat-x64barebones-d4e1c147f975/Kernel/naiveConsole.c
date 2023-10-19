@@ -2,9 +2,10 @@
 #include <lib.h>
 #include <colours.h>
 
-#define DEFAULT_COLOR WHITE
+#define DEFAULT_COLOR collapseFB(WHITE, BLACK)
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+static void paintPixel( unsigned char forAndBackolour );
 
 static char buffer[64] = { '0' };
 static uint8_t * const video = (uint8_t*)0xB8000;
@@ -13,10 +14,8 @@ static const uint32_t width = 80;
 static const uint32_t height = 25 ;
 
 void ncPrint(const char * string){
-	int i;
-
-	for (i = 0; string[i] != 0; i++)
-		ncPrintChar(string[i]);
+	
+	ncPrintColored(string, DEFAULT_COLOR);
 }
 
 void ncPrintChar(char character){
@@ -26,8 +25,25 @@ void ncPrintChar(char character){
         scrollScreen(1);
 }
 
+void ncPrintColored( char * string, unsigned char forAndBackolour )
+{
+	for (int i = 0; string[i] != 0; i++)	{
+		
+		paintPixel(forAndBackolour);
+		ncPrintChar(string[i]);
+	}
+		
+}
+
+void paintPixel( unsigned char forAndBackolour )
+{
+	*(currentVideo-1) = forAndBackolour;
+}
+
+
 void ncNewline(){
 	do{
+		paintPixel(DEFAULT_COLOR);
 		ncPrintChar(' ');
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
@@ -65,7 +81,6 @@ void scrollScreen(unsigned int linesToScroll) {
         }
     }
 
-
 }
 
 
@@ -93,8 +108,11 @@ void ncPrintBase(uint64_t value, uint32_t base){
 void ncClear(){
 	int i;
 
-	for (i = 0; i < height * width; i++)
+	for (i = 0; i < height * width; i++){
+		paintPixel(DEFAULT_COLOR);
 		video[i * 2] = ' ';
+	}
+		
 	currentVideo = video;
 }
 

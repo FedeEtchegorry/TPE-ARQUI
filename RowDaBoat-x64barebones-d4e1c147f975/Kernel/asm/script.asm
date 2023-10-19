@@ -14,7 +14,7 @@ script:
     push rcx
 
     mov rax, 0x04
-    mov rbx, 0x01
+    mov rbx, 0x02
     mov rcx, string
 
     int 0x80
