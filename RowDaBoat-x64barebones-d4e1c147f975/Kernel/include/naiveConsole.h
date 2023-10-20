@@ -2,6 +2,10 @@
 #define NAIVE_CONSOLE_H
 
 #include <stdint.h>
+#include <colours.h>
+
+#define DEFAULT_COLOUR  collapseFB(WHITE, BLACK)
+#define ERROR_COLOUR    collapseFB(RED, WHITE)
 
 void ncPrint(const char * string);
 void ncPrintColored( char * string, unsigned char forAndBackolour );

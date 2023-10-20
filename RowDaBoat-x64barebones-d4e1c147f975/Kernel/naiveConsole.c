@@ -2,8 +2,6 @@
 #include <lib.h>
 #include <colours.h>
 
-#define DEFAULT_COLOR collapseFB(WHITE, BLACK)
-
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static void paintPixel( unsigned char forAndBackolour );
 
@@ -15,7 +13,7 @@ static const uint32_t height = 25 ;
 
 void ncPrint(const char * string){
 	
-	ncPrintColored(string, DEFAULT_COLOR);
+	ncPrintColored(string, DEFAULT_COLOUR);
 }
 
 void ncPrintChar(char character){
@@ -43,7 +41,7 @@ void paintPixel( unsigned char forAndBackolour )
 
 void ncNewline(){
 	do{
-		paintPixel(DEFAULT_COLOR);
+		paintPixel(DEFAULT_COLOUR);
 		ncPrintChar(' ');
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
@@ -77,7 +75,7 @@ void scrollScreen(unsigned int linesToScroll) {
     // Llena con ' '
     for (int i = 25-linesToScroll; i < 25; i++) {
         for (int j = 0; j < 80; j++) {
-            WriteCharacterScroll(' ', DEFAULT_COLOR, j, i);
+            WriteCharacterScroll(' ', DEFAULT_COLOUR, j, i);
         }
     }
 
@@ -109,7 +107,7 @@ void ncClear(){
 	int i;
 
 	for (i = 0; i < height * width; i++){
-		paintPixel(DEFAULT_COLOR);
+		paintPixel(DEFAULT_COLOUR);
 		video[i * 2] = ' ';
 	}
 		

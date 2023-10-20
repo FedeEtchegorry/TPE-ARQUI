@@ -66,7 +66,7 @@ static void sysWrite(unsigned int fd, const char * buffer)	{
 			break;
 	// fd = 2 : Salida de error (salida estandar pero en rojo)
 		case 2:	
-			ncPrintColored(buffer, collapseFB(RED, WHITE));
+			ncPrintColored(buffer, ERROR_COLOUR);
 			break;
 	}
 
