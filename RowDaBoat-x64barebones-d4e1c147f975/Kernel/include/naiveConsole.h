@@ -4,8 +4,7 @@
 #include <stdint.h>
 #include <colours.h>
 
-#define DEFAULT_COLOUR  collapseFB(WHITE, BLACK)
-#define ERROR_COLOUR    collapseFB(RED, WHITE)
+#define DEFAULT_COLOUR collapseFB(LIGHT_GRAY, BLACK)
 
 void ncPrint(const char * string);
 void ncPrintColored( char * string, unsigned char forAndBackolour );

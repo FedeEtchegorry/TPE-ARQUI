@@ -101,7 +101,6 @@ int main()
 	// ncNewline();
 
 	// ncPrint("[Finished]");
-	ncClear();
 	load_idt();
 	script();
 	while(1);
