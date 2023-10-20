@@ -3,7 +3,7 @@
 #include <colours.h>
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
-static void paintPixel( unsigned char forAndBackolour );
+static void paintPixel( unsigned char forAndBackColor );
 
 static char buffer[64] = { '0' };
 static uint8_t * const video = (uint8_t*)0xB8000;
@@ -13,9 +13,26 @@ static const uint32_t height = 25 ;
 
 void ncPrint(const char * string){
 	
-	ncPrintColored(string, DEFAULT_COLOUR);
+	ncPrintColored(string, DEFAULT_COLOR);
 }
+static const uint32_t screenWidth = 1024;
+static const uint32_t screenHeight = 758;
+static const uint32_t pixelSizeBytes=3;
+static uint8_t * vesaFramebuffer = (uint8_t*)0x000A0000;
 
+void putPixels() {
+    unsigned int color = 0xFF0000;
+    //itero sobre el framebuffer
+    for (int y = 0; y < screenHeight; y++) {
+        for (int x = 0; x < screenWidth; x++) {
+            unsigned where = (y * screenWidth + x) * pixelSizeBytes;                 //como lo estoy hacinedo si multiplico y *screenwitdh bajo la cantidad de filas que necesito y despúes me desplazo en x
+            // Pongo los colores
+            vesaFramebuffer[where] = color & 0xFF;              // B
+            vesaFramebuffer[where + 1] = (color >> 8) & 0xFF;   // G
+            vesaFramebuffer[where + 2] = (color >> 16) & 0xFF;  // R
+        }
+    }
+}
 void ncPrintChar(char character){
 	*currentVideo = character;
 	currentVideo += 2;
@@ -23,25 +40,25 @@ void ncPrintChar(char character){
         scrollScreen(1);
 }
 
-void ncPrintColored( char * string, unsigned char forAndBackolour )
+void ncPrintColored( char * string, unsigned char forAndBackColor )
 {
 	for (int i = 0; string[i] != 0; i++)	{
 		
-		paintPixel(forAndBackolour);
+		paintPixel(forAndBackColor);
 		ncPrintChar(string[i]);
 	}
 		
 }
 
-void paintPixel( unsigned char forAndBackolour )
+void paintPixel( unsigned char forAndBackColor )
 {
-	*(currentVideo+1) = forAndBackolour;
+	*(currentVideo+1) = forAndBackColor;
 }
 
 
 void ncNewline(){
 	do{
-		paintPixel(DEFAULT_COLOUR);
+		paintPixel(DEFAULT_COLOR);
 		ncPrintChar(' ');
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
@@ -59,10 +76,10 @@ void setCurrentVideoLine(unsigned int lines){
         currentVideo = video;
     }
 }
-void WriteCharacterScroll(unsigned char c, unsigned char forAndBackolour, int x, int y){
+void WriteCharacterScroll(unsigned char c, unsigned char forAndBackColor, int x, int y){
     uint16_t * where;									// Esta variable combina el color de fondo y el color del carácter en un solo byte de 16 bits. Los primeros 4 bits (los más significativos) se utilizan para el color de fondo (backcolour), y los últimos 4 bits (los menos significativos) se utilizan para el color del carácter (forecolour). Estos 8 bits de atributo se almacenan en un solo valor de 16 bits.
     where = (uint16_t *)0xB8000 + (y * 80 + x) ;
-    *where = c | (forAndBackolour << 8);								//Aquí, se escribe el carácter y su atributo en la ubicación de memoria calculada. c representa el carácter, y attrib << 8 coloca los atributos en los 8 bits más significativos del valor de 16 bits. Esta operación combina el carácter y los atributos en un solo valor que se almacena en la memoria de video
+    *where = c | (forAndBackColor << 8);								//Aquí, se escribe el carácter y su atributo en la ubicación de memoria calculada. c representa el carácter, y attrib << 8 coloca los atributos en los 8 bits más significativos del valor de 16 bits. Esta operación combina el carácter y los atributos en un solo valor que se almacena en la memoria de video
 }
 void scrollScreen(unsigned int linesToScroll) {
     unsigned int rowSize = 80 * 2;
@@ -75,7 +92,7 @@ void scrollScreen(unsigned int linesToScroll) {
     // Llena con ' '
     for (int i = 25-linesToScroll; i < 25; i++) {
         for (int j = 0; j < 80; j++) {
-            WriteCharacterScroll(' ', DEFAULT_COLOUR, j, i);
+            WriteCharacterScroll(' ', DEFAULT_COLOR, j, i);
         }
     }
 
@@ -107,7 +124,7 @@ void ncClear(){
 	int i;
 
 	for (i = 0; i < height * width; i++){
-		paintPixel(DEFAULT_COLOUR);
+		paintPixel(DEFAULT_COLOR);
 		video[i * 2] = ' ';
 	}
 		
