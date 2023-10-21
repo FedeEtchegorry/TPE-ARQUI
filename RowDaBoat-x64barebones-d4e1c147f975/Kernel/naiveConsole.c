@@ -1,6 +1,7 @@
 #include <naiveConsole.h>
 #include <lib.h>
 #include <colours.h>
+#include <stdint.h>
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static void paintPixel( unsigned char forAndBackColor );
@@ -12,27 +13,9 @@ static const uint32_t width = 80;
 static const uint32_t height = 25 ;
 
 void ncPrint(const char * string){
-	
 	ncPrintColored(string, DEFAULT_COLOR);
 }
-static const uint32_t screenWidth = 1024;
-static const uint32_t screenHeight = 758;
-static const uint32_t pixelSizeBytes=3;
-static uint8_t * vesaFramebuffer = (uint8_t*)0x000A0000;
 
-void putPixels() {
-    unsigned int color = 0xFF0000;
-    //itero sobre el framebuffer
-    for (int y = 0; y < screenHeight; y++) {
-        for (int x = 0; x < screenWidth; x++) {
-            unsigned where = (y * screenWidth + x) * pixelSizeBytes;                 //como lo estoy hacinedo si multiplico y *screenwitdh bajo la cantidad de filas que necesito y despúes me desplazo en x
-            // Pongo los colores
-            vesaFramebuffer[where] = color & 0xFF;              // B
-            vesaFramebuffer[where + 1] = (color >> 8) & 0xFF;   // G
-            vesaFramebuffer[where + 2] = (color >> 16) & 0xFF;  // R
-        }
-    }
-}
 void ncPrintChar(char character){
 	*currentVideo = character;
 	currentVideo += 2;
