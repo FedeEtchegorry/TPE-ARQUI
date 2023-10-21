@@ -199,13 +199,26 @@ char font8x8_basic[128][8] = {
 
 
 void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit) {
-    int x,y;
-    int set;
-    for (y=0; y < 8; y++) {           //letra doble tamaño x<16;x+=2
-        for (x=0; x < 8; x++) {       //letra doble tamaño y<16;y+=2
-            set = bitmap[y] & 1 << x; //letra dobble tamaño x/2
-            for (int k=0;k<4;k++)       //si quiero que imprima doble tamaño, for k=0 hasta k<4 de putPixel y+k; x+(k%2)
-                putPixel(set?fgcolor:bgcolor, xinit+x+k, yinit+y+(k%2));
+//    int x,y;
+//    int set;
+//    for (y=0; y < 16; y+=2) {           //letra doble tamaño y<16;y+=2
+//        for (x=0; x < 16; x+=2) {       //letra doble tamaño x<16;x+=2
+//            set = bitmap[y/2] & 1 << x; //letra dobble tamaño y/2
+//            for (int k=0;k<4;k++)       //si quiero que imprima doble tamaño, for k=0 hasta k<4 de putPixel x+k; x+(k%2)
+//                putPixel(set?fgcolor:bgcolor, xinit+x+k, yinit+y+(k%2));
+//        }
+//    }
+    int x, y, set;
+    int sizeFactor =2 ; //cambiando este numero puedo cambiar el tamaño de la fuente
+
+    for (y = 0; y < 8; y++) { // Itero filas
+        for (x = 0; x < 8; x++) { // Itero columnas
+            set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
+            for (int i = 0; i < sizeFactor; i++) {          //con el size factor agrando la letra
+                for (int j = 0; j < sizeFactor; j++) {
+                    putPixel(set ? fgcolor : bgcolor, xinit + (x * sizeFactor) + j, yinit + (y * sizeFactor) + i);
+                }
+            }
         }
     }
 }
@@ -219,7 +232,7 @@ void printText(char* string, int fgcolor, int bgcolor){
     int charWidth = 8; // Ancho de un carácter en píxeles
     for (int i = 0; string[i] != '\0'; i++) {
             // De lo contrario, coloca el carácter en la fila actual.
-            drawchar(string[i], fgcolor, bgcolor, ((currentPosition)/(VBE_mode_info->width))*8, currentPosition);
-            currentPosition += charWidth;
+            drawchar(string[i], fgcolor, bgcolor, ((currentPosition)/(VBE_mode_info->width))*16, currentPosition);
+            currentPosition += charWidth*2;
         }
 }
