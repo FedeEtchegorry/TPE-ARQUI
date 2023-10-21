@@ -141,11 +141,11 @@ int main(){
 	// ncPrint("[Finished]");
 	load_idt();
 	script();
-//    char* array="HOLAAAAAAAA";
-//    for (int i = 0; array[i]!='\0' ; i++) {
-//        drawchar(array[i], 100, 100+i*8, 0xffffff,0x000000);
-//    }
-    fillScreen(0x00fafafa)
+char* array="URNA IACULIS UT MORBI FACILISI AUGUE. PARTURIENT FINIBUS BLANDIT RISUS PER IACULIS AUCTOR ULLAMCORPER PHASELLUS ARCU. ARCU FUSCE ULTRICIES EUISMOD ETIAM INTEGER CRAS AD PEDE IMPERDIET.";
+printText(array, 0x00ffffff, 0x00000000);
+char* array2= "NO LES FALTAN AGALLAS A LOS 300 ESPARTANOS DE LAS TERMOPILAS";
+printText(array2, 0x00ffffff, 0x00000000);
+    //fillScreen(0x00fafafa);
 	while(1);
 	return 0;
 }

@@ -42,7 +42,7 @@ struct vbe_mode_info_structure {
 typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
-uint8_t *currentFramebuffer=(uint8_t *) VBE_mode_info->framebuffer;
+uint32_t currentPosition=0;
 
 void fillScreen(uint32_t hexColor) {
     uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -198,19 +198,28 @@ char font8x8_basic[128][8] = {
 };  //https://github.com/dhepper/font8x8/blob/master/README
 
 
-void render(char *bitmap, int fgcolor, int bgcolor, int xinit, int yinit) {
+void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit) {
     int x,y;
     int set;
-    for (x=0; x < 8; x++) {           //letra doble tamaño x<16;x+=2
-        for (y=0; y < 8; y++) {       //letra doble tamaño y<16;y+=2
-            set = bitmap[x] & 1 << y; //letra dobble tamaño x/2
+    for (y=0; y < 8; y++) {           //letra doble tamaño x<16;x+=2
+        for (x=0; x < 8; x++) {       //letra doble tamaño y<16;y+=2
+            set = bitmap[y] & 1 << x; //letra dobble tamaño x/2
             for (int k=0;k<4;k++)       //si quiero que imprima doble tamaño, for k=0 hasta k<4 de putPixel y+k; x+(k%2)
-                putPixel(set?fgcolor:bgcolor, yinit+y+k, xinit+x+(k%2));
+                putPixel(set?fgcolor:bgcolor, xinit+x+k, yinit+y+(k%2));
         }
     }
 }
 
 
-void drawchar(unsigned char c, int x, int y, int fgcolor, int bgcolor){
-    render(font8x8_basic[c],fgcolor, bgcolor, x, y );
+void drawchar(unsigned char c,int fgcolor, int bgcolor, int y, int x){
+    render(font8x8_basic[c],fgcolor, bgcolor, y, x );
+
+}
+void printText(char* string, int fgcolor, int bgcolor){
+    int charWidth = 8; // Ancho de un carácter en píxeles
+    for (int i = 0; string[i] != '\0'; i++) {
+            // De lo contrario, coloca el carácter en la fila actual.
+            drawchar(string[i], fgcolor, bgcolor, ((currentPosition)/(VBE_mode_info->width))*8, currentPosition);
+            currentPosition += charWidth;
+        }
 }
