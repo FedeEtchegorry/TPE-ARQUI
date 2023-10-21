@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <string.h>
+
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
@@ -117,8 +118,9 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-int main()
-{	
+int main(){
+
+
 	// ncPrint("[Kernel Main]");
 	// ncNewline();
 	// ncPrint("  Sample code module at 0x");
@@ -139,7 +141,11 @@ int main()
 	// ncPrint("[Finished]");
 	load_idt();
 	script();
-
+//    char* array="HOLAAAAAAAA";
+//    for (int i = 0; array[i]!='\0' ; i++) {
+//        drawchar(array[i], 100, 100+i*8, 0xffffff,0x000000);
+//    }
+    fillScreen(0x00fafafa)
 	while(1);
 	return 0;
 }
