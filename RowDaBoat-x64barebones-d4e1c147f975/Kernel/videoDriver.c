@@ -199,18 +199,8 @@ char font8x8_basic[128][8] = {
 
 
 void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit) {
-//    int x,y;
-//    int set;
-//    for (y=0; y < 16; y+=2) {           //letra doble tamaño y<16;y+=2
-//        for (x=0; x < 16; x+=2) {       //letra doble tamaño x<16;x+=2
-//            set = bitmap[y/2] & 1 << x; //letra dobble tamaño y/2
-//            for (int k=0;k<4;k++)       //si quiero que imprima doble tamaño, for k=0 hasta k<4 de putPixel x+k; x+(k%2)
-//                putPixel(set?fgcolor:bgcolor, xinit+x+k, yinit+y+(k%2));
-//        }
-//    }
     int x, y, set;
     int sizeFactor =2 ; //cambiando este numero puedo cambiar el tamaño de la fuente
-
     for (y = 0; y < 8; y++) { // Itero filas
         for (x = 0; x < 8; x++) { // Itero columnas
             set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
