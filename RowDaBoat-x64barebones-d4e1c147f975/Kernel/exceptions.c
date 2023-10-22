@@ -3,6 +3,7 @@
 #include <naiveConsole.h>
 
 #define ZERO_EXCEPTION_ID 0
+#define ZERO_EXCEPTION_MESSAGE "Excepcion numero 0 : Divide cero"
 
 static void zero_division();
 
@@ -13,6 +14,6 @@ void exceptionDispatcher(int exception) {
 
 static void zero_division() {
 	// Handler para manejar excepcíon
-	ncPrintColored("Excepcion numero 0 : Divide cero", collapseFB(RED, WHITE));
+	ncPrintColored(ZERO_EXCEPTION_MESSAGE, collapseFB(RED, WHITE));
 	//TO_DO : Llamar al shel
 }
