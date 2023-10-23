@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <colours.h>
 
-#define DEFAULT_COLOR collapseFB(LIGHT_GRAY, BLACK)
+#define DEFAULT_COLOR 0x07
 
 void putPixels();
 
