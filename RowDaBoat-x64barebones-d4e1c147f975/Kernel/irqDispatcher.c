@@ -2,42 +2,43 @@
 #include <stdint.h>
 #include <naiveConsole.h>
 #include <keyboard.h>
+#include <videoDriver.h>
 #include <colours.h>
+#include <systemCalls.h>
+
+#define TIMERTICK_INTERRUPTION_MESSAGE "Tick numero: "
 
 static void int_21();
 static void int_20();
-
-// Syscalls:
-
-	static void sysWrite(unsigned int fd, const char * buffer);
-
 
 typedef void (*int_xx)(void);
 
 static int_xx interruptions[2] = {&int_20, &int_21};
 
-static uint8_t * string = "Tick numero: ";
 
 void irqDispatcher(uint64_t irq) {
 	interruptions[irq]();
 	return;
 }
 
+
 void int_20() {
 	timer_handler();
 	
 	if( alarmAt(5) )	
 	{
-		ncClear();
-		ncPrint(string);
-		ncPrintDec(ticks_elapsed());
+
+		printText(TIMERTICK_INTERRUPTION_MESSAGE, WHITE, BLACK);
+
+		char s[2] = {ticks_elapsed()+0x30, '\0'};
+		printText(s, GREEN, BLACK);
 	}
 }
 
 void int_21() {
-    char c=map(keyboard_handler());
-	if (c!='\0')	
-	    ncPrintChar(c);
+    char c[2]= {map(keyboard_handler()), '\0'};
+	if (*c!='\0')	
+	    printText(c, MAGENTA, BLACK);
 	
 }
 
@@ -47,7 +48,7 @@ void int_21() {
 void int_80(int id, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t esi, uint64_t edi){
 	
 	switch(id)	{
-		case 0x04:	
+		case SYSTEM_WRITE_ID:	
 			sysWrite( (unsigned int) rbx, (char *) rcx);
 			break;
 
@@ -57,17 +58,3 @@ void int_80(int id, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t esi, uint
 	}
 }
 
-static void sysWrite(unsigned int fd, const char * buffer)	{
-	
-	switch(fd)	{
-	// fd = 1 : Salida estandar
-		case 1:	
-			ncPrint(buffer);
-			break;
-	// fd = 2 : Salida de error (salida estandar pero en rojo)
-		case 2:	
-			ncPrintColored(buffer, collapseFB(RED, WHITE));
-			break;
-	}
-
-}
