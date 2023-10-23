@@ -31,14 +31,14 @@ void int_20() {
 		printTextDefault(TIMERTICK_INTERRUPTION_MESSAGE, WHITE, BLACK);
 
 		char s[2] = {ticks_elapsed()+0x30, '\0'};
-		printTextDefault(s, GREEN, BLACK);
+		printTextDefault(s, WHITE, BLACK);
 	}
 }
 
 void int_21() {
     char c[2]= {map(keyboard_handler()), '\0'};
 	if (*c!='\0')	
-	    printTextDefault(c, MAGENTA, BLACK);
+	    printTextDefault(c, WHITE, BLACK);
 	
 }
 
