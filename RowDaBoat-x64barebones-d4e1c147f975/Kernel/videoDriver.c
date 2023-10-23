@@ -43,6 +43,7 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 uint32_t currentPosition=0;
+uint8_t charWidth=16;       // Ancho de un carácter en píxeles
 
 void fillScreen(uint32_t hexColor) {
     uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -198,9 +199,9 @@ char font8x8_basic[128][8] = {
 };  //https://github.com/dhepper/font8x8/blob/master/README
 
 
-void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit) {
+void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int charSize) {
     int x, y, set;
-    int sizeFactor =2 ; //cambiando este numero puedo cambiar el tamaño de la fuente
+    int sizeFactor=charSize/8; //cambiando este numero puedo cambiar el tamaño de la fuente
     for (y = 0; y < 8; y++) { // Itero filas
         for (x = 0; x < 8; x++) { // Itero columnas
             set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
@@ -214,15 +215,27 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit) {
 }
 
 
-void drawchar(unsigned char c,int fgcolor, int bgcolor, int y, int x){
-    render(font8x8_basic[c],fgcolor, bgcolor, y, x );
+void drawchar(unsigned char c,int fgcolor, int bgcolor, int y, int x, int size){
+    render(font8x8_basic[c],fgcolor, bgcolor, y, x, size );
 
 }
-void printText(char* string, int fgcolor, int bgcolor){
-    int charWidth = 8; // Ancho de un carácter en píxeles
-    for (int i = 0; string[i] != '\0'; i++) {
-            // De lo contrario, coloca el carácter en la fila actual.
-            drawchar(string[i], fgcolor, bgcolor, ((currentPosition)/(VBE_mode_info->width))*16, currentPosition);
-            currentPosition += charWidth*2;
+void printText(char* string, int fgcolor, int bgcolor, int charSize){
+    if (charSize%8 == 0) {
+        for (int i = 0; string[i] != '\0'; i++) {
+            drawchar(string[i], fgcolor, bgcolor, ((currentPosition) / (VBE_mode_info->width)) * charSize,
+                     currentPosition, charSize);
+            currentPosition += charSize;
         }
+    }
+}
+void printTextDefault(char* string, int fgcolor, int bgcolor){
+    printText(string, fgcolor, bgcolor, charWidth);
+}
+void setCharWidth(unsigned int size){
+    if (size%8==0){
+        charWidth=size;
+    }
+}
+void printNewline(){
+    currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
 }
