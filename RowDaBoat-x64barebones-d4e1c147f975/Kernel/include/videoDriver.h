@@ -1,6 +1,8 @@
 #ifndef _VIDEODRIVER_H_
 #define _VIDEODRIVER_H_
 
+#include <stdint.h>
+
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y);
 void fillScreen(uint32_t hexColor);
 void printText(char* string, int fgcolor, int bgcolor, int charSize);

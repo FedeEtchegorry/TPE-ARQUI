@@ -1,5 +1,6 @@
 #include <colours.h>
 #include <systemCalls.h>
+#include <videodriver.h>
 
 #define STDOUT 0x01
 #define STDERR 0x02
