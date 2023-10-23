@@ -13,6 +13,8 @@ void setCharWidth(unsigned int size);
 void printNewline();
 void printTab();
 void backspace();
+void setCurrentVideoLinePos(int linesToScroll);
+
 
 
 #endif
