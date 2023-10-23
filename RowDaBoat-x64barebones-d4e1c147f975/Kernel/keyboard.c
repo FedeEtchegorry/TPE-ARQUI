@@ -1,5 +1,6 @@
 #include <keyboard.h>
 #include <naiveConsole.h>
+#include <videoDriver.h>
 
 static unsigned char kbd_US [128] =   {
             0,  '|', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\?', '!', '\b',   
@@ -27,11 +28,11 @@ unsigned char map(unsigned char c)  {
     if (c<=78) {
         char letter=kbd_US[c];
         switch (letter) {
-            case '\n':  ncNewline();
+            case '\n':  printNewline();
                         return '\0';
-            case '\t':  ncTab();
+            case '\t':  printTab();
                         return '\0';
-            case '\b':  ncBackspace();
+            case '\b':  backspace();
                         return '\0';
             default: return letter;
         }

@@ -153,5 +153,6 @@ printTextDefault(array2, 0x00ffffff, 0x00000000);;
     //fillScreen(0x00fafafa);
 	// while(1/0);
 	printTextDefault("HELLO WORLD", 0x00ffffff, 0x00000000);
+    while (1);
 	return 0;
 }
