@@ -2,7 +2,10 @@
 #include <stdint.h>
 #include <naiveConsole.h>
 #include <keyboard.h>
+#include <videoDriver.h>
 #include <colours.h>
+
+#define TIMERTICK_INTERRUPTION_MESSAGE "Tick numero: "
 
 static void int_21();
 static void int_20();
@@ -16,8 +19,6 @@ typedef void (*int_xx)(void);
 
 static int_xx interruptions[2] = {&int_20, &int_21};
 
-static uint8_t * string = "Tick numero: ";
-
 void irqDispatcher(uint64_t irq) {
 	interruptions[irq]();
 	return;
@@ -28,16 +29,18 @@ void int_20() {
 	
 	if( alarmAt(5) )	
 	{
-		ncClear();
-		ncPrint(string);
-		ncPrintDec(ticks_elapsed());
+
+		printText(TIMERTICK_INTERRUPTION_MESSAGE, WHITE, BLACK);
+
+		char s[2] = {ticks_elapsed()+0x30, '\0'};
+		printText(s, GREEN, BLACK);
 	}
 }
 
 void int_21() {
-    char c=map(keyboard_handler());
-	if (c!='\0')	
-	    ncPrintChar(c);
+    char c[2]= {map(keyboard_handler()), '\0'};
+	if (*c!='\0')	
+	    printText(c, MAGENTA, BLACK);
 	
 }
 
@@ -62,11 +65,11 @@ static void sysWrite(unsigned int fd, const char * buffer)	{
 	switch(fd)	{
 	// fd = 1 : Salida estandar
 		case 1:	
-			ncPrint(buffer);
+			printText(buffer, WHITE, BLACK);
 			break;
 	// fd = 2 : Salida de error (salida estandar pero en rojo)
 		case 2:	
-			ncPrintColored(buffer, collapseFB(RED, WHITE));
+			printText(buffer, RED, BLACK);
 			break;
 	}
 
