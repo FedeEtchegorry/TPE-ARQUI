@@ -5,6 +5,7 @@
 #include <videoDriver.h>
 #include <colours.h>
 #include <systemCalls.h>
+#include <buffer.h>
 
 #define TIMERTICK_INTERRUPTION_MESSAGE "Tick numero: "
 
@@ -25,21 +26,16 @@ void irqDispatcher(uint64_t irq) {
 void int_20() {
 	timer_handler();
 	
-	if( alarmAt(5) )	
-	{
-
-		printTextDefault(TIMERTICK_INTERRUPTION_MESSAGE, WHITE, BLACK);
-
-		char s[2] = {ticks_elapsed()+0x30, '\0'};
-		printTextDefault(s, WHITE, BLACK);
+	if( alarmAt(5) )	{
+		char string [BUFFER_SIZE] = {0};
+		readBuffer(string, BUFFER_SIZE);
+		printTextDefault(string, WHITE, BLACK);
 	}
+	
 }
 
 void int_21() {
-    char c[2]= {map(keyboard_handler()), '\0'};
-	if (*c!='\0')	
-	    printTextDefault(c, WHITE, BLACK);
-	
+    putChar(map(keyboard_handler()));
 }
 
 // Syscalls:
