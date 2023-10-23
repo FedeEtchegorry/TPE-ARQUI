@@ -10,11 +10,11 @@ void sysWrite(unsigned int fd, const char * buffer)	{
 	switch(fd)	{
 	// fd = 1 : Salida estandar
 		case STDOUT:	
-			printText(buffer, WHITE, BLACK);
+			printTextDefault(buffer, WHITE, BLACK);
 			break;
 	// fd = 2 : Salida de error (salida estandar pero en rojo)
 		case STDERR:	
-			printText(buffer, RED, BLACK);
+			printTextDefault(buffer, RED, BLACK);
 			break;
 	}
 

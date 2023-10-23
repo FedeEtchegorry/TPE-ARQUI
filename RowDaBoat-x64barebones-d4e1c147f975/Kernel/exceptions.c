@@ -14,6 +14,6 @@ void exceptionDispatcher(int exception) {
 
 static void zero_division() {
 	// Handler para manejar excepcíon
-	ncPrintColored(ZERO_EXCEPTION_MESSAGE, collapseFB(RED, WHITE));
+	printTextDefault(ZERO_EXCEPTION_MESSAGE, RED, BLACK);
 	//TO_DO : Llamar al shel
 }

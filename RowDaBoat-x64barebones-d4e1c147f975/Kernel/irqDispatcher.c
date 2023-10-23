@@ -28,17 +28,17 @@ void int_20() {
 	if( alarmAt(5) )	
 	{
 
-		printText(TIMERTICK_INTERRUPTION_MESSAGE, WHITE, BLACK);
+		printTextDefault(TIMERTICK_INTERRUPTION_MESSAGE, WHITE, BLACK);
 
 		char s[2] = {ticks_elapsed()+0x30, '\0'};
-		printText(s, GREEN, BLACK);
+		printTextDefault(s, GREEN, BLACK);
 	}
 }
 
 void int_21() {
     char c[2]= {map(keyboard_handler()), '\0'};
 	if (*c!='\0')	
-	    printText(c, MAGENTA, BLACK);
+	    printTextDefault(c, MAGENTA, BLACK);
 	
 }
 
