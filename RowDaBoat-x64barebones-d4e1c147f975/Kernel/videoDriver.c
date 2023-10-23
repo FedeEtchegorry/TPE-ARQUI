@@ -1,5 +1,7 @@
 #include <stdint.h>
 #include <videoDriver.h>
+#include <colours.h>
+#include <lib.h>
 
 struct vbe_mode_info_structure {
     uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -43,7 +45,8 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 uint32_t currentPosition=0;
-uint8_t charWidth=16;       // Ancho de un carácter en píxeles
+uint8_t charWidth=16;       // Ancho de un carácter en píxeles=alto
+uint32_t currentHeight=0;
 
 void fillScreen(uint32_t hexColor) {
     uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -222,8 +225,7 @@ void drawchar(unsigned char c,int fgcolor, int bgcolor, int y, int x, int size){
 void printText(char* string, int fgcolor, int bgcolor, int charSize){
     if (charSize%8 == 0) {
         for (int i = 0; string[i] != '\0'; i++) {
-            drawchar(string[i], fgcolor, bgcolor, ((currentPosition) / (VBE_mode_info->width)) * charSize,
-                     currentPosition, charSize);
+            drawchar(string[i], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize),currentPosition, charSize);
             currentPosition += charSize;
         }
     }
@@ -238,4 +240,38 @@ void setCharWidth(unsigned int size){
 }
 void printNewline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
+    currentHeight+=charWidth;
 }
+void printTab(){
+    char * tab="   ";
+    printTextDefault(tab, BLACK, BLACK);
+}
+void backspace(){
+    if (VBE_mode_info->framebuffer<=VBE_mode_info->framebuffer+currentPosition-charWidth){
+        currentPosition-=charWidth;
+        printTextDefault(" ", BLACK, BLACK);
+        currentPosition-=charWidth;
+    }
+}
+void setCurrentVideoLinePos(int linesToScroll){
+    currentPosition = (currentPosition/VBE_mode_info->width);
+}
+
+void scroll(int linesToScroll){
+    int realLines=linesToScroll * charWidth;
+    unsigned int rowSize = VBE_mode_info->height;
+    for (int i = 0; i < VBE_mode_info->height - realLines; i++) {
+        void* from = (void*)(VBE_mode_info->framebuffer + (i + realLines) * rowSize);  // fila actual + líneas a mover
+        void* to = (void*)(VBE_mode_info->framebuffer + i * rowSize);  			// fila actual
+        memcpy(to, from, rowSize);
+    }
+//    setCurrentVideoLinePos(realLines);
+//    // Llena con ' '
+//    for (int i = VBE_mode_info->height-realLines; i < VBE_mode_info->height; i++) {
+//        for (int j = 0; j < (VBE_mode_info->width/charWidth); j++) {
+//            printTextDefault(' ', BLACK, BLACK);
+//        }
+//    }
+//    setCurrentVideoLinePos(realLines);
+}
+
