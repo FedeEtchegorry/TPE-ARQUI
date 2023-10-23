@@ -148,9 +148,10 @@ printTextDefault(array2, 0x00ffffff, 0x00000000);;
     printNewline();
     printTextDefault(array2, 0x0000ff,0xffffff);
     printNewline();
-    setCharWidth(8);
-    printTextDefault(array, 0x00ffffff, 0x00000000);
+    // setCharWidth(8);
+    // printTextDefault(array, 0x00ffffff, 0x00000000);
     //fillScreen(0x00fafafa);
-	while(1);
+	// while(1/0);
+	printTextDefault("HELLO WORLD", 0x00ffffff, 0x00000000);
 	return 0;
 }

@@ -14,7 +14,7 @@ script:
     push rcx
 
     mov rax, 0x04
-    mov rbx, 0x02
+    mov rbx, 0x01
     mov rcx, string
 
     int 0x80
@@ -31,4 +31,4 @@ script:
 
 section .data
 
-string db 'Hello', 0
+string db 'I am a system call!', 0
