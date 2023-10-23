@@ -4,25 +4,23 @@
 #include <keyboard.h>
 #include <videoDriver.h>
 #include <colours.h>
+#include <systemCalls.h>
 
 #define TIMERTICK_INTERRUPTION_MESSAGE "Tick numero: "
 
 static void int_21();
 static void int_20();
 
-// Syscalls:
-
-	static void sysWrite(unsigned int fd, const char * buffer);
-
-
 typedef void (*int_xx)(void);
 
 static int_xx interruptions[2] = {&int_20, &int_21};
+
 
 void irqDispatcher(uint64_t irq) {
 	interruptions[irq]();
 	return;
 }
+
 
 void int_20() {
 	timer_handler();
@@ -50,7 +48,7 @@ void int_21() {
 void int_80(int id, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t esi, uint64_t edi){
 	
 	switch(id)	{
-		case 0x04:	
+		case SYSTEM_WRITE_ID:	
 			sysWrite( (unsigned int) rbx, (char *) rcx);
 			break;
 
@@ -60,17 +58,3 @@ void int_80(int id, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t esi, uint
 	}
 }
 
-static void sysWrite(unsigned int fd, const char * buffer)	{
-	
-	switch(fd)	{
-	// fd = 1 : Salida estandar
-		case 1:	
-			printText(buffer, WHITE, BLACK);
-			break;
-	// fd = 2 : Salida de error (salida estandar pero en rojo)
-		case 2:	
-			printText(buffer, RED, BLACK);
-			break;
-	}
-
-}
