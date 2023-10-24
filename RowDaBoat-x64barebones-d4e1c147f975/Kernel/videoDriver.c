@@ -208,8 +208,8 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
     for (y = 0; y < 8; y++) { // Itero filas
         for (x = 0; x < 8; x++) { // Itero columnas
             set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
-            for (int i = 0; i < sizeFactor; i++) {          //con el size factor agrando la letra
-                for (int j = 0; j < sizeFactor; j++) {
+            for (int i = 0; i <= sizeFactor; i++) {          //con el size factor agrando la letra
+                for (int j = 0; j <= sizeFactor; j++) {
                     putPixel(set ? fgcolor : bgcolor, xinit + (x * sizeFactor) + j, yinit + (y * sizeFactor) + i);
                 }
             }
@@ -265,8 +265,8 @@ void scroll(int linesToScroll){
         memcpy(to, from, rowSize);
     }
     setCurrentVideoLinePos(linesToScroll);
-    if (currentPosition<=VBE_mode_info->framebuffer)
-        currentPosition=VBE_mode_info->framebuffer;
+    if (currentPosition+VBE_mode_info->framebuffer<=VBE_mode_info->framebuffer)
+        currentPosition=0;
     uint32_t auxPos=currentPosition;
      //Llena con ' '
     for (int i = VBE_mode_info->height/charWidth-linesToScroll; i < VBE_mode_info->height/charWidth; i++) {
