@@ -240,7 +240,6 @@ void setCharWidth(unsigned int size){
 }
 void printNewline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
-    currentHeight+=charWidth;
 }
 void printTab(){
     char * tab="   ";
@@ -254,24 +253,27 @@ void backspace(){
     }
 }
 void setCurrentVideoLinePos(int linesToScroll){
-    currentPosition = (currentPosition/VBE_mode_info->width);
+        currentPosition -= VBE_mode_info->width*linesToScroll;
 }
 
 void scroll(int linesToScroll){
-    int realLines=linesToScroll * charWidth;
-    unsigned int rowSize = VBE_mode_info->height;
+    int realLines = linesToScroll * charWidth;
+    unsigned int rowSize = VBE_mode_info->width*(VBE_mode_info->bpp/8);
     for (int i = 0; i < VBE_mode_info->height - realLines; i++) {
         void* from = (void*)(VBE_mode_info->framebuffer + (i + realLines) * rowSize);  // fila actual + líneas a mover
         void* to = (void*)(VBE_mode_info->framebuffer + i * rowSize);  			// fila actual
         memcpy(to, from, rowSize);
     }
-//    setCurrentVideoLinePos(realLines);
-//    // Llena con ' '
-//    for (int i = VBE_mode_info->height-realLines; i < VBE_mode_info->height; i++) {
-//        for (int j = 0; j < (VBE_mode_info->width/charWidth); j++) {
-//            printTextDefault(' ', BLACK, BLACK);
-//        }
-//    }
-//    setCurrentVideoLinePos(realLines);
+    setCurrentVideoLinePos(linesToScroll);
+    if (currentPosition<=VBE_mode_info->framebuffer)
+        currentPosition=VBE_mode_info->framebuffer;
+    uint32_t auxPos=currentPosition;
+     //Llena con ' '
+    for (int i = VBE_mode_info->height/charWidth-linesToScroll; i < VBE_mode_info->height/charWidth; i++) {
+        for (int j = 0; j < (VBE_mode_info->width/charWidth); j++) {
+            printTextDefault(" ", BLACK, BLACK);
+        }
+    }
+    currentPosition=auxPos;
 }
 

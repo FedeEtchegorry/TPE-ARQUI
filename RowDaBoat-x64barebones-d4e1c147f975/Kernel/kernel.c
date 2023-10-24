@@ -142,17 +142,18 @@ int main(){
 	load_idt();
 	script();
 char* array="URNA IACULIS UT MORBI FACILISI AUGUE. PARTURIENT FINIBUS BLANDIT RISUS PER IACULIS AUCTOR ULLAMCORPER PHASELLUS ARCU. ARCU FUSCE ULTRICIES EUISMOD ETIAM INTEGER CRAS AD PEDE IMPERDIET.";
-printTextDefault(array, 0x000000ff, 0xffffff);
+printTextDefault(array, 0x000000ff, 0xff0000);
 char* array2= "NO LES FALTAN AGALLAS A LOS 300 ESPARTANOS DE LAS TERMOPILAS";
 printTextDefault(array2, 0x00ffffff, 0x00000000);;
     printNewline();
     printTextDefault(array2, 0x0000ff,0xffffff);
     printNewline();
+    scroll(1);
     // setCharWidth(8);
-    // printTextDefault(array, 0x00ffffff, 0x00000000);
+    //printTextDefault(array, 0x00ffffff, 0x00000000);
     //fillScreen(0x00fafafa);
 	// while(1/0);
-	printTextDefault("HELLO WORLD", 0x00ffffff, 0x00000000);
+	//printTextDefault("HELLO WORLD", 0x00ffffff, 0x00000000);
     while (1);
 	return 0;
 }

@@ -14,6 +14,7 @@ void printNewline();
 void printTab();
 void backspace();
 void setCurrentVideoLinePos(int linesToScroll);
+void scroll(int lines);
 
 
 
