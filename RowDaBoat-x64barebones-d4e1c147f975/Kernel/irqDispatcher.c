@@ -26,16 +26,19 @@ void irqDispatcher(uint64_t irq) {
 void int_20() {
 	timer_handler();
 	
-	if( alarmAt(5) )	{
-		char string [BUFFER_SIZE] = {0};
-		readBuffer(string, BUFFER_SIZE);
-		printTextDefault(string, WHITE, BLACK);
-	}
+	// if( alarmAt(5) )	{
+	// 	char string [BUFFER_SIZE] = {0};
+	// 	readBuffer(string, BUFFER_SIZE);
+	// 	printTextDefault(string, WHITE, BLACK);
+	// }
 	
 }
 
 void int_21() {
-    putChar(map(keyboard_handler()));
+    // putChar(map(keyboard_handler()));
+
+	char str [2] = {map(keyboard_handler()), 0};
+	printTextDefault(str, WHITE, BLACK);
 }
 
 // Syscalls:
