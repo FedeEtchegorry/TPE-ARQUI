@@ -132,11 +132,18 @@ int main(){
 	readBuffer(str2, i+1);
 	printTextDefault(str2, RED, BLACK);
 	printNewline();
-	char str [BUFFER_SIZE] = {'\0'};
+
+	char * str3 = "Error 404, please introduce your credit card security code";
+
+	int aux = putString(str3);
+	char str4[aux+1];
+	readBuffer(str4, aux+1);
+	printTextDefault(str4, MAGENTA, BLACK);
+
+// char str [BUFFER_SIZE] = {'\0'};
 	
 // Para escribir el teclado
 	while (1)	{
-        printPosition();
 		str[0] = readChar();
 		printTextDefault(str, GREEN, BLACK);
 	}
