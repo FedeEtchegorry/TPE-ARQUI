@@ -1,11 +1,11 @@
 #include <stdint.h>
 #include <string.h>
-
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <idtLoader.h>
 #include <videoDriver.h>
+#include <buffer.h>	// Solo para testear
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -120,40 +120,25 @@ void * initializeKernelBinary()
 
 int main(){
 
-
-	// ncPrint("[Kernel Main]");
-	// ncNewline();
-	// ncPrint("  Sample code module at 0x");
-	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	// ncNewline();
-	// ncPrint("  Calling the sample code module returned: ");
-	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	// ncNewline();
-	// ncNewline();
-
-	// ncPrint("  Sample data module at 0x");
-	// ncPrintHex((uint64_t)sampleDataModuleAddress);
-	// ncNewline();
-	// ncPrint("  Sample data module contents: ");
-	// ncPrint((char*)sampleDataModuleAddress);
-	// ncNewline();
-
-	// ncPrint("[Finished]");
 	load_idt();
-	script();
-char* array="URNA IACULIS UT MORBI FACILISI AUGUE. PARTURIENT FINIBUS BLANDIT RISUS PER IACULIS AUCTOR ULLAMCORPER PHASELLUS ARCU. ARCU FUSCE ULTRICIES EUISMOD ETIAM INTEGER CRAS AD PEDE IMPERDIET.";
-printTextDefault(array, 0x000000ff, 0xff0000);
-char* array2= "NO LES FALTAN AGALLAS A LOS 300 ESPARTANOS DE LAS TERMOPILAS";
-printTextDefault(array2, 0x00ffffff, 0x00000000);;
-    printNewline();
-    printTextDefault(array2, 0x0000ff,0xffffff);
-    printNewline();
-    scroll(3);
-    // setCharWidth(8);
-    //printTextDefault(array, 0x00ffffff, 0x00000000);
-    //fillScreen(0x00fafafa);
-	// while(1/0);
-	//printTextDefault("HELLO WORLD", 0x00ffffff, 0x00000000);
-    while (1);
+
+	char * str1 = "Now I am become Death, the destroyer of worlds.";
+
+	int i=0;
+	while(str1[i]!='\0' && putChar(str1[i]))
+		++i;
+	
+	char str2[i+1];
+	readBuffer(str2, i+1);
+	printTextDefault(str2, RED, BLACK);
+	printNewline();
+	char str [BUFFER_SIZE] = {'\0'};
+	
+// Para escribir el teclado
+	while (1)	{
+		str[0] = readChar();
+		printTextDefault(str, GREEN, BLACK);
+	}
+
 	return 0;
 }
