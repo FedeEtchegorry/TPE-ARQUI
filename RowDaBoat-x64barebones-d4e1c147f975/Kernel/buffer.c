@@ -4,7 +4,7 @@
 #define TRUE 1
 #define FALSE 0
 
-static unsigned char buffer [BUFFER_SIZE] = {'\0'};
+static unsigned char buffer [BUFFER_SIZE];
 static int next = 0;
 
 int bufferIsEmpty() {
@@ -22,6 +22,20 @@ int putChar(unsigned char c)   {
 
     buffer[next++] = c;
     return TRUE;
+}
+
+int putString(const unsigned char * s)    {
+    int aux = next;
+
+    int i=0;
+	while(s[i]!='\0')    {
+        if(putChar(s[i++]) == '\0')  {
+            next = aux;
+            return -1;
+        }   
+    }
+// No contempla el cero al final del string.
+    return i;
 }
 
 unsigned char readChar() {
@@ -56,8 +70,6 @@ void peekAllBuffer(unsigned char * string, int dim) {
 }
 
 void cleanBuffer()  {
-    for(int i=0; i<BUFFER_SIZE; ++i)
-        buffer[i] = '\0';
     next = 0;
 }
 
