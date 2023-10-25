@@ -2,6 +2,7 @@
 #define _BUFFER_H
     
 #define BUFFER_SIZE 256
+#define BUFFER_FIRSTPOS 0
 
 // El ultimo caracter es siempre '\0'.
     
