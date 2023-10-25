@@ -5,10 +5,10 @@
 #define FALSE 0
 
 static unsigned char buffer [BUFFER_SIZE];
-static int next = BUFFER_FIRSTPOS;
+static int next = 0;
 
 int bufferIsEmpty() {
-    return next == BUFFER_FIRSTPOS;
+    return next == 0;
 }
 
 int bufferIsFull()  {
@@ -27,7 +27,7 @@ int putChar(unsigned char c)   {
 int putString(const unsigned char * s)    {
     int aux = next;
 
-    int i=BUFFER_FIRSTPOS;
+    int i=0;
 	while(s[i]!='\0')    {
         if(putChar(s[i++]) == '\0')  {
             next = aux;
@@ -62,7 +62,7 @@ unsigned char peekBuffer()  {
 
 void peekAllBuffer(unsigned char * string, int dim) {
     
-    int i = BUFFER_FIRSTPOS;
+    int i=0;
     for(; i<dim-2 && i<next-1; ++i)    
         string[i] = buffer[i];
 
@@ -70,7 +70,7 @@ void peekAllBuffer(unsigned char * string, int dim) {
 }
 
 void cleanBuffer()  {
-    next = BUFFER_FIRSTPOS;
+    next = 0;
 }
 
 
