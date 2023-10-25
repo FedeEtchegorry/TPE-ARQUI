@@ -27,7 +27,7 @@ void int_20() {
 	timer_handler();
 	
 	// if( alarmAt(5) )	{
-	// 	char string [BUFFER_SIZE] = {0};
+	// 	char string [BUFFER_SIZE];
 	// 	readBuffer(string, BUFFER_SIZE);
 	// 	printTextDefault(string, WHITE, BLACK);
 	// }
@@ -35,10 +35,12 @@ void int_20() {
 }
 
 void int_21() {
-    // putChar(map(keyboard_handler()));
+    putChar(map(keyboard_handler()));
 
-	char str [2] = {map(keyboard_handler()), 0};
-	printTextDefault(str, WHITE, BLACK);
+// Si no anda el buffer y querés imprimir del teclado
+// DESCOMENTAR:
+	// char str [2] = {map(keyboard_handler()), 0};
+	// printTextDefault(str, WHITE, BLACK);
 }
 
 // Syscalls:
