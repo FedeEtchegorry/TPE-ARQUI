@@ -2,17 +2,17 @@
 #include <buffer.h>
 
 #define TRUE 1
-#define FALSE !TRUE 
+#define FALSE 0
 
 static unsigned char buffer [BUFFER_SIZE] = {'\0'};
-static int current = 0;
+static int next = 0;
 
 int bufferIsEmpty() {
-    return current == 0;
+    return next == 0;
 }
 
 int bufferIsFull()  {
-    return current == BUFFER_SIZE;
+    return next == BUFFER_SIZE-1;
 }
 
 int putChar(unsigned char c)   {
@@ -20,47 +20,45 @@ int putChar(unsigned char c)   {
     if(bufferIsFull())
         return FALSE;
 
-    buffer[current++] = c;
+    buffer[next++] = c;
     return TRUE;
 }
 
 unsigned char readChar() {
     
-    unsigned char toReturn = buffer[current];
+    unsigned char toReturn = peekBuffer();
     
-    if(!bufferIsEmpty())    
-        buffer[--current] = '\0';
+    if(!bufferIsEmpty())
+        buffer[--next] = '\0';
     
     return toReturn;
 }
 
 void readBuffer(unsigned char * string, int dim)    {
     
-    for(int i=current-1; i>=0 && (current-1-i)<dim; --i)
-        string[i] = readChar(); // está contemplado un buffer vacío
-
-    if(dim < BUFFER_SIZE)
-        cleanBuffer();
+    peekAllBuffer(string, dim);
+    cleanBuffer();
 
 }
 
 unsigned char peekBuffer()  {
-    return buffer[current-1];
+    
+    return bufferIsEmpty()? '\0' : buffer[next-1];
 }
 
 void peekAllBuffer(unsigned char * string, int dim) {
     
-    for(int i=current-1; i>=0 && (current-1-i)<dim; --i)
-        string[i] = peekBuffer();
+    int i=0;
+    for(; i<dim-2 && i<next-1; ++i)    
+        string[i] = buffer[i];
 
-    if(dim < BUFFER_SIZE)
-        cleanBuffer();
-
+    string[i] = '\0';
 }
 
 void cleanBuffer()  {
     for(int i=0; i<BUFFER_SIZE; ++i)
         buffer[i] = '\0';
+    next = 0;
 }
 
 
