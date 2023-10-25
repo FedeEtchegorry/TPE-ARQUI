@@ -25,7 +25,7 @@ void sysWrite(unsigned int fd, const char * buffer)	{
 #define STDIN 0x01
 
 void sysRead(unsigned int fd, char * buffer, unsigned int count)	{
-	switch(fs)	{
+	switch(fd)	{
 	// STDIN : Entrada estandar
 	case STDIN :
 	// Supongo que esto es correcto porque en el shell deberían de 
