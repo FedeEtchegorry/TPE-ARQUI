@@ -247,10 +247,13 @@ void printTab(){
 }
 void backspace(){
     if (VBE_mode_info->framebuffer<=VBE_mode_info->framebuffer+currentPosition-charWidth){
+        char position[]={ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        render(position,BLACK, BLACK,((currentPosition) / VBE_mode_info->width) * charWidth,currentPosition, charWidth);
         currentPosition-=charWidth;
         printTextDefault(" ", BLACK, BLACK);
         currentPosition-=charWidth;
     }
+
 }
 void setCurrentVideoLinePos(int linesToScroll){
         currentPosition -= VBE_mode_info->width*linesToScroll;
@@ -275,5 +278,9 @@ void scroll(int linesToScroll){
         }
     }
     currentPosition=auxPos;
+}
+void printPosition(){
+    char position[]={ 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
+    render(position,WHITE, BLACK,(currentPosition / VBE_mode_info->width) * charWidth,currentPosition, charWidth);
 }
 

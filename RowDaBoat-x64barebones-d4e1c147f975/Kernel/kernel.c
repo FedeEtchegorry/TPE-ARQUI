@@ -136,6 +136,7 @@ int main(){
 	
 // Para escribir el teclado
 	while (1)	{
+        printPosition();
 		str[0] = readChar();
 		printTextDefault(str, GREEN, BLACK);
 	}
