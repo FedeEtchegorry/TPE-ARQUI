@@ -217,6 +217,10 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
     }
 }
 
+void deleteSlash(){
+    char position[]={ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+    render(position,BLACK, BLACK,((currentPosition+charWidth) / VBE_mode_info->width) * charWidth,currentPosition+charWidth, charWidth);
+}
 
 void drawchar(unsigned char c,int fgcolor, int bgcolor, int y, int x, int size){
     render(font8x8_basic[c],fgcolor, bgcolor, y, x, size );
@@ -239,16 +243,19 @@ void setCharWidth(unsigned int size){
     }
 }
 void printNewline(){
+    deleteSlash();
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
 }
 void printTab(){
+    deleteSlash();
     char * tab="   ";
     printTextDefault(tab, BLACK, BLACK);
 }
+
+
 void backspace(){
     if (VBE_mode_info->framebuffer<=VBE_mode_info->framebuffer+currentPosition-charWidth){
-        char position[]={ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-        render(position,BLACK, BLACK,((currentPosition) / VBE_mode_info->width) * charWidth,currentPosition, charWidth);
+        deleteSlash();
         currentPosition-=charWidth;
         printTextDefault(" ", BLACK, BLACK);
         currentPosition-=charWidth;
