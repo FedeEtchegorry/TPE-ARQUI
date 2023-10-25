@@ -28,6 +28,9 @@ void sysRead(unsigned int fd, char * buffer, unsigned int count)	{
 	switch(fs)	{
 	// STDIN : Entrada estandar
 	case STDIN :
+	// Supongo que esto es correcto porque en el shell deberían de 
+	// encargarse de dejar en el buffer (del SO, no @buffer parametro)
+	// el argumento del llamado a la syscall.
 		readBuffer(buffer, count);
 		break;
 	default : 
