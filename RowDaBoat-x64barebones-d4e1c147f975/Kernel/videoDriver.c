@@ -2,6 +2,7 @@
 #include <videoDriver.h>
 #include <colours.h>
 #include <lib.h>
+#include <time.h>
 
 struct vbe_mode_info_structure {
     uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -232,7 +233,7 @@ void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
 void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
     render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     currentPosition+=charSize;
-    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/17) {
+    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/16) {
 //        scroll(1);
     }
 }
@@ -244,7 +245,7 @@ void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
 }
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
-    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/17) {
+    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/16) {
         scroll(1);
 
     }
@@ -283,5 +284,13 @@ void printCursor(){
     deleteSlash();
     char position[]={ 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
     drawCharWithoutDisplacement('|',WHITE, BLACK);
+}
+
+void blink(){
+//    if(seconds_elapsed()%2==1)
+//        deleteSlash();
+//    if (seconds_elapsed()%2==0)
+//        printCursor();
+
 }
 
