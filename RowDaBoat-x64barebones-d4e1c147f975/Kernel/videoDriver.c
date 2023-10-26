@@ -200,7 +200,7 @@ char font8x8_basic[128][8] = {
         { 0x00, 0x00, 0x33, 0x33, 0x33, 0x3E, 0x30, 0x1F},   // U+0079 (y)
         { 0x00, 0x00, 0x3F, 0x19, 0x0C, 0x26, 0x3F, 0x00},   // U+007A (z)
         { 0x38, 0x0C, 0x0C, 0x07, 0x0C, 0x0C, 0x38, 0x00},   // U+007B ({)
-        { 0x18, 0x18, 0x18, 0x00, 0x18, 0x18, 0x18, 0x00},   // U+007C (|)
+        { 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x00},   // U+007C (|)
         { 0x07, 0x0C, 0x0C, 0x38, 0x0C, 0x0C, 0x07, 0x00},   // U+007D (})
         { 0x6E, 0x3B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+007E (~)
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}    // U+007F
@@ -214,7 +214,7 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
         for (x = 0; x < 8; x++) { // Itero columnas
             set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
             for (int i = 0; i <= sizeFactor; i++) {          //con el size factor agrando la letra
-                for (int j = 0; j <= sizeFactor; j++) {
+                for (int j = 0; j < sizeFactor; j++) {
                     putPixel(set ? fgcolor : bgcolor, xinit + (x * sizeFactor) + j, yinit + (y * sizeFactor) + i);
                 }
             }
@@ -230,12 +230,13 @@ void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
     render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize );
 }
 void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
-    deleteSlash();
     render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     currentPosition+=charSize;
+    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/17) {
+//        scroll(1);
+    }
 }
 void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
-    deleteSlash();
     if (currentPosition>=charSize) {
         currentPosition -= charSize;
         render(font8x8_basic[c], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
@@ -243,6 +244,10 @@ void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
 }
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
+    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/17) {
+        scroll(1);
+
+    }
 }
 void setCharWidth(unsigned int size){
     if (size%8==0 && size!=0){
@@ -274,8 +279,9 @@ void scroll(int linesToScroll){
     }
     currentPosition=auxPos;
 }
-//void printPosition(){
-//    char position[]={ 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
-//    drawCharWithoutDisplacement(position,WHITE, BLACK);
-//}
+void printCursor(){
+    deleteSlash();
+    char position[]={ 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
+    drawCharWithoutDisplacement('|',WHITE, BLACK);
+}
 

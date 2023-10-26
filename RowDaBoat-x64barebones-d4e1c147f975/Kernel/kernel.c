@@ -98,6 +98,8 @@ int main(){
 	readBuffer(str2, i+1);
 	printTextDefault(str2, RED, BLACK);
 	printNewline();
+    printTextDefault(str2, RED, WHITE);
+    printTextDefault(str2, RED, YELLOW);
 
 	char * str3 = "Error 404, please introduce your credit card security code";
 

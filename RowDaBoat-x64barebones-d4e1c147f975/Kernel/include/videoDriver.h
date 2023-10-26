@@ -26,7 +26,7 @@ void setCharWidth(unsigned int size);
 void setCurrentVideoLinePos(int linesToScroll);
 //mueve la pantalla hacia abajo
 void scroll(int lines);
-void printPosition();
+void printCursor();
 void deleteSlash();
 void newline();
 
