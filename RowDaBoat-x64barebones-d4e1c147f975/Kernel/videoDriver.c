@@ -43,10 +43,15 @@ struct vbe_mode_info_structure {
 
 typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
+
+
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
+
+
 uint32_t currentPosition=0;
-uint8_t charWidth=16;       // Ancho de un carácter en píxeles=alto
-uint32_t currentHeight=0;
+uint8_t charSize=16;       // tamaño en pixeles de un caracter (de alto o de ancho, son iguales)
+
+
 
 void fillScreen(uint32_t hexColor) {
     uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -218,58 +223,41 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
 }
 
 void deleteSlash(){
-    char position[]={ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-    render(position,BLACK, BLACK,((currentPosition+charWidth) / VBE_mode_info->width) * charWidth,currentPosition+charWidth, charWidth);
+    drawCharWithoutDisplacement('\0',BLACK, BLACK);
 }
 
-void drawchar(unsigned char c,int fgcolor, int bgcolor, int y, int x, int size){
-    render(font8x8_basic[c],fgcolor, bgcolor, y, x, size );
-
+void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
+    render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize );
 }
-void printText(char* string, int fgcolor, int bgcolor, int charSize){
-    if (charSize%8 == 0) {
-        for (int i = 0; string[i] != '\0'; i++) {
-            drawchar(string[i], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize),currentPosition, charSize);
-            currentPosition += charSize;
-        }
-    }
-}
-void printTextDefault(char* string, int fgcolor, int bgcolor){
-    printText(string, fgcolor, bgcolor, charWidth);
-}
-void setCharWidth(unsigned int size){
-    if (size%8==0){
-        charWidth=size;
-    }
-}
-void printNewline(){
+void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
     deleteSlash();
+    render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
+    currentPosition+=charSize;
+}
+void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
+    deleteSlash();
+    if (currentPosition>=charSize) {
+        currentPosition -= charSize;
+        render(font8x8_basic[c], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
+    }
+}
+void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
 }
-void printTab(){
-    deleteSlash();
-    char * tab="   ";
-    printTextDefault(tab, BLACK, BLACK);
-}
-
-
-void backspace(){
-    if (VBE_mode_info->framebuffer<=VBE_mode_info->framebuffer+currentPosition-charWidth){
-        deleteSlash();
-        currentPosition-=charWidth;
-        printTextDefault(" ", BLACK, BLACK);
-        currentPosition-=charWidth;
+void setCharWidth(unsigned int size){
+    if (size%8==0 && size!=0){
+        charSize=size;
     }
-
 }
+
 void setCurrentVideoLinePos(int linesToScroll){
         currentPosition -= VBE_mode_info->width*linesToScroll;
 }
 
 void scroll(int linesToScroll){
-    int realLines = linesToScroll * charWidth;
+    int realLines = linesToScroll * charSize;
     unsigned int rowSize = VBE_mode_info->width*(VBE_mode_info->bpp/8);
-    for (int i = 0; i < VBE_mode_info->height - realLines; i++) {
+    for (int i = 0; i <= VBE_mode_info->height - realLines; i++) {
         void* from = (void*)(VBE_mode_info->framebuffer + (i + realLines) * rowSize);  // fila actual + líneas a mover
         void* to = (void*)(VBE_mode_info->framebuffer + i * rowSize);  			// fila actual
         memcpy(to, from, rowSize);
@@ -279,15 +267,15 @@ void scroll(int linesToScroll){
         currentPosition=0;
     uint32_t auxPos=currentPosition;
      //Llena con ' '
-    for (int i = VBE_mode_info->height/charWidth-linesToScroll; i < VBE_mode_info->height/charWidth; i++) {
-        for (int j = 0; j < (VBE_mode_info->width/charWidth); j++) {
-            printTextDefault(" ", BLACK, BLACK);
+    for (int i = VBE_mode_info->height/charSize-linesToScroll; i < VBE_mode_info->height/charSize; i++) {
+        for (int j = 0; j < (VBE_mode_info->width/charSize); j++) {
+            drawCharOnCurrentPos(' ', WHITE, BLACK);
         }
     }
     currentPosition=auxPos;
 }
-void printPosition(){
-    char position[]={ 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
-    render(position,WHITE, BLACK,(currentPosition / VBE_mode_info->width) * charWidth,currentPosition, charWidth);
-}
+//void printPosition(){
+//    char position[]={ 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
+//    drawCharWithoutDisplacement(position,WHITE, BLACK);
+//}
 

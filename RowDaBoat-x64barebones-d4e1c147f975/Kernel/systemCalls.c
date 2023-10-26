@@ -1,6 +1,7 @@
 #include <colours.h>
 #include <systemCalls.h>
 #include <videodriver.h>
+#include <stringPrinter.h>
 #include <buffer.h>
 
 #define STDOUT 0x01

@@ -1,6 +1,6 @@
 #include <keyboard.h>
 #include <naiveConsole.h>
-#include <videoDriver.h>
+#include <stringPrinter.h>
 
 #define BUFFER 16
 int caps=0;
