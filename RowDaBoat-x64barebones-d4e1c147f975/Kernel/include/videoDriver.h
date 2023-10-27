@@ -29,6 +29,7 @@ void scroll(int lines);
 void printCursor();
 void deleteSlash();
 void newline();
+void blink();
 
 
 

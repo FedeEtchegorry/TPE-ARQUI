@@ -287,10 +287,10 @@ void printCursor(){
 }
 
 void blink(){
-//    if(seconds_elapsed()%2==1)
-//        deleteSlash();
-//    if (seconds_elapsed()%2==0)
-//        printCursor();
+    if (alarmAt(4))
+        deleteSlash();
+    if (alarmAt(5))
+        printCursor();
 
 }
 

@@ -32,7 +32,7 @@ void load_idt() {
   
 	// Interrupciones timer tick y keyboard
   
-	picMasterMask(0xFD); 
+	picMasterMask(0xFC);
 	picSlaveMask(0xFF);
         
 	_sti();
