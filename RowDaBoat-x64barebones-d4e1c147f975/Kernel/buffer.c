@@ -15,37 +15,29 @@ int bufferIsFull()  {
     return next == BUFFER_SIZE-1;
 }
 
-int putChar(unsigned char c)   {
+void putChar(unsigned char c)   {
     
     if(bufferIsFull())
-        return FALSE;
+        cleanBuffer();
 
     buffer[next++] = c;
-    return TRUE;
 }
 
 int putString(const unsigned char * s)    {
-    int aux = next;
-
+    cleanBuffer();
     int i=0;
-	while(s[i]!='\0')    {
-        if(putChar(s[i++]) == '\0')  {
-            next = aux;
+	while(s[i]!=0)    {
+        if(bufferIsFull())  {
             return -1;
         }   
+        putChar(s[i++]);
     }
 // No contempla el cero al final del string.
     return i;
 }
 
 unsigned char readChar() {
-    
-    unsigned char toReturn = peekBuffer();
-    
-    if(!bufferIsEmpty())
-        buffer[--next] = '\0';
-    
-    return toReturn;
+    return bufferIsEmpty()? 0 : buffer[--next];
 }
 
 void readBuffer(unsigned char * string, int dim)    {
@@ -55,15 +47,10 @@ void readBuffer(unsigned char * string, int dim)    {
 
 }
 
-unsigned char peekBuffer()  {
-    
-    return bufferIsEmpty()? '\0' : buffer[next-1];
-}
-
 void peekAllBuffer(unsigned char * string, int dim) {
-    
+
     int i = BUFFER_FIRSTPOS;
-    for(; i<dim-2 && i<next-1; ++i)    
+    for(; i<dim-1 && i<next; ++i)    
         string[i] = buffer[i];
 
     string[i] = '\0';
