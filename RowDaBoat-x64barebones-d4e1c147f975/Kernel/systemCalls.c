@@ -1,40 +1,43 @@
 #include <colours.h>
 #include <systemCalls.h>
-#include <videodriver.h>
+#include <videoDriver.h>
 #include <stringPrinter.h>
 #include <buffer.h>
 
-#define STDOUT 0x01
-#define STDERR 0x02
+unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 
-
-void sysWrite(unsigned int fd, const char * s)	{
-	
 	switch(fd)	{
-	// STDOUT : Salida estandar
-		case STDOUT:	
+	// STDOUT : Salida estandar.
+		case STDOUT :	{
+			char s [count+1];
+			readBuffer(s, count+1);
 			printTextDefault(s, WHITE, BLACK);
 			break;
-	// STDERR : Salida de error (salida estandar pero en rojo)
-		case STDERR:	
+		}
+	// STDERR : Salida de error (salida estandar pero en rojo).
+		case STDERR :	{
+			char s [count+1];
+			readBuffer(s, count+1);
 			printTextDefault(s, RED, BLACK);
+			break;
+		}
+	// RETURN_CHAR : Devuelve en rax el ultimo caracter del buffer.
+		case RETURN_CHAR :	{ 
+			return readChar();
+			break;
+		}
+
+		default :
 			break;
 	}
 
+	return 0;
 }
 
-#define STDIN 0x01
+void sysRead(const  char * s)	{
+	putString(s);
+}
 
-void sysRead(unsigned int fd, char * s, unsigned int count)	{
-	switch(fd)	{
-	// STDIN : Entrada estandar
-	case STDIN :
-	// Supongo que esto es correcto porque en el shell deberían de 
-	// encargarse de dejar en el buffer
-	// el argumento del llamado a la syscall.
-		readBuffer(s, count);
-		break;
-	default : 
-		break;
-	}
+void sysKillBuffer()	{
+	cleanBuffer();
 }

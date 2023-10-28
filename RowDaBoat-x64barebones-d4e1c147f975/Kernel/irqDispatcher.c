@@ -7,6 +7,7 @@
 #include <systemCalls.h>
 #include <buffer.h>
 
+
 #define TIMERTICK_INTERRUPTION_MESSAGE "Tick numero: "
 
 static void int_21();
@@ -36,26 +37,30 @@ void int_20() {
 
 void int_21() {
     putChar(map(keyboard_handler()));
-
-// Si no anda el buffer y querés imprimir del teclado
-// DESCOMENTAR:
-	// char str [2] = {map(keyboard_handler()), 0};
-	// printTextDefault(str, WHITE, BLACK);
 }
 
 // Syscalls:
 // La idea es que del userspace pueda hacer int 0x80 (en assembler) asi llama 
-// a esta función, hay que ver como implementarlo.
-void int_80(int id, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t esi, uint64_t edi){
+// a esta función.
+void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, unsigned int esi, unsigned int edi){
 	
 	switch(id)	{
-		case SYSTEM_WRITE_ID:	
-			sysWrite( (unsigned int) rbx, (char *) rcx);
+		case SYSTEM_WRITE_ID :	{
+			sysWrite(rbx, rdx);
 			break;
-
-		//TO_DO : Excepcion por syscall invalida
-		default:	
+		}
+		
+		case SYSTEM_READ_ID :	{
+			sysRead(rcx);
 			break;
+		}
+		case SYSTEM_KILLBUFFER_ID :	{
+			sysKillBuffer();
+			break;
+		}
+		default:	{
+			break;
+			}
 	}
 }
 
