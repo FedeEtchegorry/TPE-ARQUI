@@ -51,6 +51,7 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 uint32_t currentPosition=0;
 uint8_t charSize=16;       // tamaño en pixeles de un caracter (de alto o de ancho, son iguales)
+int canBlink=0;
 
 
 
@@ -201,7 +202,7 @@ char font8x8_basic[128][8] = {
         { 0x00, 0x00, 0x33, 0x33, 0x33, 0x3E, 0x30, 0x1F},   // U+0079 (y)
         { 0x00, 0x00, 0x3F, 0x19, 0x0C, 0x26, 0x3F, 0x00},   // U+007A (z)
         { 0x38, 0x0C, 0x0C, 0x07, 0x0C, 0x0C, 0x38, 0x00},   // U+007B ({)
-        { 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x00},   // U+007C (|)
+        { 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18},   // U+007C (|)
         { 0x07, 0x0C, 0x0C, 0x38, 0x0C, 0x0C, 0x07, 0x00},   // U+007D (})
         { 0x6E, 0x3B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+007E (~)
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}    // U+007F
@@ -233,8 +234,8 @@ void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
 void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
     render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     currentPosition+=charSize;
-    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/16) {
-//        scroll(1);
+    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/charSize) {
+        scroll(1);
     }
 }
 void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
@@ -245,9 +246,8 @@ void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
 }
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
-    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/16) {
+    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/charSize) {
         scroll(1);
-
     }
 }
 void setCharWidth(unsigned int size){
@@ -282,15 +282,21 @@ void scroll(int linesToScroll){
 }
 void printCursor(){
     deleteSlash();
-    char position[]={ 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
     drawCharWithoutDisplacement('|',WHITE, BLACK);
 }
 
 void blink(){
-    if (alarmAt(4))
-        deleteSlash();
-    if (alarmAt(5))
-        printCursor();
-
+    if (canBlink) {
+        if (alarmAt(2))
+            deleteSlash();
+        if (alarmAt(3))
+            printCursor();
+    }
+}
+void allowBlink(){
+    canBlink=1;
+}
+void blockBlink(){
+    canBlink=0;
 }
 

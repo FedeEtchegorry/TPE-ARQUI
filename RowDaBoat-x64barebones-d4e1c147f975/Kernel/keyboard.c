@@ -2,34 +2,20 @@
 #include <naiveConsole.h>
 #include <stringPrinter.h>
 
-#define BUFFER 16
 int caps=0;
-static char keyboard_buffer[BUFFER]= {'\0'};
+int shift=0;
 
-static unsigned char kbd_US [81] =   {
-            '\0',  '|', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\?', '!', '\b',
-        '\t', /* <-- Tab */
-        'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '*', '+', '\n',     
-            0, /* <-- control key */
-        'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 0, '{', 0 ,  0, '}',
-        'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '-',   0,
-        0,0,  /* Alt */' ',  /* Space bar */'M',  /* Caps lock */
-            0,  /* 59 - F1 key ... > */
-            0,   0,   0,   0,   0,   0,   0,   0,
-            0,  /* < ... F10 */
-            0,  /* 69 - Num lock*/
-            0,  /* Scroll Lock */
-            0,  /* Home key */
-            'U',  /* Up Arrow */
-            0,  /* Page Up */
-            0,
-            'L',  /* Left Arrow */
-            0,
-            'R',  /* Right Arrow */
-            0,
-            0,
-            'D' /* Down Arrow */
-        };
+static unsigned char kbd_US [81][2] =   {
+        {'\0','\0'},  {'|','°'}, {'1','!'}, {'2','"'}, {'3','#'},{'4','$'}, {'5','%'}, {'6','&'}, {'7','/'}, {'8','('}, {'9',')'}, {'0','='}, {'\'','\?'},{0,0}, {'\b','\b'},
+        {'\t','\t'}/*Tab*/,{'q','Q'}, {'w','W'}, {'e','E'}, {'r','R'}, {'t','T'}, {'y','Y'}, {'u','U'}, {'i','I'}, {'o','O'}, {'p','P'}, {0,0}, {'+','*'}, {'\n','\n'},
+        {0,0}/*CTRL*/,
+        {'a', 'A'}, {'s', 'S'}, {'d', 'D'}, {'f', 'F'}, {'g', 'G'}, {'h', 'H'}, {'j', 'J'}, {'k', 'K'}, {'l', 'L'}, {'}',']'}, {0,0},{0,0}, {'S',0}, {'}',']'},
+        {'z', 'Z'}, {'x', 'X'}, {'c', 'C'}, {'v', 'V'}, {'b', 'B'}, {'n', 'N'}, {'m', 'M'}, {',',';'}, {'.',':'}, {'-','_'}, {'S',0},
+        {0,0},{0,0}/* Alt */,{' ',' '}/* Space bar */,  {'M',0} /* Caps lock */,
+        {0,0}/*F1 key ... > */,{0,0},   {0,0},   {0,0},   {0,0},   {0,0},   {0,0},   {0,0},   {0,0}, {0,0}/* < ... F10 */,
+        {0,0}/* 69 - Num lock*/,{0,0} /* Scroll Lock */,{0,0}/* Home key */,
+        {'U',0}/* Up Arrow */,{0,0}/* Page Up */,{0,0},{'L',0}/* Left Arrow */,{0,0},{'R',0}/* Right Arrow */,{0,0},{0,0},{'D',0}/* Down Arrow */
+};
 
 void up_arrow(){
 
@@ -44,8 +30,16 @@ void right_arrow(){
 
 }
 unsigned char map(unsigned char c)  {
+    char letter=kbd_US[c][0];
+    if (letter=='S') {     //me fijo si tengo el shift, c-128 sirve para ver si se soltó
+        shift = 1;
+        return '\0';
+    }
+    if (kbd_US[c-128][0]=='S') {
+        shift = 0;
+        return '\0';
+    }
     if (c<=58) {
-        char letter=kbd_US[c];
         switch (letter) {
             case 'M' :  caps=!caps;
                         return '\0';
@@ -55,19 +49,16 @@ unsigned char map(unsigned char c)  {
                         return '\0';
             case '\b':  backspace();
                         return '\0';
-            default: return ((caps && letter>='a' && letter<='z')?letter-32:letter);
+            default: return ((caps-shift)?kbd_US[c][1]:kbd_US[c][0]);
         }
     }
-    if (c<=80){
-        char letter=kbd_US[c];
-        switch (letter) {
-            case 'U': up_arrow();
-            case 'D': down_arrow();
-            case 'L': left_arrow();
-            case 'R': right_arrow();
+    switch (letter) {
+        case 'U': up_arrow();
+        case 'D': down_arrow();
+        case 'L': left_arrow();
+        case 'R': right_arrow();
         }
         return '\0';
     }
-    return '\0';
-}
+
 

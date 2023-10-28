@@ -30,6 +30,8 @@ void printCursor();
 void deleteSlash();
 void newline();
 void blink();
+void allowBlink();
+void blockBlink();
 
 
 
