@@ -1,19 +1,21 @@
-/* sampleCodeModule.c */
-
-char * v = (char*)0xB8000 + 79 * 2;
-
-static int var1 = 0;
-static int var2 = 0;
-
+#include <userlib.h>
+#include <shell.h>
 
 int main() {
-	//All the following code may be removed 
-	*v = 'X';
-	*(v+1) = 0x74;
 
-	//Test if BSS is properly set up
-	if (var1 == 0 && var2 == 0)
-		return 0xDEADC0DE;
 
-	return 0xDEADBEEF;
+	print("¡ATENCION!: Estas en USERLAND");
+	print("¡TEN CUIDADO! El programador estuvo 5 horas seguidas para que esta poronga ande (yupiii)   \n");
+	print("Por eso no corrigio los bugs, pero descuida ¡Pronto lo hara!\n");
+
+	char buffer[254];
+
+// Anda medio para el orto pero creo que es porque el print
+// es inificiente.
+// Se me ocurre hacer un putChar() pero vamos a necesitar
+// implementar un printChar en el videoDriver
+	read(buffer);
+
+
+	return 0;
 }

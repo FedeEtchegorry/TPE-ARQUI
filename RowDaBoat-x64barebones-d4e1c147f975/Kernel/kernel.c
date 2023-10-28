@@ -6,7 +6,7 @@
 #include <idtLoader.h>
 #include <videoDriver.h>
 #include <stringPrinter.h>
-#include <buffer.h>	// Solo para testear
+#include <buffer.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -22,6 +22,41 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 
 typedef int (*EntryPoint)();
 
+typedef struct {
+    uint16_t ModeAttributes;
+    uint8_t WinAAttributes;
+    uint8_t WinBAttributes;
+    uint16_t WinGranularity;
+    uint16_t WinSize;
+    uint16_t WinASegment;
+    uint16_t WinBSegment;
+    uint32_t WinFuncPtr;
+    uint16_t BytesPerScanLine;
+    uint16_t XResolution;
+    uint16_t YResolution;
+    uint8_t XCharSize;
+    uint8_t YCharSize;
+    uint8_t NumberOfPlanes;
+    uint8_t BitsPerPixel;
+    uint8_t NumberOfBanks;
+    uint8_t MemoryModel;
+    uint8_t BankSize;
+    uint8_t NumberOfImagePages;
+    uint8_t Reserved_page;
+    uint8_t RedMaskSize;
+    uint8_t RedFieldPosition;
+    uint8_t GreenMaskSize;
+    uint8_t GreenFieldPosition;
+    uint8_t BlueMaskSize;
+    uint8_t BlueFieldPosition;
+    uint8_t ReservedMaskSize;
+    uint8_t ReservedFieldPosition;
+    uint8_t DirectColorModeInfo;
+    uint32_t PhysicalBasePtr;
+    uint32_t OffScreenMemOffset;
+    uint16_t OffScreenMemSize;
+    uint8_t Reserved[206];
+} VBE_ModeInfoBlock;
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
 {
@@ -88,37 +123,25 @@ int main(){
 
 	load_idt();
 
-	char * str1 = "Now I am become Death, the destroyer of worlds.";
-
-	int i=0;
-	while(str1[i]!='\0' && putChar(str1[i]))
-		++i;
 	
-	char str2[i+1];
-	readBuffer(str2, i+1);
-	printTextDefault(str2, RED, BLACK);
-	printNewline();
-    printTextDefault(str2, RED, WHITE);
-    printTextDefault(str2, RED, YELLOW);
-
-	char * str3 = "Error 404, please introduce your credit card security code";
-
-	int aux = putString(str3);
-	char str4[aux+1];
-	readBuffer(str4, aux+1);
-	printTextDefault(str4, MAGENTA, BLACK);
     char * str5="My name is Maximus Decimus Meridius, commander of the Armies of the North, General of the Felix Legions, loyal servant to the true emperor, Marcus Aurelius. Father to a murdered son, husband to a murdered wife. And I will have my vengeance, in this life or the next.";
     printNewline();
     printTextDefault(str5, BLACK, WHITE);
 char str [BUFFER_SIZE] = {'\0'};
 scroll(1);
 // Para escribir el teclado
-	while (1)	{
-        blink();
-		str[0] = readChar();
-		printTextDefault(str, GREEN, BLACK);
+	// while (1)	{
+    //     blink();
+	// 	str[0] = readChar();
+	// 	printTextDefault(str, GREEN, BLACK);
 
-	}
+	// }
+
+	cleanBuffer();
+	printNewline();
+	((EntryPoint)sampleCodeModuleAddress)();
+
+	// printTextDefault("Termino sampleCodeModule", WHITE, BLACK);
 
 	return 0;
 }
