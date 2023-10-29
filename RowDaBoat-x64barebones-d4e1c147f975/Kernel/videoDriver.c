@@ -4,6 +4,7 @@
 #include <lib.h>
 #include <time.h>
 
+
 struct vbe_mode_info_structure {
     uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
     uint8_t window_a;			// deprecated
@@ -50,32 +51,9 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 
 uint32_t currentPosition=0;
+uint32_t currentHeight=0;
 uint8_t charSize=16;       // tamaño en pixeles de un caracter (de alto o de ancho, son iguales)
-int canBlink=0;
-
-
-
-void fillScreen(uint32_t hexColor) {
-    uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
-    //itero sobre el framebuffer
-    for (int y = 0; y < VBE_mode_info->height; y++) {
-        for (int x = 0; x < VBE_mode_info->width; x++) {
-            uint32_t offset = (x * ((VBE_mode_info->bpp) / 8)) + (y *VBE_mode_info->pitch);                 //como lo estoy hacinedo si multiplico y *screenwitdh bajo la cantidad de filas que necesito y despúes me desplazo en x
-            // Pongo los colores
-            framebuffer[offset] = (hexColor) & 0xFF;       //B
-            framebuffer[offset+1] = (hexColor >> 8) & 0xFF;  //G
-            framebuffer[offset+2] = (hexColor >> 16) & 0xFF; //R
-            hexColor++;
-        }
-    }
-}
-void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
-    uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
-    uint64_t offset = (x * ((VBE_mode_info->bpp) / 8)) + (y * VBE_mode_info->pitch);
-    framebuffer[offset] = (hexColor) & 0xFF;
-    framebuffer[offset + 1] = (hexColor >> 8) & 0xFF;
-    framebuffer[offset + 2] = (hexColor >> 16) & 0xFF;
-}
+int canBlink=1;
 
 char font8x8_basic[128][8] = {
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0000 (nul)
@@ -208,7 +186,26 @@ char font8x8_basic[128][8] = {
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}    // U+007F
 };  //https://github.com/dhepper/font8x8/blob/master/README
 
-
+void fillScreen(uint32_t hexColor) {
+    uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    //itero sobre el framebuffer
+    for (int y = 0; y < VBE_mode_info->height; y++) {
+        for (int x = 0; x < VBE_mode_info->width; x++) {
+            uint32_t offset = (x * ((VBE_mode_info->bpp) / 8)) + (y *VBE_mode_info->pitch);                 //como lo estoy hacinedo si multiplico y *screenwitdh bajo la cantidad de filas que necesito y despúes me desplazo en x
+            // Pongo los colores
+            framebuffer[offset] = (hexColor) & 0xFF;       //B
+            framebuffer[offset+1] = (hexColor >> 8) & 0xFF;  //G
+            framebuffer[offset+2] = (hexColor >> 16) & 0xFF; //R
+        }
+    }
+}
+void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
+    uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    uint64_t offset = (x * ((VBE_mode_info->bpp) / 8)) + (y * VBE_mode_info->pitch);
+    framebuffer[offset] = (hexColor) & 0xFF;
+    framebuffer[offset + 1] = (hexColor >> 8) & 0xFF;
+    framebuffer[offset + 2] = (hexColor >> 16) & 0xFF;
+}
 void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int charSize) {
     int x, y, set;
     int sizeFactor=charSize/8; //cambiando este numero puedo cambiar el tamaño de la fuente
@@ -229,25 +226,30 @@ void deleteSlash(){
 }
 
 void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
-    render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize );
+    render(font8x8_basic[c],fgcolor, bgcolor, currentHeight, currentPosition, charSize );
 }
 void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
-    render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
+    render(font8x8_basic[c],fgcolor, bgcolor, currentHeight, currentPosition, charSize);
+    if (currentPosition/VBE_mode_info->width<(currentPosition+charSize)/VBE_mode_info->width)
+        currentHeight+=charSize;
     currentPosition+=charSize;
-    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/charSize) {
-        scroll(1);
+    if (currentHeight+charSize*4>=VBE_mode_info->height) {
+        scroll();
     }
 }
 void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
     if (currentPosition>=charSize) {
         currentPosition -= charSize;
-        render(font8x8_basic[c], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
+        if (((currentPosition+charSize)/VBE_mode_info->width)>((currentPosition)/VBE_mode_info->width))
+            currentHeight-=charSize;
+        render(font8x8_basic[c], fgcolor, bgcolor, currentHeight, currentPosition, charSize);
     }
 }
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
-    if (currentPosition>=(VBE_mode_info->height*VBE_mode_info->width)/charSize) {
-        scroll(1);
+    currentHeight+=charSize;
+    if ((currentHeight+charSize*4)/charSize>=VBE_mode_info->height/charSize) {
+        scroll();
     }
 }
 void setCharWidth(unsigned int size){
@@ -258,28 +260,21 @@ void setCharWidth(unsigned int size){
 
 void setCurrentVideoLinePos(int linesToScroll){
         currentPosition -= VBE_mode_info->width*linesToScroll;
+        currentHeight-=charSize;
+}
+void cleanLastLine(){
+    for (int i = 0; i < VBE_mode_info->width; i += charSize){
+        render(font8x8_basic[' '],BLACK , BLACK, VBE_mode_info->height, currentPosition+i, charSize);
+    }
+}
+void scroll() {
+    int textLength = (VBE_mode_info->width * VBE_mode_info->height * (VBE_mode_info->bpp/8)) - (VBE_mode_info->width * charSize);
+    memcpy((void *) (uint64_t)(VBE_mode_info->framebuffer),(void *) (uint64_t)(VBE_mode_info->framebuffer + ((VBE_mode_info->bpp/8) * VBE_mode_info->width * charSize)), textLength);
+    cleanLastLine();
+    setCurrentVideoLinePos(1);
+
 }
 
-void scroll(int linesToScroll){
-    int realLines = linesToScroll * charSize;
-    unsigned int rowSize = VBE_mode_info->width*(VBE_mode_info->bpp/8);
-    for (int i = 0; i <= VBE_mode_info->height - realLines; i++) {
-        void* from = (void*)(VBE_mode_info->framebuffer + (i + realLines) * rowSize);  // fila actual + líneas a mover
-        void* to = (void*)(VBE_mode_info->framebuffer + i * rowSize);  			// fila actual
-        memcpy(to, from, rowSize);
-    }
-    setCurrentVideoLinePos(linesToScroll);
-    if (currentPosition+VBE_mode_info->framebuffer<=VBE_mode_info->framebuffer)
-        currentPosition=0;
-    uint32_t auxPos=currentPosition;
-     //Llena con ' '
-    for (int i = VBE_mode_info->height/charSize-linesToScroll; i < VBE_mode_info->height/charSize; i++) {
-        for (int j = 0; j < (VBE_mode_info->width/charSize); j++) {
-            drawCharOnCurrentPos(' ', WHITE, BLACK);
-        }
-    }
-    currentPosition=auxPos;
-}
 void printCursor(){
     deleteSlash();
     drawCharWithoutDisplacement('|',WHITE, BLACK);
@@ -299,4 +294,10 @@ void allowBlink(){
 void blockBlink(){
     canBlink=0;
 }
+void resetPosition(){
+    currentPosition=0;
+    currentHeight=0;
+}
+
+
 

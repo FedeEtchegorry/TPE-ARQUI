@@ -25,19 +25,16 @@ void setCharWidth(unsigned int size);
 //setea la dirección de video en función de las líneas que se desplazó la pantalla
 void setCurrentVideoLinePos(int linesToScroll);
 //mueve la pantalla hacia abajo
-void scroll(int lines);
+void scroll();
 void printCursor();
 void deleteSlash();
 void newline();
 void blink();
 void allowBlink();
 void blockBlink();
-
-
-
-
+void cleanLastLine();
 void setCharWidth(unsigned int size);
-
+void resetPosition();
 
 
 

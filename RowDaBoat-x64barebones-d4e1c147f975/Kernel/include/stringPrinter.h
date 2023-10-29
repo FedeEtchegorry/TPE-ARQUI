@@ -11,5 +11,8 @@ void printNewline();
 void printTab();
 //hace un backspace
 void backspace();
+void biggerText();
+void smallerText();
+void refillScreen();
 
 #endif //TPE_ARQUI_STRINGPRINTER_H
