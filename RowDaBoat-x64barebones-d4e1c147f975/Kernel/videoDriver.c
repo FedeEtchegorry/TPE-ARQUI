@@ -51,7 +51,6 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 
 uint32_t currentPosition=0;
-uint32_t currentHeight=0;
 uint8_t charSize=16;       // tamaño en pixeles de un caracter (de alto o de ancho, son iguales)
 int canBlink=1;
 
@@ -213,7 +212,7 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
         for (x = 0; x < 8; x++) { // Itero columnas
             set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
             for (int i = 0; i <= sizeFactor; i++) {          //con el size factor agrando la letra
-                for (int j = 0; j < sizeFactor; j++) {
+                for (int j = 0; j <= sizeFactor; j++) {
                     putPixel(set ? fgcolor : bgcolor, xinit + (x * sizeFactor) + j, yinit + (y * sizeFactor) + i);
                 }
             }
@@ -226,29 +225,25 @@ void deleteSlash(){
 }
 
 void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
-    render(font8x8_basic[c],fgcolor, bgcolor, currentHeight, currentPosition, charSize );
+    render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize );
 }
 void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
-    render(font8x8_basic[c],fgcolor, bgcolor, currentHeight, currentPosition, charSize);
-    if (currentPosition/VBE_mode_info->width<(currentPosition+charSize)/VBE_mode_info->width)
-        currentHeight+=charSize;
+    render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     currentPosition+=charSize;
-    if (currentHeight+charSize*4>=VBE_mode_info->height) {
+    if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*3>=VBE_mode_info->height) {
         scroll();
     }
 }
 void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
     if (currentPosition>=charSize) {
         currentPosition -= charSize;
-        if (((currentPosition+charSize)/VBE_mode_info->width)>((currentPosition)/VBE_mode_info->width))
-            currentHeight-=charSize;
-        render(font8x8_basic[c], fgcolor, bgcolor, currentHeight, currentPosition, charSize);
+
+        render(font8x8_basic[c], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     }
 }
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
-    currentHeight+=charSize;
-    if ((currentHeight+charSize*4)/charSize>=VBE_mode_info->height/charSize) {
+    if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*3>=VBE_mode_info->height) {
         scroll();
     }
 }
@@ -259,17 +254,20 @@ void setCharWidth(unsigned int size){
 }
 
 void setCurrentVideoLinePos(int linesToScroll){
-        currentPosition -= VBE_mode_info->width*linesToScroll;
-        currentHeight-=charSize;
+    currentPosition -= VBE_mode_info->width*linesToScroll;
 }
+
 void cleanLastLine(){
     for (int i = 0; i < VBE_mode_info->width; i += charSize){
         render(font8x8_basic[' '],BLACK , BLACK, VBE_mode_info->height, currentPosition+i, charSize);
     }
 }
 void scroll() {
-    int textLength = (VBE_mode_info->width * VBE_mode_info->height * (VBE_mode_info->bpp/8)) - (VBE_mode_info->width * charSize);
-    memcpy((void *) (uint64_t)(VBE_mode_info->framebuffer),(void *) (uint64_t)(VBE_mode_info->framebuffer + ((VBE_mode_info->bpp/8) * VBE_mode_info->width * charSize)), textLength);
+    int charSizeInBytes = VBE_mode_info->bpp / 8;
+    int lineWidthInBytes = VBE_mode_info->width * charSize * charSizeInBytes;
+    int textLength = (lineWidthInBytes * (VBE_mode_info->height/charSize - 1));
+    memcpy((void *)(uint64_t)(VBE_mode_info->framebuffer),(void *)(uint64_t)(VBE_mode_info->framebuffer + lineWidthInBytes),textLength);
+
     cleanLastLine();
     setCurrentVideoLinePos(1);
 
@@ -296,7 +294,6 @@ void blockBlink(){
 }
 void resetPosition(){
     currentPosition=0;
-    currentHeight=0;
 }
 
 

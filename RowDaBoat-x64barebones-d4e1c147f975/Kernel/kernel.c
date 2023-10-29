@@ -89,18 +89,18 @@ int main(){
 	load_idt();
 
 	
-    char * str5="My name is Maximus Decimus Meridius, commander of the Armies of the North, General of the Felix Legions, loyal servant to the true emperor, Marcus Aurelius. Father to a murdered son, husband to a murdered wife. And I will have my vengeance, in this life or the next.";
-    printNewline();
+    char * str5="And I will have my vengeance, in this life or the next.";
+    //printNewline();
     printTextDefault(str5, BLACK, WHITE);
-char str [BUFFER_SIZE] = {'\0'};
-scroll(1);
+    char str [BUFFER_SIZE] = {'\0'};
+    biggerText();
 // Para escribir el teclado
-	// while (1)	{
-    //     blink();
-	// 	str[0] = readChar();
-	// 	printTextDefault(str, GREEN, BLACK);
+	 while (1)	{
+         blink();
+	 	str[0] = readChar();
+	 	printTextDefault(str, GREEN, BLACK);
 
-	// }
+	 }
 
 	cleanBuffer();
 	printNewline();

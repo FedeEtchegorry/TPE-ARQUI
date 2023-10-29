@@ -2,8 +2,8 @@
 #include <colours.h>
 
 #define SCREEN_BUFFER_SIZE 100
-char buffer[SCREEN_BUFFER_SIZE]={'\0'};
-int bufferColors[SCREEN_BUFFER_SIZE][2]={'\0'};
+static unsigned char screenBuffer[SCREEN_BUFFER_SIZE];
+static unsigned int bufferColors[SCREEN_BUFFER_SIZE][2];
 int position=0;
 int positionTraveller=0;
 
@@ -39,12 +39,16 @@ void printTextDefault(char* string, int fgcolor, int bgcolor) {
         if (string[i] == '\b') {
             backspace();
             if (position > 0) {
-                position--;
+                position = (position - 1 + SCREEN_BUFFER_SIZE) % SCREEN_BUFFER_SIZE;
             }
         } else {
-                buffer[position] = string[i];
-                bufferColors[position][0] = fgcolor;
-                bufferColors[position++][1] = bgcolor+150;
+            screenBuffer[position] = string[i];
+            bufferColors[position][0] = fgcolor;
+            bufferColors[position][1] = bgcolor;
+            position = (position + 1) % SCREEN_BUFFER_SIZE;
+            if (position == positionTraveller) {
+                positionTraveller++;
+            }
             if (string[i] == '\n')
                 printNewline();
             else if (string[i] == '\t')
@@ -59,7 +63,7 @@ void printTextDefault(char* string, int fgcolor, int bgcolor) {
 
 
 
-int charSizes[3]={8,16,24};
+int charSizes[3]={8,16,32};
 int size=1;
 void smallerText(){
     if(size>0) {
@@ -76,10 +80,16 @@ void biggerText(){
 void refillScreen() {
     fillScreen(0x0);
     resetPosition();
-    int i=positionTraveller;
-    while(buffer[i]!='\0') {
-        printTextDefault(buffer[i], bufferColors[i][0], bufferColors[i][1]);
-        i++;
+    int startPos = positionTraveller % SCREEN_BUFFER_SIZE;
+    int endPos = position % SCREEN_BUFFER_SIZE;
+
+    if (endPos < startPos) {
+        endPos += SCREEN_BUFFER_SIZE; // Handle circular buffer wraparound
+    }
+
+    for (int i = startPos; i < endPos; i++) {
+        int index = i % SCREEN_BUFFER_SIZE;
+        printTextDefault(screenBuffer[index], bufferColors[index][0], bufferColors[index][1]);
     }
     positionTraveller = position;
 }
