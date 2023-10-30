@@ -10,7 +10,7 @@ int main() {
 
 	do	{
 	read(buffer);
-}	while(!strEquals(buffer, "exit\n") == 1);
+}	while(strEquals(buffer, "exit\n") == 1);
 
 	print("Out\n");
 
