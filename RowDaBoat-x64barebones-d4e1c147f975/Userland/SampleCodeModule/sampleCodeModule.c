@@ -4,11 +4,15 @@
 int main() {
 
 
-	char buffer[254];
+	initShell();
 
-	// do
+	char buffer[254] = {'\0'};
+
+	do	{
 	read(buffer);
-	// while(strEquals(buffer, "exit") == 1);
+}	while(!strEquals(buffer, "exit\n") == 1);
+
+	print("Out\n");
 
 	return 0;
 }

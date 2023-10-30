@@ -42,7 +42,7 @@ void int_21() {
 // Syscalls:
 // La idea es que del userspace pueda hacer int 0x80 (en assembler) asi llama 
 // a esta función.
-void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, unsigned int esi, unsigned int edi){
+void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, unsigned int rdi){
 	
 	switch(id)	{
 		case SYSTEM_WRITE_ID :	{
@@ -51,7 +51,7 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, unsigned in
 		}
 		
 		case SYSTEM_READ_ID :	{
-			sysRead(rcx);
+			sysRead(rbx, rcx, rsi);
 			break;
 		}
 		case SYSTEM_KILLBUFFER_ID :	{

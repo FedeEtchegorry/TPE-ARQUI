@@ -2,6 +2,7 @@ GLOBAL print
 GLOBAL getChar
 GLOBAL getAndPrintChar
 GLOBAL killBuffer
+GLOBAL putChar
 
 extern strLength
 section .text
@@ -20,6 +21,7 @@ print:
     mov rdx, rax
 
     mov rax, 0x03   ; sysRead:
+    mov rbx, 0x02   ;   Read String
     mov rcx, rdi    ;   @string
                     ;
     int 0x80        ; 
@@ -73,6 +75,26 @@ getAndPrintChar:
     mov rax, 0x04
     mov rbx, 0xA1
     int 0x80
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+putChar:
+
+    push rbp
+	mov rbp, rsp
+
+    mov rax, 0x03   ; sysRead:
+    mov rbx, 0x01   ;   read Char
+    mov rsi, rdi    ;   @char
+                    ;
+    int 0x80  
+
+    mov rax, 0x04   ; sysWrite:
+    mov rbx, 0x02   ;
+                    ;
+    int 0x80        ;
 
     mov rsp, rbp
     pop rbp
