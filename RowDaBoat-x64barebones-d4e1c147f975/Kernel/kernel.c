@@ -89,25 +89,26 @@ int main(){
 	load_idt();
 
 	
-    char * str5="And I will have my vengeance, in this life or the next.";
-    //printNewline();
-    printTextDefault(str5, BLACK, WHITE);
-    printCharDefault('F', BLUE, RED);
-    char str [BUFFER_SIZE] = {'\0'};
-    //biggerText();
-// Para escribir el teclado
-	 while (1)	{
-         blink();
-	 	str[0] = readChar();
-	 	printTextDefault(str, GREEN, BLACK);
+//     char * str5="And I will have my vengeance, in this life or the next.";
+//     //printNewline();
+//     printTextDefault(str5, BLACK, WHITE);
+//     char str [BUFFER_SIZE] = {'\0'};
+//     biggerText();
+// // Para escribir el teclado
+// 	 while (1)	{
+//          blink();
+// 	 	str[0] = readChar();
+// 	 	printTextDefault(str, GREEN, BLACK);
 
-	 }
+// 	 }
 
-	cleanBuffer();
-	printNewline();
+// 	cleanBuffer();
+// 	printNewline();
+	
+	
 	((EntryPoint)sampleCodeModuleAddress)();
 
-	// printTextDefault("Termino sampleCodeModule", WHITE, BLACK);
+	printTextDefault("Termino sampleCodeModule", WHITE, BLACK);
 
 	return 0;
 }

@@ -5,6 +5,8 @@
 
     unsigned char getChar();
 
+    unsigned char getAndPrintChar();
+
     unsigned int strLength(const unsigned char * str);
 
 #endif

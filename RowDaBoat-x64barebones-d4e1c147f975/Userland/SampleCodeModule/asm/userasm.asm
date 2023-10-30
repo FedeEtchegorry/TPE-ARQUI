@@ -1,5 +1,7 @@
 GLOBAL print
 GLOBAL getChar
+GLOBAL getAndPrintChar
+GLOBAL killBuffer
 
 extern strLength
 section .text
@@ -13,9 +15,6 @@ print:
     push rbx
     push rcx
     push rdx
-
-    mov rax, 0x99
-    int 0x80        ; vacío el buffer por si las moscas
 
     call strLength  ; rdi = @string
     mov rdx, rax
@@ -52,4 +51,29 @@ getChar:
     mov rsp, rbp
     pop rbp
     
+    ret
+
+killBuffer:
+
+    push rbp
+	mov rbp, rsp
+
+    mov rax, 0x99
+    int 0x80
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+getAndPrintChar:
+
+    push rbp
+	mov rbp, rsp
+
+    mov rax, 0x04
+    mov rbx, 0xA1
+    int 0x80
+
+    mov rsp, rbp
+    pop rbp
     ret

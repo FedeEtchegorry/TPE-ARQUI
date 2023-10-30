@@ -6,8 +6,7 @@ void read(unsigned char * buffer)   {
     int i=0;
     unsigned char c [2];
     c[1] = '\0';
-    while((*c = getChar())!='\n')    {
-        print(c);
+    while((*c = getAndPrintChar())!='\n')    {
         buffer[i++] = *c;
     }
     

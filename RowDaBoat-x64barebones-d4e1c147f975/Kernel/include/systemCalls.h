@@ -10,6 +10,7 @@
     #define STDOUT 						0x01
     #define STDERR 						0x02
     #define RETURN_CHAR                 0xA0	
+    #define RETURNANDSTDOUT_CHAR        0xA1
 
 // Devuelve segun fd lo que hay en el buffer, count caracteres:
     unsigned char sysWrite(unsigned int fd, unsigned int count);

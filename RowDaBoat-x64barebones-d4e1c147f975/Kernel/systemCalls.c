@@ -26,6 +26,13 @@ unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 			return readChar();
 			break;
 		}
+		case RETURNANDSTDOUT_CHAR :	{
+			char s[2];
+			s[0] = readChar();
+			s[1] = 0;
+			printTextDefault(s, WHITE, BLACK);
+			return s[0];
+		}
 
 		default :
 			break;
