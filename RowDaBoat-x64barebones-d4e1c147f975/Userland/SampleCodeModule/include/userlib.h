@@ -7,6 +7,7 @@
 
     unsigned char getAndPrintChar();
 
-    unsigned int strLength(const unsigned char * str);
+    unsigned int strLength(const char * str);
 
+    unsigned int strEquals(char * s1, char * s2);
 #endif
