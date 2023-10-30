@@ -3,6 +3,7 @@ GLOBAL getChar
 GLOBAL getAndPrintChar
 GLOBAL killBuffer
 GLOBAL putChar
+GLOBAL exit_shell
 
 extern strLength
 section .text
@@ -99,3 +100,13 @@ putChar:
     mov rsp, rbp
     pop rbp
     ret
+
+exit_shell:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, 0x01
+    int 80h
+
+    mov rsp, rbp
+    pop rbp

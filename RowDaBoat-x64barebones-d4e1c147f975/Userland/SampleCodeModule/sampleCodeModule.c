@@ -12,7 +12,7 @@ int main() {
 	read(buffer);
 }	while(strEquals(buffer, "exit\n") == 0);
 
-	print("Out\n");
+	exit();
 
 	return 0;
 }
