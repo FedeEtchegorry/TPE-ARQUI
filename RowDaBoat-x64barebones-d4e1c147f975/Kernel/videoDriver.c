@@ -262,14 +262,12 @@ void cleanLastLine(){
     }
 }
 void scroll() {
-    int charSizeInBytes = VBE_mode_info->bpp / 8;
-    int lineWidthInBytes = VBE_mode_info->width * charSize * charSizeInBytes;
+    int PixelSizeInBytes = VBE_mode_info->bpp / 8;
+    int lineWidthInBytes = VBE_mode_info->width * charSize * PixelSizeInBytes;
     int textLength = (lineWidthInBytes * (VBE_mode_info->height/charSize - 1));
     memcpy((void *)(uint64_t)(VBE_mode_info->framebuffer),(void *)(uint64_t)(VBE_mode_info->framebuffer + lineWidthInBytes),textLength);
-
     cleanLastLine();
     setCurrentVideoLinePos(1);
-
 }
 
 void printCursor(){

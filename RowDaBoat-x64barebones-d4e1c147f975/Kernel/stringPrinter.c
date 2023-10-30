@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define SCREEN_BUFFER_SIZE 100
-static unsigned char screenBuffer[SCREEN_BUFFER_SIZE];
+char screenBuffer[SCREEN_BUFFER_SIZE];
 static unsigned int bufferColors[SCREEN_BUFFER_SIZE][2];
 int position=0;
 int positionTraveller=0;
@@ -46,13 +46,15 @@ void printTextDefault(char* string, int fgcolor, int bgcolor) {
     allowBlink();
 }
 void printCharDefault(char c,int fgcolor, int bgcolor){
+    if (c==0)
+        return;
     if (c == '\b') {
         backspace();
         if (position > 0) {
             position = (position - 1 + SCREEN_BUFFER_SIZE) % SCREEN_BUFFER_SIZE;
         }
     } else {
-        screenBuffer[position] = c;
+        screenBuffer[position] =c;
         bufferColors[position][0] = fgcolor;
         bufferColors[position][1] = bgcolor;
         position = (position + 1) % SCREEN_BUFFER_SIZE;
@@ -109,7 +111,7 @@ void refillScreen() {
 
     for (int i = startPos; i < endPos; i++) {
         int index = i % SCREEN_BUFFER_SIZE;
-        printTextDefault(screenBuffer[index], bufferColors[index][0], bufferColors[index][1]);
+        printCharDefault('t', bufferColors[index][0], bufferColors[index][1]);
     }
     positionTraveller = position;
 }
