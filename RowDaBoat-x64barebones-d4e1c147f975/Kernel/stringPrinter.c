@@ -40,33 +40,32 @@ void printTextDefault(char* string, int fgcolor, int bgcolor) {
     blockBlink();
     for (int i = 0; string[i] != '\0'; i++) {
         deleteSlash();
-        if (string[i] == '\b') {
-            backspace();
-            if (position > 0) {
-                position = (position - 1 + SCREEN_BUFFER_SIZE) % SCREEN_BUFFER_SIZE;
-            }
-        } else {
-            screenBuffer[position] = string[i];
-            bufferColors[position][0] = fgcolor;
-            bufferColors[position][1] = bgcolor;
-            position = (position + 1) % SCREEN_BUFFER_SIZE;
-            if (position == positionTraveller) {
-                positionTraveller++;
-            }
-            if (string[i] == '\n')
-                printNewline();
-            else if (string[i] == '\t')
-                printTab();
-            else
-                drawCharOnCurrentPos(string[i], fgcolor, bgcolor);
-        }
+        printCharDefault(string[i], fgcolor, bgcolor);
         printCursor();
     }
     allowBlink();
 }
 void printCharDefault(char c,int fgcolor, int bgcolor){
-    char aux[2]={c,'\0'};
-    printTextDefault(aux, fgcolor, bgcolor);
+    if (c == '\b') {
+        backspace();
+        if (position > 0) {
+            position = (position - 1 + SCREEN_BUFFER_SIZE) % SCREEN_BUFFER_SIZE;
+        }
+    } else {
+        screenBuffer[position] = c;
+        bufferColors[position][0] = fgcolor;
+        bufferColors[position][1] = bgcolor;
+        position = (position + 1) % SCREEN_BUFFER_SIZE;
+        if (position == positionTraveller) {
+            positionTraveller++;
+        }
+        if (c == '\n')
+            printNewline();
+        else if (c == '\t')
+            printTab();
+        else
+            drawCharOnCurrentPos(c, fgcolor, bgcolor);
+    }
 }
 void blink(){
     if (canBlink) {

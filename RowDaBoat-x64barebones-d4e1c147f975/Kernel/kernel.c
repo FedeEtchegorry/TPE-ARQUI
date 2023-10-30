@@ -95,6 +95,12 @@ int main(){
     printCharDefault('F', BLUE, RED);
     char str [BUFFER_SIZE] = {'\0'};
     biggerText();
+    printTextDefault(str5, BLACK, WHITE);
+    printTextDefault(str5, BLACK, WHITE);
+    printTextDefault(str5, BLACK, WHITE);
+    printTextDefault(str5, BLACK, WHITE);
+    printTextDefault(str5, BLACK, WHITE);
+    printTextDefault(str5, BLACK, WHITE);
 // Para escribir el teclado
 	 while (1)	{
          blink();
