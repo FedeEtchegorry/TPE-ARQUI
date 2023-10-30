@@ -60,6 +60,10 @@ void printTextDefault(char* string, int fgcolor, int bgcolor) {
     }
     allowBlink();
 }
+void printCharDefault(char c,int fgcolor, int bgcolor){
+    char aux[2]={c,'\0'};
+    printTextDefault(aux, fgcolor, bgcolor);
+}
 
 
 
