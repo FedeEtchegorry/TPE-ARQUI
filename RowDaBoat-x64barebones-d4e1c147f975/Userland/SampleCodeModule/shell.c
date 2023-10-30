@@ -13,24 +13,24 @@ void initShell()    {
 }
 
 void read(unsigned char * buffer)   {
-    
     print("$> ");
-
     int i=0;
     char c;
     while((c = getChar())!='\n')    {
         if(c=='\b') {
             if(i!=0)    {
-                buffer[--i] = 0;
+                buffer[--i] = '\0';
             }
             putChar(c);
         }
         else    {
             buffer[i++] = c;
+
+            putChar(buffer[i-1]);
             putChar(c);
         }
     }
-    buffer[i] = 0;
+    buffer[i] = '\0';
 }
 //void getMenu(unsigned char* buffer){
 //    int i=0;

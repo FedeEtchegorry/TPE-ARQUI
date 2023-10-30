@@ -8,11 +8,13 @@ int main() {
 
 	char buffer[254] = {'\0'};
 
-	do	{
-	read(buffer);
-}	while(strEquals(buffer, "exit\n") == 0);
 
-	exit();
+	read(buffer);
+    print(buffer);
+
+
+
+	//exit();
 
 	return 0;
 }

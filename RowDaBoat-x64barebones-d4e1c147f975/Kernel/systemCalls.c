@@ -66,8 +66,7 @@ void sysKillBuffer()	{
 }
 
 void exitProgram(){
-    fillScreen(GREEN);
-//    while(1){
-//        //queda trabado acá y no puede hacer nada más
-//    }
+    fillScreen(BLACK);
+    haltcpu();          //queda trabado acá y no puede hacer nada más
+
 }
