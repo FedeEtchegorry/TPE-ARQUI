@@ -4,7 +4,6 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <idtLoader.h>
-#include <videoDriver.h>
 #include <stringPrinter.h>
 #include <buffer.h>
 
