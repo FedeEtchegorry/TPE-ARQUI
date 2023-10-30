@@ -1,11 +1,15 @@
 #include <videoDriver.h>
 #include <colours.h>
+#include <keyboard.h>
+#include <time.h>
 
 #define SCREEN_BUFFER_SIZE 100
 static unsigned char screenBuffer[SCREEN_BUFFER_SIZE];
 static unsigned int bufferColors[SCREEN_BUFFER_SIZE][2];
 int position=0;
 int positionTraveller=0;
+
+int canBlink=1;
 
 void printNewline(){
     blockBlink();
@@ -64,7 +68,20 @@ void printCharDefault(char c,int fgcolor, int bgcolor){
     char aux[2]={c,'\0'};
     printTextDefault(aux, fgcolor, bgcolor);
 }
-
+void blink(){
+    if (canBlink) {
+        if (alarmAt(2))
+            deleteSlash();
+        if (alarmAt(3))
+            printCursor();
+    }
+}
+void allowBlink(){
+    canBlink=1;
+}
+void blockBlink(){
+    canBlink=0;
+}
 
 
 int charSizes[3]={8,16,32};

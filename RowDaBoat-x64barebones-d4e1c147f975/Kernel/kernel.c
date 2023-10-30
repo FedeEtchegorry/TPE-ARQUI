@@ -4,7 +4,6 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <idtLoader.h>
-#include <videoDriver.h>
 #include <stringPrinter.h>
 #include <buffer.h>
 
@@ -89,12 +88,13 @@ int main(){
 	load_idt();
 
 	
-    char * str5="And I will have my vengeance, in this life or the next.";
+    char * str5="And I will have my vengeance, in this life or the next sdf sd fs d sdf sd fs df sdf sdf sd .\n";
+
     //printNewline();
     printTextDefault(str5, BLACK, WHITE);
     printCharDefault('F', BLUE, RED);
     char str [BUFFER_SIZE] = {'\0'};
-    //biggerText();
+    biggerText();
 // Para escribir el teclado
 	 while (1)	{
          blink();

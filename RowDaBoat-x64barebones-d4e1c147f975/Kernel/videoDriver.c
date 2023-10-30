@@ -2,7 +2,6 @@
 #include <videoDriver.h>
 #include <colours.h>
 #include <lib.h>
-#include <time.h>
 
 
 struct vbe_mode_info_structure {
@@ -52,7 +51,7 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 uint32_t currentPosition=0;
 uint8_t charSize=16;       // tamaño en pixeles de un caracter (de alto o de ancho, son iguales)
-int canBlink=1;
+
 
 char font8x8_basic[128][8] = {
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0000 (nul)
@@ -278,20 +277,7 @@ void printCursor(){
     drawCharWithoutDisplacement('|',WHITE, BLACK);
 }
 
-void blink(){
-    if (canBlink) {
-        if (alarmAt(2))
-            deleteSlash();
-        if (alarmAt(3))
-            printCursor();
-    }
-}
-void allowBlink(){
-    canBlink=1;
-}
-void blockBlink(){
-    canBlink=0;
-}
+
 void resetPosition(){
     currentPosition=0;
 }

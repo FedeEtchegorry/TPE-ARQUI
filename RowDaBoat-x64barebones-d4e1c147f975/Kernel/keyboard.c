@@ -41,7 +41,7 @@ unsigned char map(unsigned char c)  {
         switch (letter) {
             case 'M' :  caps=!caps;
                         return '\0';
-            default: return ((caps-shift)?((caps && letter>='0' && letter<='9')?letter:kbd_US[c][1]):letter);   //con esto se verifica cual de los dos elems de cada subarray debe devolver. Además verifica que solo shift puede modificar el retorno de numeros y sus simbolos, caps no los activa
+            default: return ((caps-shift)?((caps && letter>='0' && letter<='9')?letter:kbd_US[c][1]):(shift && letter>='0' && letter<='9')?kbd_US[c][1]:letter);   //con esto se verifica cual de los dos elems de cada subarray debe devolver. Además verifica que solo shift puede modificar el retorno de numeros y sus simbolos, caps no los activa
         }
     }
     switch (letter) {
