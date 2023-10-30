@@ -106,7 +106,7 @@ void refillScreen() {
     int endPos = position % SCREEN_BUFFER_SIZE;
 
     if (endPos < startPos) {
-        endPos += SCREEN_BUFFER_SIZE; // Handle circular buffer wraparound
+        endPos += SCREEN_BUFFER_SIZE;
     }
 
     for (int i = startPos; i < endPos; i++) {
