@@ -5,7 +5,7 @@ void spawnSnake(tSnake babySnake)   {
     
     for(int i=0; i<3; i++)  {
         babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
-        babySnake->body[i].y = (ROWS / 2) - 1 + i;
+        babySnake->body[i].y = (ROWS / 2);
         babySnake->body[i].direction = RIGHT;
     }
     
@@ -13,8 +13,24 @@ void spawnSnake(tSnake babySnake)   {
     babySnake->eating = 0;
 }
 
+static int isOpositeDirection(tDirection dir1, tDirection dir2) {
+    
+    return  (dir1 == RIGHT && dir2 == LEFT) || (dir2 == RIGHT && dir1 == LEFT) ||
+            (dir1 == UP && dir2 == DOWN) || (dir2 == DOWN && dir1 == UP);
+            
+}
+
 void changeSnakeDirection(tSnake snake, tDirection newDirection)   {
-    snake->body[snake->headPos].direction = newDirection;
+    
+// Si la direccion es opuesta a la direccion a la que estaba yendo no deberia cambiar de direccion.
+// Si es solo una cabeza se contempla que se pueda mover en cualquier direccion.
+
+    if (snake->headPos==0 || 
+        !isOpositeDirection(snake->body[snake->headPos].direction, newDirection)) 
+     
+           snake->body[snake->headPos].direction = newDirection;
+    
+   
 }
 
 void refreshSnakeDirections(tSnake snake)    {
@@ -23,8 +39,32 @@ void refreshSnakeDirections(tSnake snake)    {
 }
 
 static void moveBody(tSnake snake, unsigned int bodyPos) {
-    snake->body[bodyPos].x += snake->body[bodyPos].direction == RIGHT ? 1 : -1;
-    snake->body[bodyPos].y += snake->body[bodyPos].direction == UP ? 1 : -1;
+    
+    switch(snake->body[bodyPos].direction)   {
+
+        case RIGHT: {
+            snake->body[bodyPos].x++;
+            break;
+        }
+        case LEFT: {
+            snake->body[bodyPos].x--;
+            break;
+        }
+        case DOWN: {
+            snake->body[bodyPos].y--;
+            break;
+        }
+        case UP: {
+            snake->body[bodyPos].y++;
+            break;
+        }
+        
+        default:    {
+            print("Error in moveSnake function: Direction not defined\n");
+            break;
+        }
+    }
+
 }
 
 static int checkCrash(tSnake snake)    {
@@ -122,7 +162,7 @@ void printSnakeInfo(tSnake snake)   {
         
         putEnter();
         print("Body ");
-        printUinteger(i+1);
+        printUinteger(snake->headPos - i);
         print(" info:");
         printSnakeBody(snake->body[i]);
         putEnter();

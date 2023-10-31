@@ -51,6 +51,13 @@
 
     void refreshSnakeDirections(tSnake snake);
 
+// printSnakeInfo():
+
+//  Imprime la informacion de la serpiente.
+//  Los bodies se cuentan de menor a mayor desde la cabeza hasta la cola.
     void printSnakeInfo(tSnake snake);
+
+// TO DO: Implementar la comida, para eso es necesario implementar funciones
+// que obtengan numeros random.
 
 #endif
