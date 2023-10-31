@@ -1,4 +1,25 @@
 #include <userlib.h>
+
+void putEnter() {
+    putChar('\n');
+}
+
+void putnEnters(unsigned int n)    {
+
+    while(n-->0)  
+        putEnter();
+    
+}
+
+void putBackSpace() {
+    putChar('\b');
+}
+
+void putTab()   {
+    putChar('\t');
+}
+
+
 unsigned int strLength(const char * str) {
     int i=0;
     while(str[i++]!='\0');
@@ -69,4 +90,13 @@ void uIntToString(unsigned int input, char * ans, int digits)   {
 
     while(input/=10);
 
+}
+
+
+void printUinteger(unsigned int n)   {
+
+    int digits = getUintDigits(n);
+    char s[digits+1];
+    uIntToString(n, s, digits);
+    print(s);
 }

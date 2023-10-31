@@ -3,7 +3,9 @@
 
     #include <defs.h>
 
-    void print(const unsigned char * str);
+    void print(char * str);
+
+    void printUinteger(unsigned int n);
 
     unsigned char getChar();
 
@@ -12,6 +14,15 @@
     unsigned char getAndPrintChar();
 
     void killBuffer();
+
+    void putEnter();
+
+    void putnEnters(unsigned int n);
+
+    void putBackSpace();
+
+    void putTab();
+
 
 //  Strings:
 
@@ -39,5 +50,6 @@
 //  Se deberia imprimir en pantalla: 22
 
     void uIntToString(unsigned int input, char * ans, int digits);
+
 
 #endif
