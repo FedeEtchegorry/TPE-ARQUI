@@ -13,7 +13,7 @@ void spawnSnake(tSnake babySnake)   {
     babySnake->eating = 0;
 }
 
-void changeSnakeDirection(tSnake snaket, Direction newDirection)   {
+void changeSnakeDirection(tSnake snake, tDirection newDirection)   {
     snake->body[snake->headPos].direction = newDirection;
 }
 
