@@ -41,8 +41,16 @@ static uint32_t numberToBase(uint64_t value, char * buffer, uint32_t base){
 
     return digits;
 }
+void buildTwoDigitsData(char* buffer, int dataTime){
+    if (dataTime < 10) {
+        buffer[0] = '0';
+        numberToBase(dataTime, buffer+1, 10);
+    } else {
+        numberToBase(dataTime, buffer, 10);
+    }
+}
 char* getTime(){
-    int hours = decode(timeParam(HOURS) + UTC_MINUS_3);
+    int hours = decode(timeParam(HOURS)) + UTC_MINUS_3;
     int minutes = decode(timeParam(MINUTES));
     int seconds = decode(timeParam(SECONDS));
     int day = decode(timeParam(DAY));
@@ -51,54 +59,16 @@ char* getTime(){
 
     //si alguno es menor que 10 le enchufo un 0 adelante
 
-    if (hours < 10) {
-        numberBuffer[0] = '0';
-        numberToBase(hours, numberBuffer+1, 10);
-    } else {
-        numberToBase(hours, numberBuffer, 10);
-    }
+    buildTwoDigitsData(numberBuffer, hours);
     numberBuffer[2] = ':';
-
-
-    if (minutes < 10) {
-        numberBuffer[3] = '0';
-        numberToBase(minutes, numberBuffer + 4, 10);
-    } else {
-        numberToBase(minutes, numberBuffer + 3, 10);
-    }
+    buildTwoDigitsData(numberBuffer+3, minutes);
     numberBuffer[5] = ':';
-
-    if (seconds < 10) {
-        numberBuffer[6] = '0';
-        numberToBase(seconds, numberBuffer + 7, 10);
-    } else {
-        numberToBase(seconds, numberBuffer + 6, 10);
-    }
+    buildTwoDigitsData(numberBuffer+6, seconds);
     numberBuffer[8] = ' ';
-
-
-    if (day < 10) {
-        numberBuffer[9] = '0';
-        numberToBase(day, numberBuffer + 10, 10);;
-    } else {
-        numberToBase(day, numberBuffer + 9, 10);
-    }
+    buildTwoDigitsData(numberBuffer+9, day);
     numberBuffer[11] = '/';
-
-    if (month < 10) {
-        numberBuffer[12] = '0';
-        numberToBase(month, numberBuffer + 13, 10);;
-    } else {
-        numberToBase(month, numberBuffer + 12, 10);
-    }
+    buildTwoDigitsData(numberBuffer+12, month);
     numberBuffer[14] = '/';
-
-    if (year < 10) {
-        numberBuffer[15] = '0';
-        numberToBase(year, numberBuffer + 16, 10);
-    } else {
-        numberToBase(year, numberBuffer + 15, 10);
-    }
-
+    buildTwoDigitsData(numberBuffer+15, year);
     return numberBuffer;
 }
