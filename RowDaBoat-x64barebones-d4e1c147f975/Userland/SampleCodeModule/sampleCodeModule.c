@@ -10,9 +10,12 @@ int main() {
 
 	do	{
 	read(buffer);
-}	while(strEquals(buffer, "exit\n") == 0);
+    time();
+    print(buffer);
+}	while(!strEquals(buffer, "exit"));
 
-	print("Out\n");
+
+	exit();
 
 	return 0;
 }

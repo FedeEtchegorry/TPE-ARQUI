@@ -2,8 +2,10 @@
 #define _SYSCALLS_H
 
 // Sys_Id en rax:
+#define SYSTEM_EXIT_ID                  0x01
 #define SYSTEM_READ_ID                  0x03
 #define SYSTEM_WRITE_ID                 0x04
+#define SYSTEM_TIME_ID                  0x98
 #define SYSTEM_KILLBUFFER_ID            0x99
     
 // write @fd codes: (en rbx)
@@ -25,5 +27,8 @@
     
 // Borra el buffer:
     void killBuffer();
+
+// Deja el programa detenido indefinidamente
+    void exitProgram();
 
 #endif

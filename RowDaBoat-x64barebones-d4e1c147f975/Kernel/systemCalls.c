@@ -4,6 +4,8 @@
 #include <stringPrinter.h>
 #include <buffer.h>
 
+extern void haltcpu();
+
 unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 
 	switch(fd)	{
@@ -61,4 +63,10 @@ void sysRead( unsigned int fd, const  char * s, char c)	{
 
 void sysKillBuffer()	{
 	cleanBuffer();
+}
+
+void exitProgram(){
+    fillScreen(BLACK);
+    haltcpu();          //queda trabado acá y no puede hacer nada más
+
 }
