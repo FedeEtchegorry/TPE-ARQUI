@@ -8,7 +8,12 @@ extern void exit_shell();
 //typedef void (*shellFunctions)(void);
 //static shellFunctions menuFunctions[10]={&help, &snake, &time, &biggerText, &smallerText, &exitProgram};
 char* menuNames[10]= {"help", "snake", "time", "biggerText","smallerText", "exit"};
-
+char* menuDescriptions[10]={"Gives information about the available commands to execute.",
+                            "Starts a new Snake game, it can be played by one or two players at the same time.",
+                            "Prints the RTC´s time on the screen .",
+                            "Increases font size unless maximum size has been reached.",
+                            "Decreases font size unless minimum size has been reached.",
+                            "Closes the Shell and finishes the execution of the software."};
 
 int flag=1;
 
@@ -44,12 +49,14 @@ void read(unsigned char * buffer)   {
 //            menuFunctions[i]();
 //    }
 //}
-//void help(){
-//    for (int i = 0; menuNames[i]!=0; i++) {
-//        print(menuNames[i]);
-//        print('\n');
-//    }
-//}
+void help(){
+    for (int i = 0; menuNames[i]!=0; i++) {
+        print(menuNames[i]);
+        print(":")
+        print(menuDescriptions[i])
+        print('\n');
+    }
+}
 void time(){
     time_getter();
 }
