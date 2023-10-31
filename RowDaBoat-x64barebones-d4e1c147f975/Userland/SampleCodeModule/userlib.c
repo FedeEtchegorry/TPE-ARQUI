@@ -40,3 +40,33 @@ unsigned int strToUint(char * s) {
     
     return ans;
 }
+
+int getUintDigits(unsigned int n )    {
+
+// n=0 es un caso especial pues 0 = 00 = 000...0, etc...
+    if(!n)  return 1;
+
+    int digits=0;
+
+    do  
+        digits++;
+
+    while(n/=10);
+        
+    return digits;
+}
+
+void uIntToString(unsigned int input, char * ans, int digits)   {
+
+// Se asume que ans tiene la longitud necesaria para que entre la
+// cantidad de digitos de input y el '\0' al final.
+    ans[digits] = '\0';
+    
+    int i=digits-1;
+
+    do  
+        ans[i--] = (input % 10) + 0x30;  
+
+    while(input/=10);
+
+}

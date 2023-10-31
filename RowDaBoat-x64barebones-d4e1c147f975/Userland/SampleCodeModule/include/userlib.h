@@ -13,7 +13,7 @@
 
     void killBuffer();
 
-// Strings:
+//  Strings:
 
     unsigned int strLength(const char * str);
 
@@ -22,5 +22,22 @@
     unsigned int strToUint(char * s);
 
     int isDigit(unsigned char c);
+
+    int getUintDigits(unsigned int n );
+    
+//  Al no tener memoria dinamica uIntToString depende de que se le pase la cantidad de digitos
+//  del numero a transformar. Para eso se dispone de la funcion getUintDigits.
+
+//  Ejemplo de invocacion:
+
+//      int n = 22;
+//      int digits = getUintDigits(n);
+//      char s[digits+1];
+//      uIntToString(n, s, digits);
+//      print(s);
+
+//  Se deberia imprimir en pantalla: 22
+
+    void uIntToString(unsigned int input, char * ans, int digits);
 
 #endif
