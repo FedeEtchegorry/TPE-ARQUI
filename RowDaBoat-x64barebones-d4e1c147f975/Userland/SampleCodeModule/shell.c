@@ -52,8 +52,8 @@ void read(unsigned char * buffer)   {
 void help(){
     for (int i = 0; menuNames[i]!=0; i++) {
         print(menuNames[i]);
-        print(":")
-        print(menuDescriptions[i])
+        print(":");
+        print(menuDescriptions[i]);
         print('\n');
     }
 }
