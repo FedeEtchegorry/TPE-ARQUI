@@ -8,7 +8,8 @@
     typedef enum Direction { RIGHT, LEFT, DOWN, UP} tDirection;
 
     struct snakeBody {
-        unsigned int xy [2];
+        unsigned int x;
+        unsigned int y;
         tDirection direction;
     };
 
@@ -20,15 +21,36 @@
 
     typedef struct snake* tSnake;
 
+// spawnSnake():
 
+//  Instancia snake.
     void spawnSnake(tSnake babySnake);
 
-    void changeSnakeDirection(tDirection newDirection, tSnake snake);
+    void changeSnakeDirection(tSnake snake, tDirection newDirection);
 
-    void refreshSnakeDirections(tSnake snake);
+// moveSnake():
+
+//  Aumenta una posicion en la direccion que se esta moviendo
+//  cada uno de los cuerpos.
+
+//  Debe llamarse en cada segundo del juego independientemente de que 
+//  se haya llamaod a changeSnakeDirection().
+//  Instantaneamente despues debe llamarse a refreshSnakeDirections().
+
+//  Retorna 1 si hubo una colision entre la cabeza y algun cuerpo o muro.
+
+// TO DO: Si bien se tuvo en cuenta que este comiendo, no se implemento
+//  el encuentro con comida. Pendiente para cuando se implemente la comida.
 
     int moveSnake(tSnake snake);
 
-    int checkCrash(tSnake snake);
+// refreshSnakeDirections():
+
+//  Actualiza la posicion de cada cuerpo de la serpiente con el del siguiente.
+//  Luego de llamar a moveSnake() se debe llamar a refreshSnakeDirections().
+
+    void refreshSnakeDirections(tSnake snake);
+
+    void printSnakeInfo(tSnake snake);
 
 #endif
