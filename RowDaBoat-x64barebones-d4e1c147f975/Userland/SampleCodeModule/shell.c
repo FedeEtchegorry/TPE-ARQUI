@@ -1,7 +1,12 @@
 #include <userlib.h>
 #include <shell.h>
 
-//void * menuFunctions[10]={&help, &snake, &time, &biggerText, &smallerText, &exitProgram};
+
+extern void time_getter();
+extern void exit_shell();
+
+//typedef void (*shellFunctions)(void);
+//static shellFunctions menuFunctions[10]={&help, &snake, &time, &biggerText, &smallerText, &exitProgram};
 char* menuNames[10]= {"help", "snake", "time", "biggerText","smallerText", "exit"};
 
 
@@ -36,7 +41,7 @@ void read(unsigned char * buffer)   {
 //    int i=0;
 //    while (menu[i]!=0){
 //        if (strEquals(menuNames[i], buffer))
-//            i=i;
+//            menuFunctions[i]();
 //    }
 //}
 //void help(){
@@ -45,9 +50,9 @@ void read(unsigned char * buffer)   {
 //        print('\n');
 //    }
 //}
-//void time(){
-//;
-//}
+void time(){
+    time_getter();
+}
 //void snake(){
 //;
 //}
