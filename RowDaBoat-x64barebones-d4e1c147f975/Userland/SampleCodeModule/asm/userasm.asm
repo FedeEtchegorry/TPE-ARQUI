@@ -5,6 +5,8 @@ GLOBAL killBuffer
 GLOBAL putChar
 GLOBAL exit_shell
 GLOBAL time_getter
+GLOBAL make_text_smaller
+GLOBAL make_text_bigger
 
 extern strLength
 section .text
@@ -114,10 +116,31 @@ exit_shell:
 
 time_getter:
     push rbp
-        mov rbp, rsp
+    mov rbp, rsp
 
-        mov rax, 0x98
-        int 80h
+    mov rax, 0x98
+    int 80h
 
-        mov rsp, rbp
-        pop rbp
+    mov rsp, rbp
+    pop rbp
+
+make_text_bigger:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, 0xa1
+    int 80h
+
+    mov rsp, rbp
+    pop rbp
+
+
+make_text_smaller:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, 0xa0
+    int 80h
+
+    mov rsp, rbp
+    pop rbp

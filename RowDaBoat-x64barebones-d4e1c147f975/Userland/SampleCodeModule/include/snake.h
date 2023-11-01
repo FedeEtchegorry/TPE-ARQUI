@@ -21,6 +21,9 @@
 
     typedef struct snake* tSnake;
 
+//empieza el juego snake(dibuja el mapa y spawnea la serpiente);
+    void startSnake();
+
 // spawnSnake():
 
 //  Instancia snake.

@@ -1,6 +1,21 @@
 #include <userlib.h>
 #include <snake.h>
 
+int isTwoPlayersModeOn=0;
+
+void startSnake(int players){
+//    printMap();
+//    printScore();
+//    tSnake snake1;
+//    if (players==2){
+//        isTwoPlayersModeOn=1;
+//        tSnake snake2;
+//        spawnSnake(snake2);
+//    }
+//    spawnSnake(snake1);
+    ;
+}
+
 void spawnSnake(tSnake babySnake)   {
     
     for(int i=0; i<3; i++)  {

@@ -7,9 +7,10 @@ extern void exit_shell();
 
 //typedef void (*shellFunctions)(void);
 //static shellFunctions menuFunctions[10]={&help, &snake, &time, &biggerText, &smallerText, &exitProgram};
-char* menuNames[10]= {"help", "snake", "time", "biggerText","smallerText", "exit"};
+char* menuNames[10]= {"help", "snake 1", "snake 2", "time", "biggerText","smallerText", "exit"};
 char* menuDescriptions[10]={"Gives information about the available commands to execute.",
-                            "Starts a new Snake game, it can be played by one or two players at the same time.",
+                            "Starts a new Snake game, only one player.",
+                            "Starts a new Snake game, two players at the same time.",
                             "Prints the RTC´s time on the screen .",
                             "Increases font size unless maximum size has been reached.",
                             "Decreases font size unless minimum size has been reached.",
@@ -60,15 +61,19 @@ void help(){
 void time(){
     time_getter();
 }
-//void snake(){
-//;
-//}
-//void biggerText(){
-//;
-//}
-//void smallerText(){
-//;
-//}
+
+void snake1(){
+    startSnake(1);
+}
+void snake2(){
+    startSnake(2);
+}
+void biggerText(){
+;
+}
+void smallerText(){
+
+}
 void exit(){
     flag=0;
     exit_shell();

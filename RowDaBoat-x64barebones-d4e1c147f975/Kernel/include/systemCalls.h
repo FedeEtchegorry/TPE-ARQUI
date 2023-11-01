@@ -7,6 +7,8 @@
 #define SYSTEM_WRITE_ID                 0x04
 #define SYSTEM_TIME_ID                  0x98
 #define SYSTEM_KILLBUFFER_ID            0x99
+#define SMALLER_TEXT                    0xa0
+#define BIGGER_TEXT                     0xa1
     
 // write @fd codes: (en rbx)
     #define STDOUT 						0x01
@@ -30,5 +32,14 @@
 
 // Deja el programa detenido indefinidamente
     void exitProgram();
+
+//Imprime el horario en pantalla
+    void timeManager();
+
+//aumenta el tamaño de la letra
+    void makeTextBigger();
+
+//reduce el tamaño de la letra
+    void makeTextSmaller();
 
 #endif
