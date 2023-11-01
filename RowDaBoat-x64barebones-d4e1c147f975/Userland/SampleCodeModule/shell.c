@@ -6,7 +6,7 @@ extern void time_getter();
 extern void exit_shell();
 
 //typedef void (*shellFunctions)(void);
-//static shellFunctions menuFunctions[10]={&help, &snake, &time, &biggerText, &smallerText, &exitProgram};
+//static shellFunctions menuFunctions[10]={&help, &snake1, &snake2, &time, &biggerText, &smallerText, &exitProgram};
 char* menuNames[10]= {"help", "snake 1", "snake 2", "time", "biggerText","smallerText", "exit"};
 char* menuDescriptions[10]={"Gives information about the available commands to execute.",
                             "Starts a new Snake game, only one player.",
@@ -16,7 +16,7 @@ char* menuDescriptions[10]={"Gives information about the available commands to e
                             "Decreases font size unless minimum size has been reached.",
                             "Closes the Shell and finishes the execution of the software."};
 
-int flag=1;
+static int flag=1;
 
 void initShell()    {
     killBuffer();
@@ -43,13 +43,13 @@ void read(unsigned char * buffer)   {
     }
     buffer[i] = '\0';
 }
-//void getMenu(unsigned char* buffer){
-//    int i=0;
-//    while (menu[i]!=0){
-//        if (strEquals(menuNames[i], buffer))
-//            menuFunctions[i]();
-//    }
-//}
+void getMenu(unsigned char* buffer){
+    int i=0;
+    while (menu[i]!=0){
+        if (strEquals(menuNames[i], buffer))
+            menuFunctions[i]();
+    }
+}
 void help(){
     for (int i = 0; menuNames[i]!=0; i++) {
         print(menuNames[i]);
