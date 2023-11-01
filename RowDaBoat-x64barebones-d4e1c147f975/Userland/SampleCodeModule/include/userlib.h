@@ -7,6 +7,8 @@
 
     void printUinteger(unsigned int n);
 
+    void printUlong(unsigned long n);
+
     unsigned char getChar();
 
     void putChar(char c);
@@ -35,6 +37,8 @@
     int isDigit(unsigned char c);
 
     int getUintDigits(unsigned int n );
+
+    int getUlongDigits(unsigned long n);
     
 //  Al no tener memoria dinamica uIntToString depende de que se le pase la cantidad de digitos
 //  del numero a transformar. Para eso se dispone de la funcion getUintDigits.
@@ -51,5 +55,10 @@
 
     void uIntToString(unsigned int input, char * ans, int digits);
 
+    void uLongToString(unsigned long input, char * ans, int digits);
+
+//  Math:
+
+    unsigned long pow(unsigned long x, unsigned long n);
 
 #endif

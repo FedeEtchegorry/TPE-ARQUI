@@ -62,7 +62,7 @@ unsigned int strToUint(char * s) {
     return ans;
 }
 
-int getUintDigits(unsigned int n )    {
+int getUlongDigits(unsigned long n )    {
 
 // n=0 es un caso especial pues 0 = 00 = 000...0, etc...
     if(!n)  return 1;
@@ -77,7 +77,12 @@ int getUintDigits(unsigned int n )    {
     return digits;
 }
 
-void uIntToString(unsigned int input, char * ans, int digits)   {
+int getUintDigits(unsigned int n)   {
+    
+    return getUlongDigits((unsigned long) n);
+}
+
+void uLongToString(unsigned long input, char * ans, int digits)   {
 
 // Se asume que ans tiene la longitud necesaria para que entre la
 // cantidad de digitos de input y el '\0' al final.
@@ -92,6 +97,11 @@ void uIntToString(unsigned int input, char * ans, int digits)   {
 
 }
 
+void uIntToString(unsigned int input, char * ans, int digits)   {
+    
+    uLongToString((unsigned long) input, ans, digits);
+}
+
 
 void printUinteger(unsigned int n)   {
 
@@ -99,4 +109,36 @@ void printUinteger(unsigned int n)   {
     char s[digits+1];
     uIntToString(n, s, digits);
     print(s);
+}
+
+void printUlong(unsigned long n)   {
+
+    int digits = getUlongDigits(n);
+    char s[digits+1];
+    uLongToString(n, s, digits);
+    print(s);
+}
+
+
+unsigned long pow(unsigned long x, unsigned long n) {
+    
+// Se hace uso de la potenciacion por cuadratura.
+
+// Source: 
+//      https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+
+
+// x^0 = 1, incluso si x=0.
+    if (!n)  
+
+        return 1;
+
+// n impar.     
+    if (n%2) 
+        
+        return x * pow(x * x, (n - 1) / 2);
+
+// n par.
+        return pow(x * x, n / 2);
+
 }
