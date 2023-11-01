@@ -99,6 +99,9 @@ void biggerText(){
         refillScreen();
     }
 }
+void changeColor(fgNewColor, bgNewColor){
+    ;
+}
 void refillScreen() {
     fillScreen(0x0);
     resetPosition();
@@ -111,7 +114,7 @@ void refillScreen() {
 
     for (int i = startPos; i < endPos; i++) {
         int index = i % SCREEN_BUFFER_SIZE;
-        printCharDefault('t', bufferColors[index][0], bufferColors[index][1]);
+        printCharDefault(screenBuffer[index], bufferColors[index][0], bufferColors[index][1]);
     }
     positionTraveller = position;
 }

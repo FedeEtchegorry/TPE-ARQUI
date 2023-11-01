@@ -11,8 +11,7 @@ int main() {
 
  	do	{
  	read(buffer);
-     time();
-     print(buffer);
+     getMenu(buffer);
  }	while(1);
 
 

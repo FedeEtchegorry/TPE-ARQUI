@@ -5,10 +5,10 @@
 extern void time_getter();
 extern void exit_shell();
 
-//typedef void (*shellFunctions)(void);
-//static shellFunctions menuFunctions[10]={&help, &snake1, &snake2, &time, &biggerText, &smallerText, &exitProgram};
-char* menuNames[10]= {"help", "snake 1", "snake 2", "time", "biggerText","smallerText", "exit"};
-char* menuDescriptions[10]={"Gives information about the available commands to execute.",
+typedef void (*shellFunctions)(void);
+static shellFunctions menuFunctions[10]={&help, &snake1, &snake2, &time, &biggerText, &smallerText, &exitProgram};
+static char* menuNames[10]= {"help", "snake 1", "snake 2", "time", "biggerText","smallerText", "exit"};
+static char* menuDescriptions[10]={"Gives information about the available commands to execute.",
                             "Starts a new Snake game, only one player.",
                             "Starts a new Snake game, two players at the same time.",
                             "Prints the RTC´s time on the screen .",
@@ -45,9 +45,11 @@ void read(unsigned char * buffer)   {
 }
 void getMenu(unsigned char* buffer){
     int i=0;
-    while (menu[i]!=0){
-        if (strEquals(menuNames[i], buffer))
+    while (menuNames[i]!=0){
+        if (strEquals(menuNames[i], buffer)) {
             menuFunctions[i]();
+            return;
+        }
     }
 }
 void help(){
@@ -72,9 +74,9 @@ void biggerText(){
 ;
 }
 void smallerText(){
-
+;
 }
-void exit(){
+void exitProgram(){
     flag=0;
     exit_shell();
 }

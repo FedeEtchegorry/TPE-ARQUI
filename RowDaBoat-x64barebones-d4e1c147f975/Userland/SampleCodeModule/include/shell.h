@@ -10,7 +10,7 @@
     void time();
     void snake1();
     void snake2();
-//    void biggerText();
-//    void smallerText();
-    void exit();
+    void biggerText();
+    void smallerText();
+    void exitProgram();
 #endif
