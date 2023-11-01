@@ -3,8 +3,10 @@
 
 int isTwoPlayersModeOn=0;
 
+// gameSpace:
+
 void startSnake(int players){
-//    printMap();
+//    drawMap();
 //    printScore();
 //    tSnake snake1;
 //    if (players==2){
@@ -13,8 +15,41 @@ void startSnake(int players){
 //        spawnSnake(snake2);
 //    }
 //    spawnSnake(snake1);
-    ;
+    
+    unsigned char key = 0;
+
+	tSnake mySnake;
+	tApple myApple;
+	spawnSnake(mySnake);
+	spawnApple(myApple);
+    
+    int timer = 0;
+
+    while(1)    {
+        
+        if(timer == 100)    {
+            
+            timer = 0;
+            printSnakeInfo(mySnake);
+            printAppleInfo(myApple);
+        }
+
+        key = getChar();
+
+        if(key == '\n')    
+            break;
+
+        if(key == 'w');
+            changeSnakeDirection(mySnake, UP);
+            
+        else if(key == 'a');
+
+        timer++;
+    }
+
 }
+
+// snake space:
 
 void spawnSnake(tSnake babySnake)   {
     
@@ -106,6 +141,8 @@ int moveSnake(tSnake snake)    {
         snake->body[snake->headPos + 1].y = snake->body[snake->headPos].y; 
         snake->body[snake->headPos + 1].direction = snake->body[snake->headPos].direction;
         moveBody(snake, ++(snake->headPos));
+
+        snake->eating = 0;
     }
      
     else    {
@@ -117,6 +154,7 @@ int moveSnake(tSnake snake)    {
     return checkCrash(snake);
 }
 
+static void 
 
 static void printDirection(tDirection direction) {
 
@@ -182,5 +220,55 @@ void printSnakeInfo(tSnake snake)   {
         printSnakeBody(snake->body[i]);
         putEnter();
     }
+
+}
+
+void feedSnake(tApple apple, tSnake snake)   {
+
+    if (snake->body[snake->headPos].x == apple->x && 
+    snake->body[snake->headPos].y == apple->y)  
+
+        snake->eating = 1;
+}
+
+// Apple space:
+
+void spawnApple(tApple apple, tSnake snake)   {
+    
+    int x; 
+    int y; 
+    int tryAgain = 1;
+
+    int i;
+
+    while(tryAgain) {
+
+        x = randInt(0, ROWS);
+        y = randInt(0, COLUMNS);
+
+        i=0;
+
+        do      {          
+            
+            tryAgain = snake->body[i].x == x && snake->body[i].y == y;
+            ++i;
+        }
+        while(i<=snake->headPos && !tryAgain);
+    } 
+
+}
+
+void printAppleInfo(tApple apple)    {
+
+    print("Apple: ");
+
+    putEnter();
+
+    print("x: ");   printUinteger(apple.x);
+    putEnter();
+    print("y: ");   printUinteger(apple.y);
+
+    putEnter();
+
 
 }

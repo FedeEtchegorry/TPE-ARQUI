@@ -1,6 +1,8 @@
 #ifndef _SNAKE_H
 #define _SNAKE_H
 
+    #include <randlib.h>
+
     #define ROWS 50
     #define COLUMNS 50
     #define SLOTS ROWS*COLUMNS
@@ -23,8 +25,6 @@
 
 //empieza el juego snake(dibuja el mapa y spawnea la serpiente);
     void startSnake();
-
-// spawnSnake():
 
 //  Instancia snake.
     void spawnSnake(tSnake babySnake);
@@ -60,7 +60,18 @@
 //  Los bodies se cuentan de menor a mayor desde la cabeza hasta la cola.
     void printSnakeInfo(tSnake snake);
 
-// TO DO: Implementar la comida, para eso es necesario implementar funciones
-// que obtengan numeros random.
+    struct apple    {
+
+        unsigned int x;
+        unsigned int y;
+    };
+
+    typedef struct apple * tApple;
+
+    void spawnApple(tApple apple, tSnake snake);
+
+    void feedSnake(tApple apple, tSnake snake);
+
+    void printAppleInfo(tApple apple);
 
 #endif
