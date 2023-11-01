@@ -13,7 +13,7 @@ int main() {
  	read(buffer);
      time();
      print(buffer);
- }	while();
+ }	while(1);
 
 
  	exit();
