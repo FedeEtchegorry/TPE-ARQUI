@@ -75,6 +75,10 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
             makeTextBigger();
             break;
         }
+		case RANDLONG_ID :	{
+			rand();
+			break;
+		}
 		default:	{
 			break;
 			}

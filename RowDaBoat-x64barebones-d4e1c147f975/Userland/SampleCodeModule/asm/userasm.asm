@@ -7,6 +7,7 @@ GLOBAL exit_shell
 GLOBAL time_getter
 GLOBAL make_text_smaller
 GLOBAL make_text_bigger
+GLOBAL rand
 
 extern strLength
 section .text
@@ -113,6 +114,8 @@ exit_shell:
 
     mov rsp, rbp
     pop rbp
+    ret
+
 
 time_getter:
     push rbp
@@ -123,6 +126,7 @@ time_getter:
 
     mov rsp, rbp
     pop rbp
+    ret
 
 make_text_bigger:
     push rbp
@@ -133,7 +137,7 @@ make_text_bigger:
 
     mov rsp, rbp
     pop rbp
-
+    ret
 
 make_text_smaller:
     push rbp
@@ -144,3 +148,17 @@ make_text_smaller:
 
     mov rsp, rbp
     pop rbp
+    ret
+
+
+rand:
+
+    push rbp
+    mov rbp, rsp
+
+    mov rax, 0x12
+    int 0x80
+
+    mov rsp, rbp
+    pop rbp
+    ret

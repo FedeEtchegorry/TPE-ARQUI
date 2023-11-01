@@ -1,24 +1,17 @@
 //  randlib.c
 
-#include <mtwister.h>
 #include <randlib.h>
 
-static unsigned long seed = 1234;
+unsigned int randInt(unsigned int izq, unsigned int der)    {
 
-static void srand(int newseed) {
+    if ( izq > der) {
+        int aux = izq;
+        izq = der;
+        der = aux;
+    }
     
-    seed = (unsigned int)newseed & 0x7fffffff;
-}
-
-static void randomize() {
-    ;
-
-// seed = getMiliSeconds // la idea es que cambie la seed segun la hora
+    return (unsigned int)rand() % (der - izq + 1)  + izq;
 
 }
 
-unsigned long rand()    {
-
-    MTRand mtrand = seedRand((pow(1103515245, seed) + 12345) & 0x7fffffff);
-    return genRandLong(&mtrand);
-}
+// Creditos: Marcelo Garberoglio 
