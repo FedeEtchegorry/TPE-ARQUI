@@ -9,6 +9,7 @@
 #define SYSTEM_KILLBUFFER_ID            0x99
 #define SMALLER_TEXT                    0xa0
 #define BIGGER_TEXT                     0xa1
+#define RECOLOR                         0xa2
     
 // write @fd codes: (en rbx)
     #define STDOUT 						0x01
@@ -41,5 +42,7 @@
 
 //reduce el tamaño de la letra
     void makeTextSmaller();
+//cambia el color de lo escrito hasta ahora
+    void changeColor(unsigned int fgcolor, unsigned int bgcolor);
 
 #endif

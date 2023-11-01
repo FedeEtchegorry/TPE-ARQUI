@@ -113,6 +113,7 @@ exit_shell:
 
     mov rsp, rbp
     pop rbp
+    ret
 
 time_getter:
     push rbp
@@ -123,6 +124,7 @@ time_getter:
 
     mov rsp, rbp
     pop rbp
+    ret
 
 make_text_bigger:
     push rbp
@@ -133,6 +135,7 @@ make_text_bigger:
 
     mov rsp, rbp
     pop rbp
+    ret
 
 
 make_text_smaller:
@@ -144,3 +147,4 @@ make_text_smaller:
 
     mov rsp, rbp
     pop rbp
+    ret

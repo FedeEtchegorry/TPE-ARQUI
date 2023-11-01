@@ -15,7 +15,7 @@ static char* menuDescriptions[10]={"Gives information about the available comman
                             "Increases font size unless maximum size has been reached.",
                             "Decreases font size unless minimum size has been reached.",
                             "Closes the Shell and finishes the execution of the software."};
-
+//TODO aceptar colores en entrada estandar para imprimirlos
 static int flag=1;
 
 void initShell()    {
@@ -28,7 +28,9 @@ void read(unsigned char * buffer)   {
     int i=0;
     char c;
     while((c = getChar())!='\n')    {
-        if(c=='\b') {
+        if (c=='\0')
+            ;
+        else if(c=='\b') {
             if(i!=0)    {
                 buffer[--i] = '\0';
             }
@@ -36,9 +38,8 @@ void read(unsigned char * buffer)   {
         }
         else    {
             buffer[i++] = c;
-
             putChar(buffer[i-1]);
-            putChar(c);
+
         }
     }
     buffer[i] = '\0';
@@ -48,16 +49,16 @@ void getMenu(unsigned char* buffer){
     while (menuNames[i]!=0){
         if (strEquals(menuNames[i], buffer)) {
             menuFunctions[i]();
-            return;
         }
     }
 }
 void help(){
+    print("\n");
     for (int i = 0; menuNames[i]!=0; i++) {
         print(menuNames[i]);
         print(":");
         print(menuDescriptions[i]);
-        print('\n');
+        print("\n");
     }
 }
 void time(){
