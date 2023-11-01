@@ -89,16 +89,28 @@ int main(){
 
 	
      char * str5="And I will have my vengeance, in this life or the next.";
-     //printNewline();
+     char * str6= "My mama always said life was like a box of chocolates. You never know what you're gonna get.";
+     char * str7="A census taker once tried to test me. I ate his liver with some fava beans and a nice Chianti.";
+
      printTextDefault(str5, BLACK, WHITE);
+     printCharDefault('\n', BLACK, WHITE);
+     printTextDefault(str6, BLACK, WHITE);
+     printCharDefault('\n', BLACK, WHITE);
+     printTextDefault(str7, BLACK, WHITE);
+    printCharDefault('\n', BLACK, WHITE);
+    printTextDefault(str7, BLACK, WHITE);
+    printCharDefault('\n', BLACK, WHITE);
+    printTextDefault(str7, BLACK, WHITE);
+    printCharDefault('\n', BLACK, WHITE);
+    printTextDefault(str7, BLACK, WHITE);
      char str [BUFFER_SIZE] = {'\0'};
-     //biggerText();
+     smallerText();
+     changeColors(RED, BLACK);
  // Para escribir el teclado
  	 while (1)	{
           blink();
  	 	str[0] = readChar();
  	 	printTextDefault(str, GREEN, BLACK);
-
  	 }
 
  	cleanBuffer();
