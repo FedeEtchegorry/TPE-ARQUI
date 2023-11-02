@@ -139,6 +139,7 @@ make_text_bigger:
     pop rbp
     ret
 
+
 make_text_smaller:
     push rbp
     mov rbp, rsp

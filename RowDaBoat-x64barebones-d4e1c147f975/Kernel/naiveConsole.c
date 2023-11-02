@@ -26,7 +26,7 @@ void ncPrintChar(char character){
 void ncPrintColored( char * string, unsigned char forAndBackColor )
 {
 	for (int i = 0; string[i] != 0; i++)	{
-		
+
 		paintPixel(forAndBackColor);
 		ncPrintChar(string[i]);
 	}
@@ -120,13 +120,11 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
 	uint32_t digits = 0;
 
 	//Calculate characters for each digit
-	do
-	{
+	do	{
 		uint32_t remainder = value % base;
 		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
 		digits++;
-	}
-	while (value /= base);
+	} while (value /= base);
 
 	// Terminate string in buffer.
 	*p = 0;

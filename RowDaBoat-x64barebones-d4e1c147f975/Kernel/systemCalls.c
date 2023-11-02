@@ -76,6 +76,9 @@ void makeTextBigger(){
 void makeTextSmaller(){
     smallerText();
 }
+void changeColor(unsigned int fgcolor, unsigned int bgcolor){
+    changeColors(fgcolor,bgcolor);
+}
 
 void exitProgram(){
     fillScreen(BLACK);

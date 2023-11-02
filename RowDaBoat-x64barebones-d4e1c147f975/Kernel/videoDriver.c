@@ -2,6 +2,7 @@
 #include <videoDriver.h>
 #include <colours.h>
 #include <lib.h>
+#include "stringPrinter.h"
 
 
 struct vbe_mode_info_structure {
@@ -210,8 +211,8 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
     for (y = 0; y < 8; y++) { // Itero filas
         for (x = 0; x < 8; x++) { // Itero columnas
             set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
-            for (int i = 0; i <= sizeFactor; i++) {          //con el size factor agrando la letra
-                for (int j = 0; j <= sizeFactor; j++) {
+            for (int i = 0; i < sizeFactor; i++) {          //con el size factor agrando la letra
+                for (int j = 0; j < sizeFactor; j++) {
                     putPixel(set ? fgcolor : bgcolor, xinit + (x * sizeFactor) + j, yinit + (y * sizeFactor) + i);
                 }
             }
@@ -240,6 +241,14 @@ void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
         render(font8x8_basic[c], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     }
 }
+
+void drawRegisters(int value){
+    char buffer[256] = {0};
+    uintToBase(value, buffer, 16);
+    printTextDefault(buffer, BLACK, WHITE);
+    printNewline();
+}
+
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
     if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*3>=VBE_mode_info->height) {
@@ -263,9 +272,9 @@ void cleanLastLine(){
 }
 void scroll() {
     int PixelSizeInBytes = VBE_mode_info->bpp / 8;
-    int lineWidthInBytes = VBE_mode_info->width * charSize * PixelSizeInBytes;
+    int lineWidthInBytes = VBE_mode_info->width * (charSize+1) * PixelSizeInBytes;
     int textLength = (lineWidthInBytes * (VBE_mode_info->height/charSize - 1));
-    memcpy((void *)(uint64_t)(VBE_mode_info->framebuffer),(void *)(uint64_t)(VBE_mode_info->framebuffer + lineWidthInBytes),textLength);
+    memmove((void *)(uint64_t)(VBE_mode_info->framebuffer),(void *)(uint64_t)(VBE_mode_info->framebuffer + lineWidthInBytes),textLength);
     cleanLastLine();
     setCurrentVideoLinePos(1);
 }
@@ -279,6 +288,7 @@ void printCursor(){
 void resetPosition(){
     currentPosition=0;
 }
+
 
 
 

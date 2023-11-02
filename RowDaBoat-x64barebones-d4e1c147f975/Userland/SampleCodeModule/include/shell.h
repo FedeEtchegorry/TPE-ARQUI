@@ -2,6 +2,7 @@
 #define _SHELL_H
 
     #define INIT_MESSAGE "Welcome to shell, write help if you want to know the available options\n"
+    #define AVAILABLE_FUNCTIONS 7
     
     void initShell();
     void read(unsigned char * buffer);
@@ -10,7 +11,7 @@
     void time();
     void snake1();
     void snake2();
-//    void biggerText();
-//    void smallerText();
-    void exit();
+    void biggerText();
+    void smallerText();
+    void exitProgram();
 #endif

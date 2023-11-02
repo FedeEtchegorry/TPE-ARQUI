@@ -18,7 +18,42 @@ void putBackSpace() {
 void putTab()   {
     putChar('\t');
 }
-
+char* stringNormalizer(char* origString){
+    char* aux;
+    int i=0, j=0;
+    while (origString[i]!='\0'){
+        if (origString[i]>='A' && origString[i]<='Z'){
+            aux[j++]=origString[i++]+32;
+        } else if (origString[i]==' '){
+            aux[j++]=' ';
+            while (origString[i]==' ')
+                i++;
+        } else
+            aux[j++]=origString[i++];
+    }
+    aux[j]='\0';
+    return aux;
+}
+////asume que el string solo tiene dos palabras separadas por espacio, donde quiero devolver las 2;
+char* stringTrimmerBySpace(char* origString){
+    char** array;
+    char* aux1;
+    char* aux2;
+    int i=0, j=0, k=0;
+    while(origString[i] != ' ' && origString[i] != '\0'){
+        aux1[j++]=origString[i++];
+    }
+    if(origString[i++] != '\0'){
+        array[0]=aux1;
+        return *array;
+    }
+    while (origString[i]!='\0'){
+        aux2[k++]=origString[i++];
+    }
+    array[0]=aux1;
+    array[1]=aux2;
+    return *array;
+}
 
 unsigned int strLength(const char * str) {
     int i=0;
