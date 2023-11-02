@@ -3,6 +3,7 @@
 #include <videoDriver.h>
 #include <stringPrinter.h>
 #include <buffer.h>
+#include <rtcDriver.h>
 
 extern void haltcpu();
 
@@ -63,6 +64,19 @@ void sysRead( unsigned int fd, const  char * s, char c)	{
 
 void sysKillBuffer()	{
 	cleanBuffer();
+}
+void timeManager(){
+    char* time=getTime();
+    printTextDefault(time, WHITE, BLACK);
+}
+void makeTextBigger(){
+    biggerText();
+}
+void makeTextSmaller(){
+    smallerText();
+}
+void changeColor(unsigned int fgcolor, unsigned int bgcolor){
+    changeColors(fgcolor,bgcolor);
 }
 
 void exitProgram(){

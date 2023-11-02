@@ -211,8 +211,8 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
     for (y = 0; y < 8; y++) { // Itero filas
         for (x = 0; x < 8; x++) { // Itero columnas
             set = bitmap[y] & 1 << x; // //me fijo si el bit está prendido o apagado
-            for (int i = 0; i <= sizeFactor; i++) {          //con el size factor agrando la letra
-                for (int j = 0; j <= sizeFactor; j++) {
+            for (int i = 0; i < sizeFactor; i++) {          //con el size factor agrando la letra
+                for (int j = 0; j < sizeFactor; j++) {
                     putPixel(set ? fgcolor : bgcolor, xinit + (x * sizeFactor) + j, yinit + (y * sizeFactor) + i);
                 }
             }
@@ -272,9 +272,9 @@ void cleanLastLine(){
 }
 void scroll() {
     int PixelSizeInBytes = VBE_mode_info->bpp / 8;
-    int lineWidthInBytes = VBE_mode_info->width * charSize * PixelSizeInBytes;
+    int lineWidthInBytes = VBE_mode_info->width * (charSize+1) * PixelSizeInBytes;
     int textLength = (lineWidthInBytes * (VBE_mode_info->height/charSize - 1));
-    memcpy((void *)(uint64_t)(VBE_mode_info->framebuffer),(void *)(uint64_t)(VBE_mode_info->framebuffer + lineWidthInBytes),textLength);
+    memmove((void *)(uint64_t)(VBE_mode_info->framebuffer),(void *)(uint64_t)(VBE_mode_info->framebuffer + lineWidthInBytes),textLength);
     cleanLastLine();
     setCurrentVideoLinePos(1);
 }

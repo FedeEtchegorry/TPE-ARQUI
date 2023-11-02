@@ -3,7 +3,7 @@
 #include <keyboard.h>
 #include <time.h>
 
-#define SCREEN_BUFFER_SIZE 100
+#define SCREEN_BUFFER_SIZE 1000
 char screenBuffer[SCREEN_BUFFER_SIZE];
 static unsigned int bufferColors[SCREEN_BUFFER_SIZE][2];
 int position=0;
@@ -99,6 +99,24 @@ void biggerText(){
         refillScreen();
     }
 }
+void changeColors(int fgNewColor,int bgNewColor){
+    fillScreen(0x0);
+    resetPosition();
+    int startPos = positionTraveller % SCREEN_BUFFER_SIZE;
+    int endPos = position % SCREEN_BUFFER_SIZE;
+
+    if (endPos < startPos) {
+        endPos += SCREEN_BUFFER_SIZE;
+    }
+
+    for (int i = startPos; i < endPos; i++) {
+        int index = i % SCREEN_BUFFER_SIZE;
+        bufferColors[index][0]=fgNewColor;
+        bufferColors[index][1]=bgNewColor;
+        printCharDefault(screenBuffer[index], bufferColors[index][0], bufferColors[index][1]);
+    }
+    positionTraveller = position;
+}
 void refillScreen() {
     fillScreen(0x0);
     resetPosition();
@@ -111,9 +129,8 @@ void refillScreen() {
 
     for (int i = startPos; i < endPos; i++) {
         int index = i % SCREEN_BUFFER_SIZE;
-        printCharDefault('t', bufferColors[index][0], bufferColors[index][1]);
+        printCharDefault(screenBuffer[index], bufferColors[index][0], bufferColors[index][1]);
     }
-    positionTraveller = position;
 }
 
 

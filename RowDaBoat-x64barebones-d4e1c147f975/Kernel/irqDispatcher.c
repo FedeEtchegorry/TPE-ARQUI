@@ -6,7 +6,7 @@
 #include <colours.h>
 #include <systemCalls.h>
 #include <buffer.h>
-#include <rtcDriver.h>
+
 
 
 #define TIMERTICK_INTERRUPTION_MESSAGE "Tick numero: "
@@ -60,14 +60,25 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
 			break;
 		}
         case SYSTEM_TIME_ID :{
-            char* time=getTime();
-            printTextDefault(time, WHITE, BLACK);
+            timeManager();
             break;
         }
 		case SYSTEM_KILLBUFFER_ID :	{
 			sysKillBuffer();
 			break;
 		}
+        case SMALLER_TEXT : {
+            makeTextSmaller();
+            break;
+        }
+        case BIGGER_TEXT : {
+            makeTextBigger();
+            break;
+        }
+        case RECOLOR:{
+            changeColor(rbx,rdx);       //TODO falta asegurarse de guardar en los registros las cosas
+            break;
+        }
 		default:	{
 			break;
 			}
