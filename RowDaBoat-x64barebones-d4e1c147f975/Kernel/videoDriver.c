@@ -263,7 +263,7 @@ void cleanLastLine(){
 }
 void scroll() {
     int PixelSizeInBytes = VBE_mode_info->bpp / 8;
-    int lineWidthInBytes = VBE_mode_info->width * (charSize+1) * PixelSizeInBytes;          //SE MIRA Y NO SE TOCA!!
+    int lineWidthInBytes = VBE_mode_info->width * (charSize+1) * PixelSizeInBytes;
     int textLength = (lineWidthInBytes * (VBE_mode_info->height/charSize - 1));
     memmove((void *)(uint64_t)(VBE_mode_info->framebuffer),(void *)(uint64_t)(VBE_mode_info->framebuffer + lineWidthInBytes),textLength);
     cleanLastLine();
