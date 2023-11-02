@@ -2,6 +2,7 @@
 #include <videoDriver.h>
 #include <colours.h>
 #include <lib.h>
+#include "stringPrinter.h"
 
 
 struct vbe_mode_info_structure {
@@ -240,6 +241,14 @@ void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
         render(font8x8_basic[c], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     }
 }
+
+void drawRegisters(int value){
+    char buffer[256] = {0};
+    uintToBase(value, buffer, 16);
+    printTextDefault(buffer, BLACK, WHITE);
+    printNewline();
+}
+
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
     if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*3>=VBE_mode_info->height) {
@@ -279,6 +288,7 @@ void printCursor(){
 void resetPosition(){
     currentPosition=0;
 }
+
 
 
 
