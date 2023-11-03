@@ -279,6 +279,7 @@ void scroll() {
     setCurrentVideoLinePos(1);
 }
 
+
 void printCursor(){
     deleteSlash();
     drawCharWithoutDisplacement('|',WHITE, BLACK);
@@ -289,6 +290,23 @@ void resetPosition(){
     currentPosition=0;
 }
 
+snakeHeadDown  char[8]={0x7E, 0xFF, 0xDB, 0xDB, 0xFF, 0x7E, 0x3C, 0x18};
+snakeHeadUp    char[8]={0x18, 0x3C, 0x7E, 0xFF, 0xDB, 0xDB, 0xFF, 0x7E};
+snakeHeadRight char[8]={0x78, 0xFC, 0xCE, 0xFF, 0xFF, 0xCE, 0xFC, 0x78};
+snakeHeadLeft  char[8]={0x1E, 0x3F, 0x73, 0xFF, 0xFF, 0x73, 0x3F, 0x1E};
+snakeBody      char[8]={0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
+void snakeHeadDrawer(char* direction, int initPosY, int initPosX, int size){
+    switch (direction) {
+        case "LEFT":  render(snakeHeadLeft,  GREEN, BLACK, initPosY, initPosX, size);
+        case "RIGHT": render(snakeHeadRight, GREEN, BLACK, initPosY, initPosX, size)
+        case "UP":    render(snakeHeadUp,    GREEN, BLACK, initPosY, initPosX, size);
+        case "DOWN":  render(snakeHeadDown,  GREEN, BLACK, initPosY, initPosX, size);
+    }
+}
+void snakeBodyDrawer(int initPosY, int initPosX, int size){
+    render(snakeBody, GREEN, BLACK, initPosY, initPosX, size);
+}
 
 
 
