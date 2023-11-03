@@ -48,28 +48,3 @@ void * memcpy(void * destination, const void * source, uint64_t length){
 	return destination;
 }
 
-void* memmove(void* dest, const void* src, uint32_t n) {
-    unsigned char* d = dest;
-    const unsigned char* s = src;
-
-    if (d == s) {
-        return d; // Source and destination are the same, no need to do anything.
-    }
-
-    if (s < d && s + n > d) {
-        // Source and destination memory regions overlap.
-        // Copy in reverse to avoid overwriting source data.
-        s += n;
-        d += n;
-        while (n--) {
-            *(--d) = *(--s);
-        }
-    } else {
-        // Source and destination do not overlap, or destination is before source.
-        while (n--) {
-            *d++ = *s++;
-        }
-    }
-
-    return dest;
-}
