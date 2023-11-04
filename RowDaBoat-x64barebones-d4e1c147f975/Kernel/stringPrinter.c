@@ -11,6 +11,16 @@ int positionTraveller=0;
 
 int canBlink=1;
 
+void printTextDefault(char* string, int fgcolor, int bgcolor) {
+    blockBlink();
+    for (int i = 0; string[i] != '\0'; i++) {
+        deleteSlash();
+        printCharDefault(string[i], fgcolor, bgcolor);
+        printCursor();
+    }
+    allowBlink();
+}
+
 void printNewline(){
     blockBlink();
     deleteSlash();
@@ -36,15 +46,7 @@ void backspace(){
     printCursor();
     allowBlink();
 }
-void printTextDefault(char* string, int fgcolor, int bgcolor) {
-    blockBlink();
-    for (int i = 0; string[i] != '\0'; i++) {
-        deleteSlash();
-        printCharDefault(string[i], fgcolor, bgcolor);
-        printCursor();
-    }
-    allowBlink();
-}
+
 void printCharDefault(char c,int fgcolor, int bgcolor){
     if (c==0)
         return;
