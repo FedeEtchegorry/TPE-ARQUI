@@ -49,6 +49,14 @@ void startSnake(int players){
 
 }
 
+void drawSnake(tSnake snake, tApple apple)  {
+    for(int i=0; i<=snake->headPos; i++)    
+        draw(snake->body[i].x, snake->body[i].y, 16);
+
+    draw(apple->x, apple->y, 16);
+    
+}
+
 // snake space:
 
 void spawnSnake(tSnake babySnake)   {

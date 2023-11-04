@@ -5,8 +5,13 @@
 int main() {
 
 
- 	initShell();
+	tSnake mySnake;
+	tApple myApple;
 
+	spawnSnake(mySnake);
+	spawnApple(myApple, mySnake);
+
+	drawSnake(mySnake, myApple);
 
 
 //	tSnake mySnake;
