@@ -50,7 +50,7 @@ unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 }
 
 void sysRead( unsigned int fd, const  char * s, char c)	{
-	switch(fd)	{
+    switch(fd)	{
 		case STRING :	{
 			putString(s);
 			break;

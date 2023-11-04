@@ -73,9 +73,9 @@ void printCharDefault(char c,int fgcolor, int bgcolor){
 }
 void blink(){
     if (canBlink) {
-        if (alarmAt(2))
+        if (alarmAt(1) && seconds_elapsed()%2==0)
             deleteSlash();
-        if (alarmAt(3))
+        if (alarmAt(1) && seconds_elapsed()%2==1)
             printCursor();
     }
 }
