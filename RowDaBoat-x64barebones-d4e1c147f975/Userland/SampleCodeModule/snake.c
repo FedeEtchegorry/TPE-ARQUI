@@ -21,7 +21,7 @@ void startSnake(int players){
 	tSnake mySnake;
 	tApple myApple;
 	spawnSnake(mySnake);
-	spawnApple(myApple);
+	spawnApple(myApple, mySnake);
     
     int timer = 0;
 
@@ -42,7 +42,7 @@ void startSnake(int players){
         if(key == 'w');
             changeSnakeDirection(mySnake, UP);
             
-        else if(key == 'a');
+        // else if(key == 'a);
 
         timer++;
     }
@@ -154,7 +154,6 @@ int moveSnake(tSnake snake)    {
     return checkCrash(snake);
 }
 
-static void 
 
 static void printDirection(tDirection direction) {
 
@@ -264,9 +263,9 @@ void printAppleInfo(tApple apple)    {
 
     putEnter();
 
-    print("x: ");   printUinteger(apple.x);
+    print("x: ");   printUinteger(apple->x);
     putEnter();
-    print("y: ");   printUinteger(apple.y);
+    print("y: ");   printUinteger(apple->y);
 
     putEnter();
 

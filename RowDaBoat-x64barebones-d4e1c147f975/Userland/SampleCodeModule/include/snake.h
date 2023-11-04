@@ -23,7 +23,10 @@
 
     typedef struct snake* tSnake;
 
-//empieza el juego snake(dibuja el mapa y spawnea la serpiente);
+// TO DO: empieza el juego snake(dibuja el mapa y spawnea la serpiente), falta implementar las funciones
+//      para dibujar los cuadraditos.
+
+// Parcialmente imprime info de la snake y se puede jugar un poquito (TO DO).
     void startSnake();
 
 //  Instancia snake.
