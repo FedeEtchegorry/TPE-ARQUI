@@ -7,11 +7,13 @@
 #define SYSTEM_WRITE_ID                 0x04
 #define SYSTEM_TIME_ID                  0x98
 #define SYSTEM_KILLBUFFER_ID            0x99
+#define SYSTEM_DRAW_ID                  0x44
 #define SMALLER_TEXT                    0xa0
 #define BIGGER_TEXT                     0xa1
 #define RANDLONG_ID                     0x12
 #define RECOLOR                         0xa2
     
+
 // write @fd codes: (en rbx)
     #define STDOUT 						0x01
     #define CHARSTDOUT                  0x02
@@ -31,6 +33,9 @@
     
 // Borra el buffer:
     void killBuffer();
+
+// Pinta un pixel:
+    void sysDraw(int x, int y, int size);
 
 // Deja el programa detenido indefinidamente
     void exitProgram();

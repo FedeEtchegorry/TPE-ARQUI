@@ -309,6 +309,15 @@ void snakeBodyDrawer(int initPosY, int initPosX, int size){
     render(snakeBody, GREEN, BLACK, initPosY, initPosX, size);
 }
 
+// Hecha por un inexperto en el manejo de videoDriver.
+// TO DO: Checkear su correcto funcionamiento.
+void drawPixel(int y, int x, int size, char * draw, int colour)  {
+    switch ( colour )   {
+        case 0: render(draw, WHITE, BLACK, y, x, size); break;
+        default: break;
+    }
+    
+}
 
 
 
