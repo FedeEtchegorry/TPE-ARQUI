@@ -30,9 +30,10 @@ void read(unsigned char * buffer)   {
             ;
         else if(c=='\b') {
             if(i!=0)    {
+                putChar(c);
                 buffer[--i] = '\0';
             }
-            putChar(c);
+
         }
         else    {
             buffer[i++] = c;
