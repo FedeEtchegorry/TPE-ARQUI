@@ -1,5 +1,5 @@
-#include "./include/registers.h"
-#include "./include/buffer.h"
+#include <registers.h>
+#include <buffer.h>
 
 void printRegisters(registerStruct * registers) {
 	putString("RIP = 0x");

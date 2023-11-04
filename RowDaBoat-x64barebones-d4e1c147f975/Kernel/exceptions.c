@@ -1,12 +1,14 @@
 
 #include <colours.h>
-#include <naiveConsole.h>
+#include <videoDriver.h>
 
 #define ZERO_EXCEPTION_ID 0
-#define ZERO_EXCEPTION_MESSAGE "Excepcion numero 0 : Divide cero"
+
+#define ZERO_EXCEPTION_MESSAGE "Excepcion numero 0: Divide por cero"
 #define INVALID_OPCODE_MESSAGE "Excepcion numero 1: Operacion Invalida"
 
 static void zero_division();
+static void invalid_opcode();
 
 void exceptionDispatcher(int exception) {
 	if (exception == ZERO_EXCEPTION_ID){

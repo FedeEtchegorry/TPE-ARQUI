@@ -1,5 +1,4 @@
 #include <keyboard.h>
-#include <naiveConsole.h>
 #include <stringPrinter.h>
 
 int caps=0;

@@ -1,7 +1,7 @@
 #include <rtcDriver.h>
-#include <naiveConsole.h>
 #include <stringPrinter.h>
 #include <colours.h>
+#include <stdint.h>
 
 extern int timeParam(int argument);
 
