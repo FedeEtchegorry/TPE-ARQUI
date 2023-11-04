@@ -66,6 +66,11 @@ void sysRead( unsigned int fd, const  char * s, char c)	{
 void sysKillBuffer()	{
 	cleanBuffer();
 }
+
+void sysDraw(int x, int y, int size)	{
+	snakeBodyDrawer(y,x,size);
+}
+
 void timeManager(){
     char* time=getTime();
     printTextDefault(time, WHITE, BLACK);

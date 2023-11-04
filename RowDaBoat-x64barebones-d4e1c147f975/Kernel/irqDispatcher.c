@@ -40,8 +40,7 @@ void int_21() {
 }
 
 // Syscalls:
-// La idea es que del userspace pueda hacer int 0x80 (en assembler) asi llama 
-// a esta función.
+// ¡ATENCION! Ya todos los parametros estan en uso, no cambiar los tipos de dato.
 void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, unsigned int rdi){
 	
 	switch(id)	{
@@ -65,6 +64,9 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
 		case SYSTEM_KILLBUFFER_ID :	{
 			sysKillBuffer();
 			break;
+		}
+		case SYSTEM_DRAW_ID : {
+			sysDraw(rbx, rdx, rdi);
 		}
         case SMALLER_TEXT : {
             makeTextSmaller();

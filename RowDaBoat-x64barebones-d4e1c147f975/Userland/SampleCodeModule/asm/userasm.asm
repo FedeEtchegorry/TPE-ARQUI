@@ -1,4 +1,5 @@
 GLOBAL print
+GLOBAL draw
 GLOBAL getChar
 GLOBAL getAndPrintChar
 GLOBAL killBuffer
@@ -158,6 +159,23 @@ rand:
     mov rbp, rsp
 
     mov rax, 0x12
+    int 0x80
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+
+draw:
+
+    push rbp
+    mov rbp, rsp 
+
+    mov rbx, rdi    ; 1er arg en C
+    mov rdi, rdx    ; 3er arg
+    mov rdx, rsi    ; 2do arg
+
+    mov rax, 0x44
     int 0x80
 
     mov rsp, rbp

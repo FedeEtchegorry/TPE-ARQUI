@@ -15,6 +15,8 @@
 
     unsigned char getAndPrintChar();
 
+    void draw(int x, int y, int size);
+
     void killBuffer();
 
     void putEnter();
