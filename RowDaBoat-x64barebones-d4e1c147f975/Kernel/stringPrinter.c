@@ -101,7 +101,7 @@ void biggerText(){
         refillScreen();
     }
 }
-void changeColors(int fgNewColor,int bgNewColor){
+void changeColors(int fgNewColor){
     fillScreen(0x0);
     resetPosition();
     int startPos = positionTraveller % SCREEN_BUFFER_SIZE;
@@ -110,14 +110,12 @@ void changeColors(int fgNewColor,int bgNewColor){
     if (endPos < startPos) {
         endPos += SCREEN_BUFFER_SIZE;
     }
-
+    positionTraveller = position;
     for (int i = startPos; i < endPos; i++) {
         int index = i % SCREEN_BUFFER_SIZE;
         bufferColors[index][0]=fgNewColor;
-        bufferColors[index][1]=bgNewColor;
         printCharDefault(screenBuffer[index], bufferColors[index][0], bufferColors[index][1]);
     }
-    positionTraveller = position;
 }
 void refillScreen() {
     fillScreen(0x0);
@@ -128,11 +126,12 @@ void refillScreen() {
     if (endPos < startPos) {
         endPos += SCREEN_BUFFER_SIZE;
     }
-
+    positionTraveller = position;
     for (int i = startPos; i < endPos; i++) {
         int index = i % SCREEN_BUFFER_SIZE;
         printCharDefault(screenBuffer[index], bufferColors[index][0], bufferColors[index][1]);
     }
+
 }
 
 

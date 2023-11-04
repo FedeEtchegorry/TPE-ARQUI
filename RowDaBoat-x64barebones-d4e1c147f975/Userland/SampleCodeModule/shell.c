@@ -1,15 +1,16 @@
 #include <userlib.h>
 #include <shell.h>
-
+#include <colours.h>
 
 
 typedef void (*shellFunctions)(void);
-static shellFunctions menuFunctions[7]={&help, &snake, &time, &textSize, &exitProgram};
-static char* menuNames[7]= {"help", "snake", "time", "size", "exit"};
-static char* menuDescriptions[7]={"Gives information about the available commands to execute.",
+static shellFunctions menuFunctions[6]={&help, &snake, &time, &textSize,&colorChanging, &exitProgram};
+static char* menuNames[6]= {"help", "snake", "time", "size", "color", "exit"};
+static char* menuDescriptions[6]={"Gives information about the available commands to execute.",
                             "Starts a new Snake game, add '1' or '2' as argument according to the ammount of players wanted",
                             "Prints the RTC's time on the screen .",
                             "Changes font size unless minimum/maximum size has been reached. Use argument 'small' or 'bigger' after the space",
+                            "Changes the font's color, available arguments are 'white', 'red', 'blue', 'green', 'yellow', 'orange', 'violet'",
                             "Closes the Shell and finishes the execution of the software."};
 //TODO aceptar colores en entrada estandar para imprimirlos
 static int flag=1;
@@ -33,7 +34,6 @@ void read(unsigned char * buffer)   {
                 putChar(c);
                 buffer[--i] = '\0';
             }
-
         }
         else    {
             buffer[i++] = c;
@@ -95,6 +95,28 @@ void exitProgram(){
     exit_shell();
 }
 void colorChanging(){
+    if (strEquals(argument, "white")){
+        recolor(WHITE);
+    }
+    else if (strEquals(argument, "red")){
+        recolor(RED);
+    }
+    else if (strEquals(argument, "blue")){
+        recolor(BLUE);
+    }
+    else if (strEquals(argument, "green")){
+        recolor(GREEN);
+    }
+    else if (strEquals(argument, "yellow")){
+        recolor(YELLOW);
+    }
+    else if (strEquals(argument, "orange")){
+        recolor(ORANGE);
+    }
+    else if (strEquals(argument, "violet")){
+        recolor(VIOLET);
+    }
+    else print("Arguments are necessary or the argument written is not defined");
 
 }
 int getFlag(){

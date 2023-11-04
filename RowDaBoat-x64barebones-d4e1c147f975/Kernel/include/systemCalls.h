@@ -49,7 +49,7 @@
 //reduce el tamaño de la letra
     void makeTextSmaller();
 //cambia el color de lo escrito hasta ahora
-    void changeColor(unsigned int fgcolor, unsigned int bgcolor);
+    void changeColor(unsigned int fgcolor);
 
 // retorna un numero pseudo-random
     unsigned long rand();

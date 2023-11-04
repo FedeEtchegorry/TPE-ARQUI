@@ -9,6 +9,7 @@ GLOBAL time_getter
 GLOBAL make_text_smaller
 GLOBAL make_text_bigger
 GLOBAL rand
+GLOBAL recolor
 
 extern strLength
 section .text
@@ -176,6 +177,19 @@ draw:
     mov rdx, rsi    ; 2do arg
 
     mov rax, 0x44
+    int 0x80
+
+    mov rsp, rbp
+    pop rbp
+    ret
+recolor:
+
+    push rbp
+    mov rbp, rsp
+
+    mov rbx, rdi    ; 1er arg en C
+
+    mov rax, 0xa2
     int 0x80
 
     mov rsp, rbp

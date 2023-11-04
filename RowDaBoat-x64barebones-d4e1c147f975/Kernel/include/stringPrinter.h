@@ -15,7 +15,7 @@ void backspace();
 void biggerText();
 void smallerText();
 void refillScreen();
-void changeColors(int fgcolor, int bgcolor);
+void changeColors(int fgcolor);
 
 
 #endif //TPE_ARQUI_STRINGPRINTER_H

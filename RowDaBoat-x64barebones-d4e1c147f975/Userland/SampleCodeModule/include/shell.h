@@ -12,4 +12,5 @@
     void snake();
     void textSize();
     void exitProgram();
+    void colorChanging();
 #endif

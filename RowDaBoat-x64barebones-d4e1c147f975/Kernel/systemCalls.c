@@ -6,6 +6,8 @@
 #include <rtcDriver.h>
 #include <time.h>
 
+static int characterColor=WHITE;
+
 extern void haltcpu();
 
 unsigned char sysWrite(unsigned int fd, unsigned int count)	{
@@ -15,11 +17,11 @@ unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 		case STDOUT :	{
 			char s [count+1];
 			readBuffer(s, count+1);
-			printTextDefault(s, WHITE, BLACK);
+			printTextDefault(s, characterColor, BLACK);
 			break;
 		}
 		case CHARSTDOUT : {
-			printCharDefault(readChar(), WHITE, BLACK);
+			printCharDefault(readChar(), characterColor, BLACK);
 			break;
 		}
 	// STDERR : Salida de error (salida estandar pero en rojo).
@@ -36,7 +38,7 @@ unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 		}
 		case RETURNANDSTDOUT_CHAR :	{
 			unsigned char c = readChar();
-			printCharDefault(c, WHITE, BLACK);
+			printCharDefault(c, characterColor, BLACK);
 			return c;
 		}
 
@@ -82,8 +84,9 @@ void makeTextBigger(){
 void makeTextSmaller(){
     smallerText();
 }
-void changeColor(unsigned int fgcolor, unsigned int bgcolor){
-    changeColors(fgcolor,bgcolor);
+void changeColor(unsigned int fgcolor){
+    characterColor=fgcolor;
+    changeColors(fgcolor);
 }
 
 void exitProgram(){
