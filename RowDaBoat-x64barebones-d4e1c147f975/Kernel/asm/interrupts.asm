@@ -42,46 +42,46 @@ SECTION .text
 %endmacro
 
 %macro dState 0
-	mov [registers.drbp], rbp
-	mov rbp, [rsp]
-	mov [registers.dr15], rbp
-	mov rbp, [rsp+8]
-	mov [registers.dr14], rbp
-	mov rbp, [rsp+16]
-	mov [registers.dr13], rbp
-	mov rbp, [rsp+24]
-	mov [registers.dr12], rbp
-	mov rbp, [rsp+32]
-	mov [registers.dr11], rbp
-	mov rbp, [rsp+40]
-	mov [registers.dr10], rbp
-	mov rbp, [rsp+48]
-	mov [registers.dr9], rbp
-	mov rbp, [rsp+56]
-	mov [registers.dr8], rbp
-	mov rbp, [rsp+64]
-	mov [registers.drsi], rbp
-	mov rbp, [rsp+72]
-	mov [registers.drdi], rbp
-	mov rbp, [rsp+88]
-	mov [registers.drdx], rbp
-	mov rbp, [rsp+96]
-	mov [registers.drcx], rbp
-	mov rbp, [rsp+104]
-	mov [registers.drbx], rbp
-	mov rbp, [rsp+112]
-	mov [registers.drax], rbp
-	mov rbp, [rsp+120]
-	mov [registers.drip], rbp
-	mov rbp, [rsp+128]
-	mov [registers.dcs], rbp
-	mov rbp, [rsp+136]
-	mov [registers.drfl], rbp
-	mov rbp, [rsp+144]
-	mov [registers.drsp], rbp
-	mov rbp, [rsp+152]
-	mov [registers.dss], rbp
-	mov rbp, [registers.drbp]
+	; mov [registers.drbp], rbp
+	; mov rbp, [rsp]
+	; mov [registers.dr15], rbp
+	; mov rbp, [rsp+8]
+	; mov [registers.dr14], rbp
+	; mov rbp, [rsp+16]
+	; mov [registers.dr13], rbp
+	; mov rbp, [rsp+24]
+	; mov [registers.dr12], rbp
+	; mov rbp, [rsp+32]
+	; mov [registers.dr11], rbp
+	; mov rbp, [rsp+40]
+	; mov [registers.dr10], rbp
+	; mov rbp, [rsp+48]
+	; mov [registers.dr9], rbp
+	; mov rbp, [rsp+56]
+	; mov [registers.dr8], rbp
+	; mov rbp, [rsp+64]
+	; mov [registers.drsi], rbp
+	; mov rbp, [rsp+72]
+	; mov [registers.drdi], rbp
+	; mov rbp, [rsp+88]
+	; mov [registers.drdx], rbp
+	; mov rbp, [rsp+96]
+	; mov [registers.drcx], rbp
+	; mov rbp, [rsp+104]
+	; mov [registers.drbx], rbp
+	; mov rbp, [rsp+112]
+	; mov [registers.drax], rbp
+	; mov rbp, [rsp+120]
+	; mov [registers.drip], rbp
+	; mov rbp, [rsp+128]
+	; mov [registers.dcs], rbp
+	; mov rbp, [rsp+136]
+	; mov [registers.drfl], rbp
+	; mov rbp, [rsp+144]
+	; mov [registers.drsp], rbp
+	; mov rbp, [rsp+152]
+	; mov [registers.dss], rbp
+	; mov rbp, [registers.drbp]
 %endmacro
 
 %macro popState 0
