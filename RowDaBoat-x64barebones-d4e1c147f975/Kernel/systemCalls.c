@@ -69,6 +69,7 @@ void sysKillBuffer()	{
 
 void sysDraw(int x, int y, int size)	{
 	snakeBodyDrawer(y,x,size);
+
 }
 
 void timeManager(){

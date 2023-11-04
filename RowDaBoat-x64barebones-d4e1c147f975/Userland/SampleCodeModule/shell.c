@@ -4,17 +4,17 @@
 
 
 typedef void (*shellFunctions)(void);
-static shellFunctions menuFunctions[7]={&help, &snake1, &snake2, &time, &biggerText, &smallerText, &exitProgram};
-static char* menuNames[7]= {"help", "snake 1", "snake 2", "time", "biggertext","smallertext", "exit"};
+static shellFunctions menuFunctions[7]={&help, &snake, &time, &textSize, &exitProgram};
+static char* menuNames[7]= {"help", "snake", "time", "size", "exit"};
 static char* menuDescriptions[7]={"Gives information about the available commands to execute.",
-                            "Starts a new Snake game, only one player.",
-                            "Starts a new Snake game, two players at the same time.",
+                            "Starts a new Snake game, add '1' or '2' as argument according to the ammount of players wanted",
                             "Prints the RTC's time on the screen .",
-                            "Increases font size unless maximum size has been reached.",
-                            "Decreases font size unless minimum size has been reached.",
+                            "Changes font size unless minimum/maximum size has been reached. Use argument 'small' or 'bigger' after the space",
                             "Closes the Shell and finishes the execution of the software."};
 //TODO aceptar colores en entrada estandar para imprimirlos
 static int flag=1;
+static char function[15]={'\0'};
+static char argument[15]={'\0'};
 
 void initShell()    {
     killBuffer();
@@ -45,9 +45,9 @@ void read(unsigned char * buffer)   {
 void getMenu(unsigned char* buffer){
     int i=0;
     buffer=stringNormalizer(buffer);
-    print(buffer);
-    while (i<AVAILABLE_FUNCTIONS){
-        if (strEquals(menuNames[i], buffer)) {
+    stringTrimmerBySpace(buffer, function, argument);
+    while (menuNames[i]){
+        if (strEquals(menuNames[i], function)) {
             print("\n");
             menuFunctions[i]();
             print("\n");
@@ -55,7 +55,9 @@ void getMenu(unsigned char* buffer){
         }
         i++;
     }
+    print("\n");
     print("Unknown Command");
+    print("\n");
 }
 void help(){
     print("\n");
@@ -70,21 +72,29 @@ void time(){
     time_getter();
 }
 
-void snake1(){
-    startSnake(1);
+void snake(){
+    if (strEquals("1", argument))
+        startSnake(1);
+    else if (strEquals("2", argument))
+        startSnake(2);
+    else print("Arguments are necessary or the argument written is not defined");
 }
-void snake2(){
-    startSnake(2);
+void textSize(){
+   if (strEquals("smaller", argument)){
+       make_text_smaller();
+   }
+   else if (strEquals("bigger", argument)){
+       make_text_bigger();
+   }
+   else print("Arguments are necessary or the argument written is not defined");
 }
-void biggerText(){
-    make_text_bigger();
-}
-void smallerText(){
-    make_text_smaller();
-}
+
 void exitProgram(){
     flag=0;
     exit_shell();
+}
+void colorChanging(){
+
 }
 int getFlag(){
     return flag;

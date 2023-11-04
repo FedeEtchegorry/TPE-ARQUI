@@ -3,7 +3,7 @@
 #include <keyboard.h>
 #include <time.h>
 
-#define SCREEN_BUFFER_SIZE 1000
+#define SCREEN_BUFFER_SIZE 5000
 char screenBuffer[SCREEN_BUFFER_SIZE];
 static unsigned int bufferColors[SCREEN_BUFFER_SIZE][2];
 int position=0;
@@ -53,13 +53,13 @@ void printCharDefault(char c,int fgcolor, int bgcolor){
     if (c == '\b') {
         backspace();
         if (position > 0) {
-            position = (position - 1 + SCREEN_BUFFER_SIZE) % SCREEN_BUFFER_SIZE;
+            position--;
         }
     } else {
-        screenBuffer[position] =c;
-        bufferColors[position][0] = fgcolor;
-        bufferColors[position][1] = bgcolor;
-        position = (position + 1) % SCREEN_BUFFER_SIZE;
+        screenBuffer[position % SCREEN_BUFFER_SIZE] =c;
+        bufferColors[position % SCREEN_BUFFER_SIZE][0] = fgcolor;
+        bufferColors[position % SCREEN_BUFFER_SIZE][1] = bgcolor;
+        position++;
         if (position == positionTraveller) {
             positionTraveller++;
         }

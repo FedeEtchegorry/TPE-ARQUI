@@ -9,9 +9,7 @@
     void getMenu(unsigned char* buffer);
     void help();
     void time();
-    void snake1();
-    void snake2();
-    void biggerText();
-    void smallerText();
+    void snake();
+    void textSize();
     void exitProgram();
 #endif
