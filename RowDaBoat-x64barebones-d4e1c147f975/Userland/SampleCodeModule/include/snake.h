@@ -3,8 +3,8 @@
 
     #include <randlib.h>
 
-    #define ROWS 50
-    #define COLUMNS 50
+    #define ROWS 28
+    #define COLUMNS 28
     #define SLOTS ROWS*COLUMNS
 
     typedef enum Direction { RIGHT, LEFT, DOWN, UP} tDirection;
@@ -33,9 +33,6 @@
 
     typedef struct apple * tApple;
 
-// TO DO: empieza el juego snake(dibuja el mapa y spawnea la serpiente), falta implementar las funciones
-//      para dibujar los cuadraditos.
-    void drawSnake(tSnake snake, tApple apple);
 
 // Parcialmente imprime info de la snake y se puede jugar un poquito (TO DO).
     void startSnake(int players);
@@ -56,9 +53,6 @@
 
 //  Retorna 1 si hubo una colision entre la cabeza y algun cuerpo o muro.
 
-// TO DO: Si bien se tuvo en cuenta que este comiendo, no se implemento
-//  el encuentro con comida. Pendiente para cuando se implemente la comida.
-
     int moveSnake(tSnake snake);
 
 // refreshSnakeDirections():
@@ -68,16 +62,9 @@
 
     void refreshSnakeDirections(tSnake snake);
 
-// printSnakeInfo():
-
-//  Imprime la informacion de la serpiente.
-//  Los bodies se cuentan de menor a mayor desde la cabeza hasta la cola.
-    void printSnakeInfo(tSnake snake);
-
     void spawnApple(tApple apple, tSnake snake);
 
     void feedSnake(tApple apple, tSnake snake);
 
-    void printAppleInfo(tApple apple);
 
 #endif

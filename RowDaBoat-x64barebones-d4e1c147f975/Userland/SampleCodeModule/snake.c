@@ -1,30 +1,22 @@
 #include <userlib.h>
 #include <snake.h>
+#include <frontSnake.h>
 
-#define TICKS_UNTIL_PRINT 20000
+#define TICKS_UNTIL_PRINT 100000
 
-// int isTwoPlayersModeOn=0;
 
 // gameSpace:
-static tSnake mySnake;
-static tApple myApple;
 
 void startSnake(int players){
-//    drawMap();
-//    printScore();
-//    tSnake snake1;
-//    if (players==2){
-//        isTwoPlayersModeOn=1;
-//        tSnake snake2;
-//        spawnSnake(snake2);
-//    }
-//    spawnSnake(snake1);
 
+    tSnake mySnake;
+    tApple myApple; // Funciona bien con variables locales
 
 	spawnSnake(mySnake);
 
 	spawnApple(myApple, mySnake);
     
+    drawMap();
 
     int ticks = TICKS_UNTIL_PRINT;
 
@@ -36,11 +28,18 @@ void startSnake(int players){
 
             if(moveSnake(mySnake))  {
 
-                spawnApple(myApple, mySnake);
-                feedSnake(myApple, mySnake);
+                clear();
+                killBuffer();
+                return;
+
             }
+
+            feedSnake(myApple, mySnake);
+            if(mySnake->eating)
+                spawnApple(myApple, mySnake);
+
             drawSnake(mySnake, myApple);
-            
+            refreshSnakeDirections(mySnake);
         }
 
         ticks++;
@@ -53,7 +52,7 @@ void startSnake(int players){
                 break;
         }
             case 's' :  {
-                
+                // Notar que la matriz que imprimer los pixeles crece para abajo.
                 changeSnakeDirection(mySnake, UP);
                 break;
         }        
@@ -83,12 +82,6 @@ void startSnake(int players){
 
 }
 
-void drawSnake(tSnake snake, tApple apple)  {
-    for(int i=0; i<=snake->headPos; i++)    
-        draw(snake->body[i].x, snake->body[i].y, 16);
-        draw(apple->x, apple->y, 16);
-    
-}
 
 // snake space:
 
@@ -108,8 +101,8 @@ void spawnSnake(tSnake babySnake)   {
 
 static int isOpositeDirection(tDirection dir1, tDirection dir2) {
     
-    return  (dir1 == RIGHT && dir2 == LEFT) || (dir2 == RIGHT && dir1 == LEFT) ||
-            (dir1 == UP && dir2 == DOWN) || (dir2 == DOWN && dir1 == UP);
+    return  (dir1 == RIGHT && dir2 == LEFT) || (dir1 == LEFT && dir2 == RIGHT) ||
+            (dir1 == UP && dir2 == DOWN) || (dir1 == DOWN && dir2 == UP);
             
 }
 
@@ -163,8 +156,11 @@ static void moveBody(tSnake snake, unsigned int bodyPos) {
 static int checkCrash(tSnake snake)    {
     for(int i=0; i<snake->headPos; ++i) {
         if (snake->body[snake->headPos].x == snake->body[i].x &&
-            snake->body[snake->headPos].y == snake->body[i].y)
-            return 1;
+            snake->body[snake->headPos].y == snake->body[i].y)  {
+
+                return 1;
+            }
+            
     }
 
 // Checkear si toco una pared es simplement checkear si la cabeza toco la pared
@@ -198,79 +194,14 @@ int moveSnake(tSnake snake)    {
 }
 
 
-static void printDirection(tDirection direction) {
-
-    switch(direction) {
-        
-        case RIGHT: {
-            print("RIGHT");
-            break;
-        }
-        case LEFT: {
-            print("LEFT");
-            break;
-        }
-        case DOWN: {
-            print("DOWN");
-            break;
-        }
-        case UP: {
-            print("UP");
-            break;
-        }
-        
-        default:    {
-            print("Direction not defined");
-            break;
-        }
-    }
-}
-
-static void printSnakeBody(struct snakeBody body)    {
-
-    putEnter();
-
-    print("x: ");   printUinteger(body.x);
-    putEnter();
-    print("y: ");   printUinteger(body.y);
-    putEnter();
-    print("Direction: ");   printDirection(body.direction);
-
-    putEnter();
-}
-
-void printSnakeInfo(tSnake snake)   {
-
-    
-    print("Snake length: ");   printUinteger(snake->headPos+1);
-    putEnter();
-    print("Snake is");
-    snake->eating ? print(" ") : print(" not ");
-    print("eating");  
-    putnEnters(2);
-
-    print("Head info: ");
-    printSnakeBody(snake->body[snake->headPos]);
-
-
-    for(int i=snake->headPos-1; i>=0; --i)    {
-        
-        putEnter();
-        print("Body ");
-        printUinteger(snake->headPos - i);
-        print(" info:");
-        printSnakeBody(snake->body[i]);
-        putEnter();
-    }
-
-}
-
 void feedSnake(tApple apple, tSnake snake)   {
 
     if (snake->body[snake->headPos].x == apple->x && 
-    snake->body[snake->headPos].y == apple->y)  
-
+    snake->body[snake->headPos].y == apple->y)  {
+        
         snake->eating = 1;
+    }
+        
 }
 
 // Apple space:
@@ -284,9 +215,9 @@ void spawnApple(tApple apple, tSnake snake)   {
 
     while(tryAgain) {
 
-        x = randInt(0, ROWS);
+        x = randInt(1, ROWS-1);
   
-        y = randInt(0, COLUMNS);
+        y = randInt(1, COLUMNS-1);
         i=0;
 
         do      {          
@@ -299,19 +230,4 @@ void spawnApple(tApple apple, tSnake snake)   {
 
     apple->x = x;
     apple->y = y;
-}
-
-void printAppleInfo(tApple apple)    {
-
-    print("Apple: ");
-
-    putEnter();
-
-    print("x: ");   printUinteger(apple->x);
-    putEnter();
-    print("y: ");   printUinteger(apple->y);
-
-    putEnter();
-
-
 }

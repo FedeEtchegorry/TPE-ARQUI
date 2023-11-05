@@ -1,5 +1,6 @@
 GLOBAL print
 GLOBAL draw
+GLOBAL clear
 GLOBAL getChar
 GLOBAL getAndPrintChar
 GLOBAL killBuffer
@@ -216,6 +217,23 @@ draw:
     mov rsp, rbp
     pop rbp
     ret
+
+clear:
+
+    push rbp
+    mov rbp, rsp
+
+    push rax
+
+    mov rax, 0x45
+    int 0x80
+
+    pop rax
+
+    pop rbp
+    mov rsp, rbp
+    ret
+
 recolor:
 
     push rbp

@@ -15,9 +15,13 @@
 
     unsigned char getAndPrintChar();
 
-    void draw(int x, int y, int size);
+    void draw(int model, int x, int y);
+
+    void clear();
 
     void killBuffer();
+
+    void exit_shell();
 
     void putEnter();
 

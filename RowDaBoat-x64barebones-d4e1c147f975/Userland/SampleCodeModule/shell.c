@@ -1,17 +1,19 @@
 #include <userlib.h>
+#include <snake.h>
 #include <shell.h>
 #include <colours.h>
 
 
 typedef void (*shellFunctions)(void);
-static shellFunctions menuFunctions[6]={&help, &snake, &time, &textSize,&colorChanging, &exitProgram};
-static char* menuNames[6]= {"help", "snake", "time", "size", "color", "exit"};
-static char* menuDescriptions[6]={"Gives information about the available commands to execute.",
+static shellFunctions menuFunctions[AVAILABLE_FUNCTIONS]={&help, &snake, &time, &textSize,&colorChanging, &exitProgram, &clear};
+static char* menuNames[AVAILABLE_FUNCTIONS]= {"help", "snake", "time", "size", "color", "exit", "clear"};
+static char* menuDescriptions[AVAILABLE_FUNCTIONS]={"Gives information about the available commands to execute.",
                             "Starts a new Snake game, add '1' or '2' as argument according to the ammount of players wanted",
                             "Prints the RTC's time on the screen .",
                             "Changes font size unless minimum/maximum size has been reached. Use argument 'small' or 'bigger' after the space",
                             "Changes the font's color, available arguments are 'white', 'red', 'blue', 'green', 'yellow', 'orange', 'violet'",
-                            "Closes the Shell and finishes the execution of the software."};
+                            "Closes the Shell and finishes the execution of the software.",
+                            "Cleans the terminal."};
 //TODO aceptar colores en entrada estandar para imprimirlos
 static int flag=1;
 static char function[15]={'\0'};
@@ -74,10 +76,20 @@ void time(){
 }
 
 void snake(){
-    if (strEquals("1", argument))
+    if (strEquals("1", argument))   {
+
         startSnake(1);
-    else if (strEquals("2", argument))
+        clear();
+        initShell();    // No funca
+    }
+        
+    else if (strEquals("2", argument))  {
+
         startSnake(2);
+        clear();
+        initShell();
+    }
+        
     else print("Arguments are necessary or the argument written is not defined");
 }
 void textSize(){
