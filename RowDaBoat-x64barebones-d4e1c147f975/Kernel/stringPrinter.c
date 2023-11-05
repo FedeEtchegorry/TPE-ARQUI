@@ -2,6 +2,7 @@
 #include <colours.h>
 #include <keyboard.h>
 #include <time.h>
+#include <registers.h>
 
 #define SCREEN_BUFFER_SIZE 5000
 char screenBuffer[SCREEN_BUFFER_SIZE];
@@ -50,6 +51,9 @@ void backspace(){
 void printCharDefault(char c,int fgcolor, int bgcolor){
     if (c==0)
         return;
+    if (c == '\a'){
+        return;
+    }
     if (c == '\b') {
         backspace();
         if (position > 0) {
@@ -70,6 +74,20 @@ void printCharDefault(char c,int fgcolor, int bgcolor){
         else
             drawCharOnCurrentPos(c, fgcolor, bgcolor);
     }
+}
+void registerPrintInit(){
+    fillScreen(0x0);
+    resetPosition();
+    registerRetriever();
+}
+void printRegisterDefault(char* string){
+    blockBlink();
+    for (int i = 0; string[i]!='\0'; i++) {
+        if (string[i] == '\n')
+            printNewline();
+        else drawCharOnCurrentPos(string[i], WHITE, BLACK);
+    }
+    allowBlink();
 }
 void blink(){
     if (canBlink) {

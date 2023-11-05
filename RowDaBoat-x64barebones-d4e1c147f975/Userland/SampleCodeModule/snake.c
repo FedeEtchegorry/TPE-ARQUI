@@ -1,7 +1,7 @@
 #include <userlib.h>
 #include <snake.h>
 
-#define TICKS_UNTIL_PRINT 2000
+#define TICKS_UNTIL_PRINT 20000
 
 // int isTwoPlayersModeOn=0;
 
@@ -54,12 +54,12 @@ void startSnake(int players){
         }
             case 's' :  {
                 
-                changeSnakeDirection(mySnake, DOWN);    
+                changeSnakeDirection(mySnake, UP);
                 break;
         }        
             case 'w' :  {
                 
-                changeSnakeDirection(mySnake, UP);      
+                changeSnakeDirection(mySnake, DOWN);
                 break;
         }
             case 'd' :  {

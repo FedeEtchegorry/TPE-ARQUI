@@ -6,6 +6,7 @@ GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
 GLOBAL saveState
+GLOBAL register_saviour
 
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
@@ -41,48 +42,7 @@ SECTION .text
 	push r15
 %endmacro
 
-%macro dState 0
-	; mov [registers.drbp], rbp
-	; mov rbp, [rsp]
-	; mov [registers.dr15], rbp
-	; mov rbp, [rsp+8]
-	; mov [registers.dr14], rbp
-	; mov rbp, [rsp+16]
-	; mov [registers.dr13], rbp
-	; mov rbp, [rsp+24]
-	; mov [registers.dr12], rbp
-	; mov rbp, [rsp+32]
-	; mov [registers.dr11], rbp
-	; mov rbp, [rsp+40]
-	; mov [registers.dr10], rbp
-	; mov rbp, [rsp+48]
-	; mov [registers.dr9], rbp
-	; mov rbp, [rsp+56]
-	; mov [registers.dr8], rbp
-	; mov rbp, [rsp+64]
-	; mov [registers.drsi], rbp
-	; mov rbp, [rsp+72]
-	; mov [registers.drdi], rbp
-	; mov rbp, [rsp+88]
-	; mov [registers.drdx], rbp
-	; mov rbp, [rsp+96]
-	; mov [registers.drcx], rbp
-	; mov rbp, [rsp+104]
-	; mov [registers.drbx], rbp
-	; mov rbp, [rsp+112]
-	; mov [registers.drax], rbp
-	; mov rbp, [rsp+120]
-	; mov [registers.drip], rbp
-	; mov rbp, [rsp+128]
-	; mov [registers.dcs], rbp
-	; mov rbp, [rsp+136]
-	; mov [registers.drfl], rbp
-	; mov rbp, [rsp+144]
-	; mov [registers.drsp], rbp
-	; mov rbp, [rsp+152]
-	; mov [registers.dss], rbp
-	; mov rbp, [registers.drbp]
-%endmacro
+
 
 %macro popState 0
 	pop r15
@@ -262,7 +222,26 @@ haltcpu:
 	hlt
 	ret
 
-
+register_saviour:
+    mov [register_array],     rax
+    mov [register_array+8],   rbx
+    mov [register_array+16],  rcx
+    mov [register_array+24],  rdx
+    mov [register_array+32],  rsi
+    mov [register_array+40],  rdi
+    mov [register_array+48],  rbp
+    mov [register_array+56],  rsp
+    mov [register_array+64],  r8
+    mov [register_array+72],  r9
+    mov [register_array+80],  r10
+    mov [register_array+88],  r11
+    mov [register_array+96],  r12
+    mov [register_array+104], r13
+    mov [register_array+112], r14
+    mov [register_array+120], r15
+    mov rax, register_array
+    ret
 
 SECTION .bss
 	aux: resq 1
+	register_array resq 16

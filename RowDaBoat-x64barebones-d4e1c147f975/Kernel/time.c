@@ -2,10 +2,14 @@
 #include <videoDriver.h>
 
 static unsigned long ticks = 0;
+static int snakeIsOn=0;
 
 void timer_handler() {
 	ticks++;
     blink();
+}
+void snakeIsOff(){
+
 }
 
 int ticks_elapsed() {

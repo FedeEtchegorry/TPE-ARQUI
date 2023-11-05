@@ -76,7 +76,7 @@ void sysDraw(int x, int y, int size)	{
 
 void timeManager(){
     char* time=getTime();
-    printTextDefault(time, WHITE, BLACK);
+    printTextDefault(time, characterColor, BLACK);
 }
 void makeTextBigger(){
     biggerText();
