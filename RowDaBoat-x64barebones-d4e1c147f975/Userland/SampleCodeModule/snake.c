@@ -1,7 +1,9 @@
 #include <userlib.h>
 #include <snake.h>
 
-int isTwoPlayersModeOn=0;
+#define TICKS_UNTIL_PRINT 2000
+
+// int isTwoPlayersModeOn=0;
 
 // gameSpace:
 
@@ -16,35 +18,67 @@ void startSnake(int players){
 //    }
 //    spawnSnake(snake1);
     
-    unsigned char key = 0;
-
 	tSnake mySnake;
 	tApple myApple;
+
 	spawnSnake(mySnake);
+
 	spawnApple(myApple, mySnake);
     
-    int timer = 0;
+
+    int ticks = TICKS_UNTIL_PRINT;
 
     while(1)    {
-        
-        if(timer == 100)    {
+
+        if(ticks == TICKS_UNTIL_PRINT)   {
             
-            timer = 0;
-            printSnakeInfo(mySnake);
-            printAppleInfo(myApple);
+            ticks = 0;
+
+            if(moveSnake(mySnake))  {
+
+                spawnApple(myApple, mySnake);
+                feedSnake(myApple, mySnake);
+            }
+            drawSnake(mySnake, myApple);
+            
         }
 
-        key = getChar();
+        ticks++;
 
-        if(key == '\n')    
-            break;
+        switch(getChar())   {
+        
+            case 'a' :  {
+                
+                changeSnakeDirection(mySnake, LEFT);    
+                break;
+        }
+            case 's' :  {
+                
+                changeSnakeDirection(mySnake, DOWN);    
+                break;
+        }        
+            case 'w' :  {
+                
+                changeSnakeDirection(mySnake, UP);      
+                break;
+        }
+            case 'd' :  {
+                
+                changeSnakeDirection(mySnake, RIGHT);   
+                break;
+        }
+            case 'p' :  {
+                
+                while(getChar()!='p');                    
+                break;
+        }
+            default :   
+                
+                break;
+        }
 
-        if(key == 'w');
-            changeSnakeDirection(mySnake, UP);
-            
-        // else if(key == 'a);
+        refreshSnakeDirections(mySnake);
 
-        timer++;
     }
 
 }
@@ -53,7 +87,7 @@ void drawSnake(tSnake snake, tApple apple)  {
     for(int i=0; i<=snake->headPos; i++)    
         draw(snake->body[i].x, snake->body[i].y, 16);
 
-    draw(apple->x, apple->y, 16);
+    // draw(apple->x, apple->y, 16);
     
 }
 
@@ -61,14 +95,16 @@ void drawSnake(tSnake snake, tApple apple)  {
 
 void spawnSnake(tSnake babySnake)   {
     
-    for(int i=0; i<3; i++)  {
+    babySnake->headPos = 2;
+    babySnake->eating = 0;
+
+    for(int i=0; i<=babySnake->headPos; i++)  {
         babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
         babySnake->body[i].y = (ROWS / 2);
         babySnake->body[i].direction = RIGHT;
     }
     
-    babySnake->headPos = 2;
-    babySnake->eating = 0;
+
 }
 
 static int isOpositeDirection(tDirection dir1, tDirection dir2) {
@@ -241,7 +277,6 @@ void feedSnake(tApple apple, tSnake snake)   {
 // Apple space:
 
 void spawnApple(tApple apple, tSnake snake)   {
-    
     int x; 
     int y; 
     int tryAgain = 1;
@@ -251,18 +286,20 @@ void spawnApple(tApple apple, tSnake snake)   {
     while(tryAgain) {
 
         x = randInt(0, ROWS);
+  
         y = randInt(0, COLUMNS);
-
         i=0;
 
         do      {          
-            
+
             tryAgain = snake->body[i].x == x && snake->body[i].y == y;
             ++i;
         }
         while(i<=snake->headPos && !tryAgain);
     } 
 
+    apple->x = x;
+    apple->y = y;
 }
 
 void printAppleInfo(tApple apple)    {
