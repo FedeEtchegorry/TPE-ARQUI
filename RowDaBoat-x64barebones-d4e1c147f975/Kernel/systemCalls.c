@@ -112,10 +112,12 @@ unsigned long rand()	{
 
 	ans += ((unsigned long) currentTime) << 11;
 
-	seed = seed ^ ans;
-	ans -= seed;
+	seed = seed * ans;
+	ans = ans ^ seed;
 
 	ans *= ticks_elapsed();
+
+	for(int w = 0; w<10000; w++);
 
 	return ans & 0x7fffffff;
 

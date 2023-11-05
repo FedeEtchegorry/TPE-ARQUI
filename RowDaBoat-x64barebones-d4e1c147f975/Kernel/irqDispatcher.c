@@ -25,13 +25,9 @@ void irqDispatcher(uint64_t irq) {
 
 
 void int_20() {
+
 	timer_handler();
-	
-	// if( alarmAt(5) )	{
-	// 	char string [BUFFER_SIZE];
-	// 	readBuffer(string, BUFFER_SIZE);
-	// 	printTextDefault(string, WHITE, BLACK);
-	// }
+
 	
 }
 

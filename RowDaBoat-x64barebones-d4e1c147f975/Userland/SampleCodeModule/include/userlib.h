@@ -27,6 +27,13 @@
 
     void putTab();
 
+    void time_getter();
+
+    void make_text_smaller();
+
+    void make_text_bigger();
+
+    void recolor(unsigned int colour);
 
 //  Strings:
 

@@ -53,10 +53,14 @@ getChar:
     push rbp
     mov rbp, rsp
 
+    push rbx
+
     mov rax, 0x04
     mov rbx, 0xA0
     int 0x80
     
+    pop rbx
+
     mov rsp, rbp
     pop rbp
     
@@ -67,8 +71,10 @@ killBuffer:
     push rbp
 	mov rbp, rsp
 
+    push rax
     mov rax, 0x99
     int 0x80
+    pop rax
 
     mov rsp, rbp
     pop rbp
@@ -79,9 +85,13 @@ getAndPrintChar:
     push rbp
 	mov rbp, rsp
 
+    push rbx
+
     mov rax, 0x04
     mov rbx, 0xA1
     int 0x80
+
+    pop rbx
 
     mov rsp, rbp
     pop rbp
@@ -91,6 +101,10 @@ putChar:
 
     push rbp
 	mov rbp, rsp
+
+    push rax
+    push rbx
+    push rsi
 
     mov rax, 0x03   ; sysRead:
     mov rbx, 0x01   ;   read Char
@@ -102,6 +116,10 @@ putChar:
     mov rbx, 0x02   ;
                     ;
     int 0x80        ;
+
+    pop rsi 
+    pop rbx
+    pop rax
 
     mov rsp, rbp
     pop rbp
@@ -123,8 +141,10 @@ time_getter:
     push rbp
     mov rbp, rsp
 
+    push rax
     mov rax, 0x98
     int 80h
+    pop rax
 
     mov rsp, rbp
     pop rbp
@@ -134,8 +154,10 @@ make_text_bigger:
     push rbp
     mov rbp, rsp
 
+    push rax
     mov rax, 0xa1
     int 80h
+    pop rax
 
     mov rsp, rbp
     pop rbp
@@ -146,8 +168,12 @@ make_text_smaller:
     push rbp
     mov rbp, rsp
 
+    push rax
+    
     mov rax, 0xa0
     int 80h
+
+    pop rax
 
     mov rsp, rbp
     pop rbp
@@ -172,12 +198,20 @@ draw:
     push rbp
     mov rbp, rsp 
 
+    push rbx
+    push rdi
+    push rdx
+
     mov rbx, rdi    ; 1er arg en C
     mov rdi, rdx    ; 3er arg
     mov rdx, rsi    ; 2do arg
 
     mov rax, 0x44
     int 0x80
+
+    pop rbx
+    pop rdi
+    pop rdx
 
     mov rsp, rbp
     pop rbp
@@ -187,10 +221,14 @@ recolor:
     push rbp
     mov rbp, rsp
 
+    push rbx
+
     mov rbx, rdi    ; 1er arg en C
 
     mov rax, 0xa2
     int 0x80
+
+    pop rbx
 
     mov rsp, rbp
     pop rbp

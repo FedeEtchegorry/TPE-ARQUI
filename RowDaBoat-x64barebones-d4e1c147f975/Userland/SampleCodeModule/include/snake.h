@@ -10,12 +10,14 @@
     typedef enum Direction { RIGHT, LEFT, DOWN, UP} tDirection;
 
     struct snakeBody {
+
         unsigned int x;
         unsigned int y;
         tDirection direction;
     };
 
     struct snake    {
+
         struct snakeBody body[SLOTS];
         unsigned int headPos;
         unsigned char eating;   // flag
@@ -23,12 +25,20 @@
 
     typedef struct snake* tSnake;
 
+        struct apple    {
+
+        unsigned int x;
+        unsigned int y;
+    };
+
+    typedef struct apple * tApple;
+
 // TO DO: empieza el juego snake(dibuja el mapa y spawnea la serpiente), falta implementar las funciones
 //      para dibujar los cuadraditos.
-    void drawSnake();
+    void drawSnake(tSnake snake, tApple apple);
 
 // Parcialmente imprime info de la snake y se puede jugar un poquito (TO DO).
-    void startSnake();
+    void startSnake(int players);
 
 //  Instancia snake.
     void spawnSnake(tSnake babySnake);
@@ -63,14 +73,6 @@
 //  Imprime la informacion de la serpiente.
 //  Los bodies se cuentan de menor a mayor desde la cabeza hasta la cola.
     void printSnakeInfo(tSnake snake);
-
-    struct apple    {
-
-        unsigned int x;
-        unsigned int y;
-    };
-
-    typedef struct apple * tApple;
 
     void spawnApple(tApple apple, tSnake snake);
 
