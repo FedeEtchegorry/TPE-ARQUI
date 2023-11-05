@@ -230,8 +230,8 @@ clear:
 
     pop rax
 
-    pop rbp
     mov rsp, rbp
+    pop rbp
     ret
 
 recolor:

@@ -4,6 +4,7 @@
 #include <userlib.h>
 
 void drawMap()  {
+    clear();
     for(int i=0; i<=COLUMNS; ++i)    {
         draw(0x04, i, 0);
         draw(0x04, i, ROWS);

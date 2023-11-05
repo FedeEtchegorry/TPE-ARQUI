@@ -197,8 +197,6 @@ void fillScreen(uint32_t hexColor) {
             framebuffer[offset+2] = (hexColor >> 16) & 0xFF; //R
         }
     }
-
-    currentPosition= 0; // Reiniciamos la posicion por si se quiere volver a escribir
 }
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     uint8_t *framebuffer = (uint8_t *) VBE_mode_info->framebuffer;

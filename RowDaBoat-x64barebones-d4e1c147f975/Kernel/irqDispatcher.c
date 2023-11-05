@@ -82,7 +82,7 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
 			break;
 		}
         case RECOLOR:{
-            changeColor(rbx);       //TODO falta asegurarse de guardar en los registros las cosas
+            changeColor(rbx);
             break;
         }
 		default:	{

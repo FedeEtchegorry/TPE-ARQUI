@@ -4,7 +4,7 @@
 #include <time.h>
 #include <registers.h>
 
-#define SCREEN_BUFFER_SIZE 5000
+#define SCREEN_BUFFER_SIZE 2500
 char screenBuffer[SCREEN_BUFFER_SIZE];
 static unsigned int bufferColors[SCREEN_BUFFER_SIZE][2];
 int position=0;
@@ -151,6 +151,7 @@ void refillScreen() {
     }
 
 }
+
 
 
 
