@@ -1,5 +1,6 @@
 #include <registers.h>
 #include <buffer.h>
+#include "./include/videoDriver.h"
 
 void printRegisters(registerStruct * registers) {
 	putString("RIP = 0x");
