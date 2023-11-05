@@ -69,9 +69,31 @@ void sysKillBuffer()	{
 	cleanBuffer();
 }
 
-void sysDraw(int x, int y, int size)	{
-	snakeBodyDrawer(y,x,size);
+void sysDraw( int model, int x, int y)	{
+	
+	if(	model == HEAD_LEFT || model == HEAD_RIGHT || 
+		model == HEAD_UP || model == HEAD_DOWN	)	{
+		
+		snakeHeadDrawer(model, x, y);
+		return;
+	}
+	if(model == BODY)	{
+		snakeBodyDrawer(x, y);
+		return;
+	}
+	if(model == APPLE)	{
+		appleDraw(x,y);
+		return;
+	}
+	if(model == EMPTY)	{
+		blackSquareDrawer(x,y);
+		return;	
+	}
 
+}
+
+void sysClear()	{
+	fillScreen(BLACK);
 }
 
 void timeManager(){

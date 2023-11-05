@@ -63,6 +63,11 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
 		}
 		case SYSTEM_DRAW_ID : {
 			sysDraw(rbx, rdx, rdi);
+			break;
+		}
+		case SYSTEM_CLEAR_ID:	{
+			sysClear();
+			break;
 		}
         case SMALLER_TEXT : {
             makeTextSmaller();

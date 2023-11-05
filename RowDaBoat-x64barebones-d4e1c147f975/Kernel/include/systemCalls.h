@@ -8,6 +8,7 @@
 #define SYSTEM_TIME_ID                  0x98
 #define SYSTEM_KILLBUFFER_ID            0x99
 #define SYSTEM_DRAW_ID                  0x44
+#define SYSTEM_CLEAR_ID                 0x45
 #define SMALLER_TEXT                    0xa0
 #define BIGGER_TEXT                     0xa1
 #define RANDLONG_ID                     0x12
@@ -34,8 +35,20 @@
 // Borra el buffer:
     void killBuffer();
 
+// sysDraw @model codes (en rbx):
+    #define HEAD_LEFT   0x00
+    #define HEAD_RIGHT  0x01
+    #define HEAD_UP     0x02
+    #define HEAD_DOWN   0x03
+    #define BODY        0x04
+    #define APPLE       0x05
+    #define EMPTY       0xA0
+
 // Pinta un pixel:
-    void sysDraw(int x, int y, int size);
+    void sysDraw(int model, int x, int y );
+
+// Borra toda la pantalla:
+    void sysClear();
 
 // Deja el programa detenido indefinidamente
     void exitProgram();
