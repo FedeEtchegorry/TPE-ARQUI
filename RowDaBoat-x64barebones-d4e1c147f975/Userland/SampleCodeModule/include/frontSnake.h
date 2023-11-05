@@ -23,10 +23,6 @@
 
     void printAppleInfo(tApple apple);
 
-    // printSnakeSimulation():
-
-    // Simula una partida de snake, mostrando la informacion dentro del juego.
-    void printSnakeSimulation();
 
 
 #endif
