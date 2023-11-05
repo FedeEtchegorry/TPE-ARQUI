@@ -6,6 +6,8 @@
 // int isTwoPlayersModeOn=0;
 
 // gameSpace:
+static tSnake mySnake;
+static tApple myApple;
 
 void startSnake(int players){
 //    drawMap();
@@ -17,9 +19,7 @@ void startSnake(int players){
 //        spawnSnake(snake2);
 //    }
 //    spawnSnake(snake1);
-    
-	tSnake mySnake;
-	tApple myApple;
+
 
 	spawnSnake(mySnake);
 
@@ -86,8 +86,7 @@ void startSnake(int players){
 void drawSnake(tSnake snake, tApple apple)  {
     for(int i=0; i<=snake->headPos; i++)    
         draw(snake->body[i].x, snake->body[i].y, 16);
-
-    // draw(apple->x, apple->y, 16);
+        draw(apple->x, apple->y, 16);
     
 }
 
