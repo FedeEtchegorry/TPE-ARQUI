@@ -10,8 +10,6 @@ int main() {
     do	{
         read(buffer);
         getMenu(buffer);
-        // read(buffer);
-        // getMenu(buffer);
     }	while(1);
 
 	return 0;

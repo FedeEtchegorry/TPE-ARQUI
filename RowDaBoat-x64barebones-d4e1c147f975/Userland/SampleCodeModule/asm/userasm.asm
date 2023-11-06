@@ -256,8 +256,12 @@ play_tetris_song:
     push rbp
     mov rbp, rsp
 
+    push rax
+
     mov rax, 0xDE
     int 0x80
+
+    pop rax
 
     mov rsp, rbp
     pop rbp
