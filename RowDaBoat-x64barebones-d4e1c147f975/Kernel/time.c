@@ -6,10 +6,14 @@ static int snakeIsOn=0;
 
 void timer_handler() {
 	ticks++;
-    blink();
+    if (!snakeIsOn)
+        blink();
 }
-void snakeIsOff(){
-
+int getSnakeStatus(){
+    return snakeIsOn;
+}
+void nowSnakeIsOn(){
+    snakeIsOn=1;
 }
 
 int ticks_elapsed() {

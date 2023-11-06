@@ -71,8 +71,10 @@ void sysKillBuffer()	{
 }
 
 void sysDraw( int model, int x, int y)	{
-	
-	if(	model == HEAD_LEFT || model == HEAD_RIGHT || 
+    if (!getSnakeStatus()) {
+        nowSnakeIsOn();
+    }
+	if(	model == HEAD_LEFT || model == HEAD_RIGHT ||
 		model == HEAD_UP || model == HEAD_DOWN	)	{
 		
 		snakeHeadDrawer(model, x, y);
