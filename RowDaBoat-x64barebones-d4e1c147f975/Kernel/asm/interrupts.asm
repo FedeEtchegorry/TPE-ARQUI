@@ -1,4 +1,6 @@
 
+
+
 GLOBAL _cli
 GLOBAL _sti
 GLOBAL picMasterMask
@@ -7,6 +9,8 @@ GLOBAL haltcpu
 GLOBAL _hlt
 GLOBAL saveState
 GLOBAL register_saviour
+global play_sound
+global nosound
 
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
@@ -241,6 +245,39 @@ register_saviour:
     mov [register_array+120], r15
     mov rax, register_array
     ret
+
+play_sound:
+;;cargo la frecuencia
+    mov     ax, 0xB6
+    out     0x43, al         ; pone PIT en frecuencia deseada
+    mov     ax, 1193180      ; carga la cte que usa para dividir
+    mov     edx, 0            ; inicializa el divisor
+    div     rdi
+    mov     ax, di
+    ;;mov     al, ah           ; pone el bit bajo en el divisor
+    out     0x42, al         ; pone el bit bajo en el pit
+    mov     al, ah           ; pone el bit alto en el divisor
+    out     0x42, al         ;  pone el bit alto en el pit
+
+;;prendo el speaker
+    in      al, 0x61         ;;lee el valor del puerto
+    mov     cl, al
+    or      cl, 3
+    cmp     al, cl
+    jz      exit
+    mov     al, cl
+    out     0x61, al         ;;sobreescribo el puerto con la nueva configuracion
+exit:
+    ret
+
+; Function to silence the sound
+nosound:
+    in      al, 0x61         ; guardo la info del puerto
+    and     al, 0xFC         ; hago un and para apagarlo
+    out     0x61, al         ; sobreescribo
+    ret
+
+
 
 SECTION .bss
 	aux: resq 1
