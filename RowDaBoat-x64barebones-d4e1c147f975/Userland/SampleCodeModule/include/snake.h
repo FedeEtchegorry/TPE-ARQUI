@@ -16,22 +16,19 @@
         tDirection direction;
     };
 
-    struct snake    {
+    typedef struct  {
 
         struct snakeBody body[SLOTS];
         unsigned int headPos;
-        unsigned char eating;   // flag
-    };
+        struct snakeBody lastPos;       // Posicion de la cola antes de mover. Necesario para dibujar la serpiente.
+        unsigned char eating;           // flag.
+    } * tSnake;
 
-    typedef struct snake* tSnake;
-
-        struct apple    {
+    typedef struct  {
 
         unsigned int x;
         unsigned int y;
-    };
-
-    typedef struct apple * tApple;
+    } * tApple;
 
 
 // Parcialmente imprime info de la snake y se puede jugar un poquito (TO DO).
@@ -49,18 +46,10 @@
 
 //  Debe llamarse en cada segundo del juego independientemente de que 
 //  se haya llamaod a changeSnakeDirection().
-//  Instantaneamente despues debe llamarse a refreshSnakeDirections().
 
 //  Retorna 1 si hubo una colision entre la cabeza y algun cuerpo o muro.
 
     int moveSnake(tSnake snake);
-
-// refreshSnakeDirections():
-
-//  Actualiza la posicion de cada cuerpo de la serpiente con el del siguiente.
-//  Luego de llamar a moveSnake() se debe llamar a refreshSnakeDirections().
-
-    void refreshSnakeDirections(tSnake snake);
 
     void spawnApple(tApple apple, tSnake snake);
 

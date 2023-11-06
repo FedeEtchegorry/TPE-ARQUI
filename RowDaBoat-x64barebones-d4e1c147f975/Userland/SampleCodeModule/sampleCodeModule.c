@@ -4,13 +4,6 @@
 #include <frontSnake.h>
 
 int main() {
-    
-    // tSnake snake;
-    // tApple apple;
-    // spawnSnake(snake);
-    // spawnApple(apple, snake);
-    // startSnake(1);
-    // printSnakeSimulation();    
 
     initShell();
     char buffer[254] = {'\0'};

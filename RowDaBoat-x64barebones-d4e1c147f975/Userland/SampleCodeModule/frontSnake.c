@@ -18,8 +18,13 @@ void drawMap()  {
 
 void drawSnake(tSnake snake, tApple apple)  {
     
-    
-    draw(0xA0, snake->body[0].x, snake->body[0].y);
+// Borramos la posicion anterior del ultimo cuerpito, si es que no coincide con la cabeza.
+    if(snake->lastPos.x != snake->body[snake->headPos].x ||
+        snake->lastPos.y != snake->body[snake->headPos].y)   {
+            
+            draw(0xA0, snake->lastPos.x, snake->lastPos.y);
+        }      
+        
     
     for(int i=0; i<snake->headPos; i++)    
         draw(0x04, snake->body[i].x, snake->body[i].y);
@@ -49,20 +54,28 @@ void drawSnake(tSnake snake, tApple apple)  {
     
 }
 
-void drawAppleSpawning(tApple apple, tSnake snake, unsigned int iterations)  {
+void drawAppleSimulation(unsigned int iterations)  {
+
+    tSnake mySnake;
+    tApple myApple; 
+
+	spawnSnake(mySnake);
+
+	spawnApple(myApple, mySnake);
 
     drawMap();
     
     if(iterations==0)   {
         while(1)    {
-            drawSnake(snake, apple);
-            spawnApple(apple, snake);
+            spawnApple(myApple, mySnake);
+            drawSnake(mySnake, myApple);
         }
+        return;
     }
     else
         for(int i=0; i<iterations; ++i)    {
-            drawSnake(snake, apple);
-            spawnApple(apple, snake);
+            spawnApple(myApple, mySnake);
+            drawSnake(mySnake, myApple);
         }
 }
 

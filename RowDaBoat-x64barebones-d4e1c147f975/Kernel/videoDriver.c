@@ -298,7 +298,7 @@ static char snakeBody       [8]={0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}
 static char apple           [8]={0x00, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C};
 
 #define PIXELSIZE 16
-#define cordsNormalize(x,y) {(x)++;(x)*=PIXELSIZE;(y)++;(y)*=PIXELSIZE;}
+#define cordsNormalize(x,y) {(x)*=PIXELSIZE;(y)*=PIXELSIZE;}
 
 void snakeHeadDrawer(int direction, int x, int y)   {
     cordsNormalize(x,y);

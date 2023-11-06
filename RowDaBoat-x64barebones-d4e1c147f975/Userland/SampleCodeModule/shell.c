@@ -76,17 +76,17 @@ void time(){
 }
 
 void snake(){
+
+    killBuffer();
     if (strEquals("1", argument))   {
 
         startSnake(1);
-        clear();
         initShell();    // No funca
     }
         
     else if (strEquals("2", argument))  {
 
         startSnake(2);
-        clear();
         initShell();
     }
         

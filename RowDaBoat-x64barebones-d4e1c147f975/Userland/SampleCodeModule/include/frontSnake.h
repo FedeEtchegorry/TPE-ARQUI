@@ -13,7 +13,7 @@
 
     // Simula @iterations spawns de manzanas en snake.
     // Si @iterations = 0, simula infinitamente.
-    void drawAppleSimulation(tApple apple, tSnake snake, unsigned int iterations);
+    void drawAppleSimulation(unsigned int iterations);
 
     // printSnakeInfo():
 
