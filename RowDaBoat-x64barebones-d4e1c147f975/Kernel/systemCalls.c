@@ -119,9 +119,8 @@ void exitProgram(){
 
 }
 void playTetrisSong(){
-
-    playTetris(0.3, 1500);
-
+    playTetris();
+    nosound();
 }
 
 static unsigned long seed = 0x5A5A5A5A;

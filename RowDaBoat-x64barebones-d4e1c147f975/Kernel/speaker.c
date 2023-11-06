@@ -36,9 +36,8 @@ void playDefault(){
 }
 
 void playTetris(){
-    int i=0;
-    for (int i = 0; i < 40; i++) {
-        playFrecuency(0.3*timeTetris[i], tetrisSong[i]*2);
+    for (int index = 0; index < 40; index++) {
+        playFrecuency(0.3*timeTetris[index], tetrisSong[index]*2);
     }
     nosound();
 }

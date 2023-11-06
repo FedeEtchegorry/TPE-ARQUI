@@ -67,4 +67,6 @@
 
 // retorna un numero pseudo-random
     unsigned long rand();
+//pone la canción del tetris
+    void playTetrisSong();
 #endif
