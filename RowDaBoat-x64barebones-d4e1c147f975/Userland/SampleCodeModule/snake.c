@@ -1,18 +1,18 @@
 #include <userlib.h>
 #include <snake.h>
 #include <frontSnake.h>
+#include <defs.h>
 
 #define TICKS_UNTIL_PRINT 150000
 
-
-
 void startSnake(int players){
 
+    unsigned char key;
+
     tSnake mySnake;
-    tApple myApple; // Funciona bien con variables locales
+    tApple myApple; 
 
 	spawnSnake(mySnake);
-
 	spawnApple(myApple, mySnake);
     
     drawMap();
@@ -21,7 +21,7 @@ void startSnake(int players){
 
     while(1)    {
 
-        if(ticks == TICKS_UNTIL_PRINT)   {
+        if(ticks++ == TICKS_UNTIL_PRINT)   {
             
             ticks = 0;
 
@@ -48,38 +48,45 @@ void startSnake(int players){
 
         }
 
-        ticks++;
+        key = getChar();
 
-        switch(getChar())   {
-        
-            case 'a' :  {
-                
-                changeSnakeDirection(mySnake, LEFT);    
-                break;
-        }
-            case 's' :  {
-                // Notar que la matriz que imprimer los pixeles crece para abajo.
-                changeSnakeDirection(mySnake, UP);
-                break;
-        }        
-            case 'w' :  {
-                
-                changeSnakeDirection(mySnake, DOWN);
-                break;
-        }
-            case 'd' :  {
-                
-                changeSnakeDirection(mySnake, RIGHT);   
-                break;
-        }
-            case 'p' :  {
-                
-                while(getChar()!='p');                    
-                break;
-        }
-            default :   
-                
-                break;
+        if(isSnakeKey(key))  {
+
+            if(isUpper(key))
+                key += 32;  // Lo paso a minusc.
+
+            switch(key)   {
+            
+                case 'a' :  {
+                    
+                    changeSnakeDirection(mySnake, LEFT);    
+                    break;
+            }
+                case 's' :  {
+                    // Notar que la matriz que imprimer los pixeles crece para abajo.
+                    changeSnakeDirection(mySnake, UP);
+                    break;
+            }        
+                case 'w' :  {
+                    
+                    changeSnakeDirection(mySnake, DOWN);
+                    break;
+            }
+                case 'd' :  {
+                    
+                    changeSnakeDirection(mySnake, RIGHT);   
+                    break;
+            }
+                case 'p' :  {
+                    
+                    while(getChar()!='p');                    
+                    break;
+            }
+                default :   
+                    
+                    break;
+            }
+
         }
 
     }
@@ -251,3 +258,7 @@ void feedSnake(tApple apple, tSnake snake)   {
         
 }
 
+
+int isSnakeKey(unsigned char key)    {
+    return snakeKeys[key];
+}

@@ -70,6 +70,10 @@ int isDigit(unsigned char c) {
     return digits[c];
 }
 
+int isUpper(unsigned char c)    {
+    return capitals[c];
+}
+
 unsigned int strToUint(char * s) {
     
     unsigned int ans = 0;

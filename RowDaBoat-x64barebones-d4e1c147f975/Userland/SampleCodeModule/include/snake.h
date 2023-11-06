@@ -19,9 +19,13 @@
     typedef struct  {
 
         struct snakeBody body[SLOTS];
+
         unsigned int headPos;
-        struct snakeBody lastPos;       // Posicion de la cola antes de mover. Necesario para dibujar la serpiente.
         unsigned char eating;           // flag.
+
+        struct snakeBody lastPos;       // Previa posicion de la cola. 
+                                        // Necesario para dibujar la serpiente.
+
     } * tSnake;
 
     typedef struct  {
@@ -55,5 +59,6 @@
 
     void feedSnake(tApple apple, tSnake snake);
 
+    int isSnakeKey(unsigned char key);
 
 #endif
