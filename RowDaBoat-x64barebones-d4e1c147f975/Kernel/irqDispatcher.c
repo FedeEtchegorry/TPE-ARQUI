@@ -85,6 +85,10 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
             changeColor(rbx);
             break;
         }
+        case TETRIS:{
+            playTetrisSong();
+            break;
+        }
 		default:	{
 			break;
 			}

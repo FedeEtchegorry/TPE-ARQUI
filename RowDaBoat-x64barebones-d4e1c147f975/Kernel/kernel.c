@@ -86,7 +86,7 @@ int main(){
 //
 // 	cleanBuffer();
 // 	printNewline();
-	
+    playTetris();
 	
 	((EntryPoint)sampleCodeModuleAddress)();
 

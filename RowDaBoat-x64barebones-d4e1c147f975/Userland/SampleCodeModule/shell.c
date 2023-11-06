@@ -5,8 +5,8 @@
 
 
 typedef void (*shellFunctions)(void);
-static shellFunctions menuFunctions[AVAILABLE_FUNCTIONS]={&help, &snake, &time, &textSize,&colorChanging, &exitProgram, &clear};
-static char* menuNames[AVAILABLE_FUNCTIONS]= {"help", "snake", "time", "size", "color", "exit", "clear"};
+static shellFunctions menuFunctions[AVAILABLE_FUNCTIONS]={&help, &snake, &time, &textSize,&colorChanging, &exitProgram, &clear, &tetrisSong};
+static char* menuNames[AVAILABLE_FUNCTIONS]= {"help", "snake", "time", "size", "color", "exit", "clear","tetris"};
 static char* menuDescriptions[AVAILABLE_FUNCTIONS]={"Gives information about the available commands to execute.",
                             "Starts a new Snake game, add '1' or '2' as argument according to the ammount of players wanted",
                             "Prints the RTC's time on the screen .",
@@ -15,7 +15,6 @@ static char* menuDescriptions[AVAILABLE_FUNCTIONS]={"Gives information about the
                             "Closes the Shell and finishes the execution of the software.",
                             "Cleans the terminal."};
 //TODO aceptar colores en entrada estandar para imprimirlos
-static int flag=1;
 static char function[15]={'\0'};
 static char argument[15]={'\0'};
 
@@ -103,7 +102,6 @@ void textSize(){
 }
 
 void exitProgram(){
-    flag=0;
     exit_shell();
 }
 void colorChanging(){
@@ -131,6 +129,6 @@ void colorChanging(){
     else print("Arguments are necessary or the argument written is not defined");
 
 }
-int getFlag(){
-    return flag;
+void tetrisSong(){
+    play_tetris_song();
 }

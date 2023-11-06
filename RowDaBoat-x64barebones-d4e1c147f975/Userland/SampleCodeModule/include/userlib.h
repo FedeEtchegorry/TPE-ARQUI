@@ -39,6 +39,8 @@
 
     void recolor(unsigned int colour);
 
+    void play_tetris_song();
+
 //  Strings:
 
     unsigned int strLength(const char * str);

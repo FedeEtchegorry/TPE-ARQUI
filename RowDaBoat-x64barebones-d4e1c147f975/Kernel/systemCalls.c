@@ -5,6 +5,7 @@
 #include <buffer.h>
 #include <rtcDriver.h>
 #include <time.h>
+#include <speaker.h>
 
 static int characterColor=WHITE;
 
@@ -115,6 +116,11 @@ void changeColor(unsigned int fgcolor){
 void exitProgram(){
     fillScreen(BLACK);
     haltcpu();          //queda trabado acá y no puede hacer nada más
+
+}
+void playTetrisSong(){
+
+    playTetris(0.3, 1500);
 
 }
 

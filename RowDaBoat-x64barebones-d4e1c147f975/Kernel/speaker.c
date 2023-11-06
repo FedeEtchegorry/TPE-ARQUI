@@ -37,16 +37,15 @@ void playDefault(){
 
 void playTetris(){
     int i=0;
-    while(i<40){
-        playFrecuency(0.3*timeTetris[i], tetrisSong[i]);
-        i++;
+    for (int i = 0; i < 40; i++) {
+        playFrecuency(0.3*timeTetris[i], tetrisSong[i]*2);
     }
     nosound();
 }
 void playJingleBells(){
     int i=0;
     while(i<23){
-        playFrecuency(0.3*timeJB[i], jingleBells[i]);
+        playFrecuency(0.3*timeJB[i], jingleBells[i]*2);
         i++;
     }
     nosound();

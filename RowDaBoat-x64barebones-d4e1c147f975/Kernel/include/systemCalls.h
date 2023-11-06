@@ -9,10 +9,11 @@
 #define SYSTEM_KILLBUFFER_ID            0x99
 #define SYSTEM_DRAW_ID                  0x44
 #define SYSTEM_CLEAR_ID                 0x45
-#define SMALLER_TEXT                    0xa0
-#define BIGGER_TEXT                     0xa1
+#define SMALLER_TEXT                    0xA0
+#define BIGGER_TEXT                     0xA1
 #define RANDLONG_ID                     0x12
-#define RECOLOR                         0xa2
+#define RECOLOR                         0xA2
+#define TETRIS                          0xDE
     
 
 // write @fd codes: (en rbx)

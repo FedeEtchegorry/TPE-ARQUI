@@ -247,17 +247,21 @@ register_saviour:
     ret
 
 play_sound:
+    pushState
 ;;cargo la frecuencia
-    mov     ax, 0xB6
-    out     0x43, al         ; pone PIT en frecuencia deseada
-    mov     ax, 1193180      ; carga la cte que usa para dividir
-    mov     edx, 0            ; inicializa el divisor
-    div     rdi
-    mov     ax, di
-    ;;mov     al, ah           ; pone el bit bajo en el divisor
-    out     0x42, al         ; pone el bit bajo en el pit
-    mov     al, ah           ; pone el bit alto en el divisor
-    out     0x42, al         ;  pone el bit alto en el pit
+
+        mov al, 0xB6            ; Cargar el valor 0xB6 en AL
+        out 0x43, al            ; Escribir AL en el puerto 0x43 (PIT command)
+        mov ax, 1193180         ; Cargar el valor 1193180 en AX
+        mov rdx, 0
+        div di                  ; Dividir EAX por el argumento nFrequence
+        mov dl, al
+        mov al, ah
+        out 0x42, al            ; Escribir AL en el puerto 0x42 (PIT data)
+        mov al, dl              ; Mover el byte bajo del resultado a AL
+        out 0x42, al            ; Escribir AL en el puerto 0x42 (PIT data)
+
+
 
 ;;prendo el speaker
     in      al, 0x61         ;;lee el valor del puerto
@@ -267,6 +271,7 @@ play_sound:
     jz      exit
     mov     al, cl
     out     0x61, al         ;;sobreescribo el puerto con la nueva configuracion
+    popState
 exit:
     ret
 
