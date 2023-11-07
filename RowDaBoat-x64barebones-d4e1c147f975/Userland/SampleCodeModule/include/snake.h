@@ -7,13 +7,15 @@
     #define COLUMNS 28
     #define SLOTS ROWS*COLUMNS
 
-    static unsigned int playersInGame = 0;
-    #define getPlayers() (playersInGame)
-    #define setPlayers(x) (getPlayers() = (x))
-
-    static int incorrectplayers()    {
-        return getPlayers()>2 || getPlayers() == 0;
-    }
+/*---------------Players managment---------------------*/
+    static unsigned int playersInGame = 0;           /**/
+    #define getPlayers() (playersInGame)             /**/
+    #define setPlayers(x) (getPlayers() = (x))       /**/
+                                                     /**/
+    static int incorrectplayers()    {               /**/
+        return getPlayers()>2 || getPlayers() == 0;  /**/
+    }                                                /**/
+/*-----------------------------------------------------*/
 
     typedef enum Direction { RIGHT, LEFT, DOWN, UP} tDirection;
 
@@ -40,11 +42,8 @@
         unsigned int y;
     } * tApple;
 
-    static tSnake snake1;
-    static tSnake snake2;
-    static tApple myApple; 
 
-    static void snakesConfig()  {
+    static void snakesConfig(tSnake snake1, tSnake snake2)  {
         snake1->id = 1;
         snake2->id = 2;
     }
@@ -53,7 +52,7 @@
     void startSnake(unsigned int players);
 
 // Acciona. Devuelve 1 si muere.
-    int creep(tSnake mySnake, tApple myApple);
+    int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead);
 
     int useKey(tSnake mySnake, unsigned char key, unsigned char * snakeKeys);
 
@@ -72,7 +71,7 @@
 
 //  Retorna 1 si hubo una colision entre la cabeza y algun cuerpo o muro.
 
-    int moveSnake(tSnake snake);
+    int moveSnake(tSnake snake, struct snakeBody otherSnakeHead);
 
     void spawnApple(tApple apple, tSnake snake1, tSnake snake2);
 

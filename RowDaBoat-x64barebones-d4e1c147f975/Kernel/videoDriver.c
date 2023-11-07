@@ -298,7 +298,7 @@ static char snakeBody       [8]={0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}
 static char apple           [8]={0x00, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C};
 
 #define PIXELSIZE 16
-#define cordsNormalize(x,y) {(x)*=PIXELSIZE;(y)*=PIXELSIZE;}
+#define cordsNormalize(x,y) {(x)=PIXELSIZE*(x)+VBE_mode_info->width/2;(y)=PIXELSIZE*(y+6);}
 
 void snakeHeadDrawer(int direction, int x, int y, char color)   {
     cordsNormalize(x,y);
@@ -312,7 +312,7 @@ void snakeHeadDrawer(int direction, int x, int y, char color)   {
         case 2:     toFill = YELLOW;    break;
         case 4:     toFill = WHITE;     break;
 
-        default:    toFill = GREEN;     break;
+        default:    toFill = BLUE;     break;
     }
 
     switch (direction) {

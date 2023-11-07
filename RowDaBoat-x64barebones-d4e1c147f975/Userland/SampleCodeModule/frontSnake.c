@@ -17,14 +17,15 @@ void drawMap()  {
 
 
 void drawSnake(tSnake snake)  {
-    if(snake->id == 1)
+    if(snake->id == 1){
         for(int i=0; i<snake->headPos; i++)    
             drawGreenSquare(snake->body[i].x, snake->body[i].y);
-
-    if(snake->id == 2)
+}
+    else    {
         for(int i=0; i<snake->headPos; i++)    
             drawYellowSquare(snake->body[i].x, snake->body[i].y);
-    
+    }
+
     int headModel;
     switch(snake->body[snake->headPos].direction)    {
         
@@ -163,7 +164,7 @@ static void printSnakeBody(struct snakeBody body)    {
 
 void printSnakeInfo(tSnake snake)   {
 
-    
+    print("Snake"); printUinteger(snake->id);   putEnter();
     print("Snake length: ");   printUinteger(snake->headPos+1);
     putEnter();
     print("Snake is");
@@ -175,19 +176,53 @@ void printSnakeInfo(tSnake snake)   {
     printSnakeBody(snake->body[snake->headPos]);
 
 
-    for(int i=snake->headPos-1; i>=0; --i)    {
+    // for(int i=snake->headPos-1; i>=0; --i)    {
         
-        putEnter();
-        print("Body ");
-        printUinteger(snake->headPos - i);
-        print(" info:");
-        printSnakeBody(snake->body[i]);
-        putEnter();
-    }
+    //     putEnter();
+    //     print("Body ");
+    //     printUinteger(snake->headPos - i);
+    //     print(" info:");
+    //     printSnakeBody(snake->body[i]);
+    //     putEnter();
+    // }
 
 }
 
+void printSnakeInfo2(tSnake snake, tApple apple) {
 
+    deleteSnakeInfo();
+    
+    // print("id:");
+    // printUinteger(snake->id);       putChar(' ');
+    print("l:");
+    printUinteger(snake->headPos+1);putChar(' ');
+    print("e?");
+    printUinteger(snake->eating);   putChar(' ');
+    print("x:");
+    printUinteger(snake->body[snake->headPos].x);   putChar(' ');
+    print("y:");
+    printUinteger(snake->body[snake->headPos].y);   putChar(' ');
+    print("ax:");
+    printUinteger(apple->x);
+    print("ay:");
+    printUinteger(apple->y);   
+
+}
+
+void deleteSnakeInfo()  {
+    for(int i=0; i<40; ++i) {
+        putBackSpace();
+    }
+}
+
+void printSnakeScore(tSnake snake)  {
+    for(int i=0; i<SLOTS/2; i++)
+        putBackSpace();
+
+    print("Snake ");  printUinteger(snake->id);
+    print(": ");    printUinteger(snake->headPos - 2);
+
+}
 
 void printAppleInfo(tApple apple)    {
 

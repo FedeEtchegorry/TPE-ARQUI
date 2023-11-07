@@ -15,11 +15,16 @@
     // Si @iterations = 0, simula infinitamente.
     // void drawAppleSimulation(unsigned int iterations);
 
+    void printSnakeScore(tSnake snake);
+
     // printSnakeInfo():
 
     //  Imprime la informacion de la serpiente.
     //  Los bodies se cuentan de menor a mayor desde la cabeza hasta la cola.
     void printSnakeInfo(tSnake snake);
+    
+    // Lo mismo sin enters :)
+    void printSnakeInfo2(tSnake snake, tApple apple);
 
     void printAppleInfo(tApple apple);
 
