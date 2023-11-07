@@ -1,7 +1,4 @@
 GLOBAL timeParam
-GLOBAL getHours
-GLOBAL getMinutes
-
 
 section .text
 

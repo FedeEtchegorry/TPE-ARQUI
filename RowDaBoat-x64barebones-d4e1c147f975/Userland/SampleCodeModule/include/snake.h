@@ -3,32 +3,58 @@
 
     #include <randlib.h>
 
-    #define ROWS 50
-    #define COLUMNS 50
+    #define ROWS 28
+    #define COLUMNS 28
     #define SLOTS ROWS*COLUMNS
+
+/*---------------Players managment---------------------*/
+    static unsigned int playersInGame = 0;           /**/
+    #define getPlayers() (playersInGame)             /**/
+    #define setPlayers(x) (getPlayers() = (x))       /**/
+                                                     /**/
+    static int incorrectplayers()    {               /**/
+        return getPlayers()>2 || getPlayers() == 0;  /**/
+    }                                                /**/
+/*-----------------------------------------------------*/
 
     typedef enum Direction { RIGHT, LEFT, DOWN, UP} tDirection;
 
     struct snakeBody {
+
         unsigned int x;
         unsigned int y;
         tDirection direction;
     };
 
-    struct snake    {
+    typedef struct  {
+
         struct snakeBody body[SLOTS];
+
+        unsigned int id;
         unsigned int headPos;
-        unsigned char eating;   // flag
-    };
+        unsigned char eating;           // flag.
 
-    typedef struct snake* tSnake;
+    } * tSnake;
 
-// TO DO: empieza el juego snake(dibuja el mapa y spawnea la serpiente), falta implementar las funciones
-//      para dibujar los cuadraditos.
-    void drawSnake();
+    typedef struct  {
 
-// Parcialmente imprime info de la snake y se puede jugar un poquito (TO DO).
-    void startSnake();
+        unsigned int x;
+        unsigned int y;
+    } * tApple;
+
+
+    static void snakesConfig(tSnake snake1, tSnake snake2)  {
+        snake1->id = 1;
+        snake2->id = 2;
+    }
+
+// Comienza el juego.
+    void startSnake(unsigned int players);
+
+// Acciona. Devuelve 1 si muere.
+    int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead);
+
+    int useKey(tSnake mySnake, unsigned char key, unsigned char * snakeKeys);
 
 //  Instancia snake.
     void spawnSnake(tSnake babySnake);
@@ -42,40 +68,21 @@
 
 //  Debe llamarse en cada segundo del juego independientemente de que 
 //  se haya llamaod a changeSnakeDirection().
-//  Instantaneamente despues debe llamarse a refreshSnakeDirections().
 
 //  Retorna 1 si hubo una colision entre la cabeza y algun cuerpo o muro.
 
-// TO DO: Si bien se tuvo en cuenta que este comiendo, no se implemento
-//  el encuentro con comida. Pendiente para cuando se implemente la comida.
+    int moveSnake(tSnake snake, struct snakeBody otherSnakeHead);
 
-    int moveSnake(tSnake snake);
-
-// refreshSnakeDirections():
-
-//  Actualiza la posicion de cada cuerpo de la serpiente con el del siguiente.
-//  Luego de llamar a moveSnake() se debe llamar a refreshSnakeDirections().
-
-    void refreshSnakeDirections(tSnake snake);
-
-// printSnakeInfo():
-
-//  Imprime la informacion de la serpiente.
-//  Los bodies se cuentan de menor a mayor desde la cabeza hasta la cola.
-    void printSnakeInfo(tSnake snake);
-
-    struct apple    {
-
-        unsigned int x;
-        unsigned int y;
-    };
-
-    typedef struct apple * tApple;
-
-    void spawnApple(tApple apple, tSnake snake);
+    void spawnApple(tApple apple, tSnake snake1, tSnake snake2);
 
     void feedSnake(tApple apple, tSnake snake);
 
-    void printAppleInfo(tApple apple);
+//  Devuelve 1 si es una tecla valida, validan los ascii de keysSnake1, keysSnake2 y 'p'.
+//  El criterio de validacion esta predefinido en el archivo defs.h.
+
+    int isSnakeKey(unsigned char key);
+
+static unsigned char keysSnake1[4] = {'a', 's', 'w', 'd'};
+static unsigned char keysSnake2[4] = {'j', 'k', 'i', 'l'};
 
 #endif

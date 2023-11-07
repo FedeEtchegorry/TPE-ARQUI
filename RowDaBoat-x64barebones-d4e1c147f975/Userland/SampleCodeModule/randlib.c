@@ -2,7 +2,7 @@
 
 #include <randlib.h>
 
-unsigned int randInt(unsigned int izq, unsigned int der)    {
+int randInt(unsigned int izq, unsigned int der)    {
 
     if ( izq > der) {
         int aux = izq;
@@ -10,7 +10,7 @@ unsigned int randInt(unsigned int izq, unsigned int der)    {
         der = aux;
     }
     
-    return (unsigned int)rand() % (der - izq + 1)  + izq;
+    return rand() % (der - izq + 1)  + izq;
 
 }
 

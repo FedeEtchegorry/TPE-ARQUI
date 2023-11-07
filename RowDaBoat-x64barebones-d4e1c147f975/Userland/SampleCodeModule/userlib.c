@@ -70,6 +70,10 @@ int isDigit(unsigned char c) {
     return digits[c];
 }
 
+int isUpper(unsigned char c)    {
+    return capitals[c];
+}
+
 unsigned int strToUint(char * s) {
     
     unsigned int ans = 0;
@@ -149,6 +153,25 @@ void printUlong(unsigned long n)   {
     print(s);
 }
 
+void drawBLackSquare(unsigned int x, unsigned int y)    {
+    draw(0x04, x, y, 0x04);
+}
+
+void drawGreenSquare(unsigned int x, unsigned int y)    {
+    draw(0x04, x, y, 0x01);
+}
+
+void drawRedSquare(unsigned int x, unsigned int y)    {
+    draw(0x04, x, y, 0x00);
+}
+
+void drawYellowSquare(unsigned int x, unsigned int y)    {
+    draw(0x04, x, y, 0x02);
+}
+
+void drawWhiteSquare(unsigned int x, unsigned int y)    {
+    draw(0x04, x, y, 0x03);
+}
 
 unsigned long pow(unsigned long x, unsigned long n) {
     

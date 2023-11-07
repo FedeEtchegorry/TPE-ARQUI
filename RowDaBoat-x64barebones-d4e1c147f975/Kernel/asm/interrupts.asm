@@ -1,12 +1,13 @@
-
 GLOBAL _cli
 GLOBAL _sti
 GLOBAL picMasterMask
 GLOBAL picSlaveMask
 GLOBAL haltcpu
-GLOBAL printRegAsm
 GLOBAL _hlt
 GLOBAL saveState
+GLOBAL register_saviour
+
+
 
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
@@ -17,11 +18,11 @@ GLOBAL _irq05Handler
 GLOBAL _irq60Handler
 
 GLOBAL _exception0Handler
+GLOBAL _exception6Handler
 
 EXTERN irqDispatcher
 EXTERN int_80
 EXTERN exceptionDispatcher
-EXTERN printRegisters
 
 SECTION .text
 
@@ -43,48 +44,7 @@ SECTION .text
 	push r15
 %endmacro
 
-%macro dState 0
-	; mov [registers.drbp], rbp
-	; mov rbp, [rsp]
-	; mov [registers.dr15], rbp
-	; mov rbp, [rsp+8]
-	; mov [registers.dr14], rbp
-	; mov rbp, [rsp+16]
-	; mov [registers.dr13], rbp
-	; mov rbp, [rsp+24]
-	; mov [registers.dr12], rbp
-	; mov rbp, [rsp+32]
-	; mov [registers.dr11], rbp
-	; mov rbp, [rsp+40]
-	; mov [registers.dr10], rbp
-	; mov rbp, [rsp+48]
-	; mov [registers.dr9], rbp
-	; mov rbp, [rsp+56]
-	; mov [registers.dr8], rbp
-	; mov rbp, [rsp+64]
-	; mov [registers.drsi], rbp
-	; mov rbp, [rsp+72]
-	; mov [registers.drdi], rbp
-	; mov rbp, [rsp+88]
-	; mov [registers.drdx], rbp
-	; mov rbp, [rsp+96]
-	; mov [registers.drcx], rbp
-	; mov rbp, [rsp+104]
-	; mov [registers.drbx], rbp
-	; mov rbp, [rsp+112]
-	; mov [registers.drax], rbp
-	; mov rbp, [rsp+120]
-	; mov [registers.drip], rbp
-	; mov rbp, [rsp+128]
-	; mov [registers.dcs], rbp
-	; mov rbp, [rsp+136]
-	; mov [registers.drfl], rbp
-	; mov rbp, [rsp+144]
-	; mov [registers.drsp], rbp
-	; mov rbp, [rsp+152]
-	; mov [registers.dss], rbp
-	; mov rbp, [registers.drbp]
-%endmacro
+
 
 %macro popState 0
 	pop r15
@@ -137,10 +97,6 @@ saveState:
 	iretq
 %endmacro
 
-printRegAsm:
-	mov qword rdi, registers
-	call printRegisters
-	ret
 
 _hlt:
 	sti
@@ -261,37 +217,39 @@ _irq60Handler:
 ;Zero Division Exception
 _exception0Handler:
 	exceptionHandler 0
+;Invalid Opcode Exception
+_exception6Handler:
+    exceptionHandler 6
 	
 
 haltcpu:
 	cli
 	hlt
 	ret
+;;guarda los registros de uso general en un arreglo, devuelvo el puntero por rax
+register_saviour:
+    mov [register_array],     rax
+    mov [register_array+8],   rbx
+    mov [register_array+16],  rcx
+    mov [register_array+24],  rdx
+    mov [register_array+32],  rsi
+    mov [register_array+40],  rdi
+    mov [register_array+48],  rbp
+    mov [register_array+56],  rsp
+    mov [register_array+64],  r8
+    mov [register_array+72],  r9
+    mov [register_array+80],  r10
+    mov [register_array+88],  r11
+    mov [register_array+96],  r12
+    mov [register_array+104], r13
+    mov [register_array+112], r14
+    mov [register_array+120], r15
+    ret
 
+call_stack:
+    mov rax, [rsp]
 
 
 SECTION .bss
 	aux: resq 1
-
-	GLOBAL registers
-	registers:
-	.drax resq 1
-	.drbx resq 1
-	.drcx resq 1
-	.drdx resq 1
-	.drsi resq 1
-	.drdi resq 1
-	.drsp resq 1
-	.drbp resq 1
-	.dr8  resq 1
-	.dr9  resq 1
-	.dr10 resq 1
-	.dr11 resq 1
-	.dr12 resq 1
-	.dr13 resq 1
-	.dr14 resq 1
-	.dr15 resq 1
-	.dss  resq 1
-	.dcs  resq 1
-	.drfl resq 1
-	.drip resq 1
+	register_array resq 16

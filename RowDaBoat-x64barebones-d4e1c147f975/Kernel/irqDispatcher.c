@@ -26,13 +26,6 @@ void irqDispatcher(uint64_t irq) {
 
 void int_20() {
 	timer_handler();
-	
-	// if( alarmAt(5) )	{
-	// 	char string [BUFFER_SIZE];
-	// 	readBuffer(string, BUFFER_SIZE);
-	// 	printTextDefault(string, WHITE, BLACK);
-	// }
-	
 }
 
 void int_21() {
@@ -66,7 +59,12 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
 			break;
 		}
 		case SYSTEM_DRAW_ID : {
-			sysDraw(rbx, rdx, rdi);
+			sysDraw(rbx, rdx, rdi, rsi);
+			break;
+		}
+		case SYSTEM_CLEAR_ID:	{
+			sysClear();
+			break;
 		}
         case SMALLER_TEXT : {
             makeTextSmaller();
@@ -81,7 +79,11 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
 			break;
 		}
         case RECOLOR:{
-            changeColor(rbx);       //TODO falta asegurarse de guardar en los registros las cosas
+            changeColor(rbx);
+            break;
+        }
+        case SONG:{
+            playSong(rbx);
             break;
         }
 		default:	{

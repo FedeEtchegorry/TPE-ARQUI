@@ -1,40 +1,71 @@
-#include <registers.h>
+#include <colours.h>
+#include <systemCalls.h>
+#include <videoDriver.h>
+#include <stringPrinter.h>
 #include <buffer.h>
-#include "./include/videoDriver.h"
+#include <rtcDriver.h>
+#include <time.h>
+extern unsigned long long* register_saviour();
 
-void printRegisters(registerStruct * registers) {
-	putString("RIP = 0x");
-	drawRegisters(registers->rip);
-	putString("RAX = 0x");
-	drawRegisters(registers->rax);
-	putString("RBX = 0x");
-	drawRegisters(registers->rbx);
-	putString("RCX = 0x");
-	drawRegisters(registers->rcx);
-	putString("RDX = 0x");
-	drawRegisters(registers->rdx);
-	putString("RSP = 0x");
-	drawRegisters(registers->rsp);
-	putString("RBP = 0x");
-	drawRegisters(registers->rbp);
-	putString("RSI = 0x");
-	drawRegisters(registers->rsi);
-	putString("RDI = 0x");
-	drawRegisters(registers->rdi);
-	putString("R8  = 0x");
-	drawRegisters(registers->r8);
-	putString("R9  = 0x");
-	drawRegisters(registers->r9);
-	putString("R10 = 0x");
-	drawRegisters(registers->r10);
-	putString("R11 = 0x");
-	drawRegisters(registers->r11);
-	putString("R12 = 0x");
-	drawRegisters(registers->r12);
-	putString("R13 = 0x");
-	drawRegisters(registers->r13);
-	putString("R14 = 0x");
-	drawRegisters(registers->r14);
-	putString("R15 = 0x");
-	drawRegisters(registers->r15);
+static char output[17]={'\0'};
+void registerToString(unsigned long long value) {
+    char temp[17]; //buffer temp para ir guardando el numero
+    int index = 0;
+    do {
+        int digit = value & 0xF;
+        temp[index++] = (digit < 10) ? (char)('0' + digit) : (char)('a' + digit - 10);
+        value >>= 4;
+    } while (value > 0);
+    //la longitud de mi string depende del indice
+    int length = index;
+
+    // empiexo a dar vuelta el string
+    for (int i = 0; i < length; i++) {
+        output[i] = temp[length - 1 - i];
+    }
+    //le pongo NULL al final
+    output[length] = '\0';
 }
+
+void outputRegisterCaller(unsigned long long* registerArray,int i){
+    registerToString(registerArray[i]);
+    printRegisterDefault(output);
+    printRegisterDefault("\n");
+}
+void registerRetriever() {
+    unsigned long long* registerArray=register_saviour();
+    int i=0;
+    printRegisterDefault("RAX: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("RBX: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("RCX: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("RDX: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("RSI: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("RDI: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("RBP: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("RSP: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R8:  ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R9:  ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R10: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R11: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R12: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R13: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R14: ");
+    outputRegisterCaller(registerArray, i++);
+    printRegisterDefault("R15: ");
+    outputRegisterCaller(registerArray, i++);
+}
+

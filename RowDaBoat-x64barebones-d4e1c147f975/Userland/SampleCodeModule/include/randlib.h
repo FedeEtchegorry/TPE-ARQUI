@@ -3,6 +3,6 @@
 #define _RANDLIB_H
 
     unsigned long rand();
-    unsigned int randInt(unsigned int izq, unsigned int der);
+    int randInt(unsigned int izq, unsigned int der);
 
 #endif

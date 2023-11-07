@@ -1,97 +1,237 @@
 #include <userlib.h>
 #include <snake.h>
+#include <frontSnake.h>
+#include <defs.h>
 
-int isTwoPlayersModeOn=0;
+#define TICKS_UNTIL_PRINT 170000
 
-// gameSpace:
+void startSnake(unsigned int players){
 
-void startSnake(int players){
-//    drawMap();
-//    printScore();
-//    tSnake snake1;
-//    if (players==2){
-//        isTwoPlayersModeOn=1;
-//        tSnake snake2;
-//        spawnSnake(snake2);
-//    }
-//    spawnSnake(snake1);
+    setPlayers(players);
+
+    if(incorrectplayers()){
+        print("Error en la cantidad de jugadores\n");
+        return;
+    }
+
+    tSnake snake1;
+    tSnake snake2;
+    tApple myApple; 
+
+    snakesConfig(snake1, snake2);
+
+    spawnSnake(snake1);
+    snake1->id = 1;
+    if(getPlayers()==2) {
+        spawnSnake(snake2);
+        snake2->id = 2;
+    }
+
+	spawnApple(myApple, snake1, snake2);
+
     
-    unsigned char key = 0;
 
-	tSnake mySnake;
-	tApple myApple;
-	spawnSnake(mySnake);
-	spawnApple(myApple, mySnake);
-    
-    int timer = 0;
+    drawMap();
+    drawApple(myApple);
+
+    unsigned char key;
+    int ticks = TICKS_UNTIL_PRINT;
 
     while(1)    {
-        
-        if(timer == 100)    {
+
+        if(ticks++ == TICKS_UNTIL_PRINT)   {
             
-            timer = 0;
-            printSnakeInfo(mySnake);
-            printAppleInfo(myApple);
+            ticks = 0;        
+
+            if(creep(snake1, myApple, snake2->body[snake2->headPos]))
+                return;
+
+        // Necesario para borrar la cola de la snake al mover.
+            correctSnakeDraw(snake1, snake2);
+
+            if(snake1->eating)   {
+
+                spawnApple(myApple, snake1, snake2);
+                drawApple(myApple);
+                
+            }
+    
+            if(getPlayers()==2) {
+                
+                if(creep(snake2, myApple, snake1->body[snake1->headPos]))
+                    return;
+            
+                if(snake2->eating)   {
+
+                    spawnApple(myApple, snake1, snake2);
+                    drawApple(myApple);
+                }
+            }
+
+            // printSnakeInfo2(snake1, myApple);
         }
 
         key = getChar();
 
-        if(key == '\n')    
-            break;
+        if(isSnakeKey(key))  {
 
-        if(key == 'w');
-            changeSnakeDirection(mySnake, UP);
-            
-        // else if(key == 'a);
+            if(isUpper(key))    {
+                key += 32;  // Lo paso a minusc.
+        }
+            if( key == 'p')     {
+                while(getChar()!='p');
+        }    
+            else if(!useKey(snake1, key, keysSnake1) && getPlayers()==2)    {
 
-        timer++;
+                useKey(snake2, key, keysSnake2);
+        }            
+        
+        }
+
     }
 
 }
 
-void drawSnake(tSnake snake, tApple apple)  {
-    for(int i=0; i<=snake->headPos; i++)    
-        draw(snake->body[i].x, snake->body[i].y, 16);
+int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead)   {
 
-    draw(apple->x, apple->y, 16);
+    char looser;
+
+    if( (looser = moveSnake(mySnake, otherSnakeHead)) == 0) {
+    // Sin colision.
+        
+                
+            feedSnake(myApple, mySnake);
+            drawSnake(mySnake);
+            return 0;
+    }
+    else if (looser != 3)   {
+
+            clear();
+
+            print("Snake ");    printUinteger(looser);
+            print(" just crashed\n");
+            while(getChar()!='\n');
+
+            print("Snake ");    printUinteger(looser);
+            print(" is a looser\n");
+            while(getChar()!='\n');
+
+            print("Don't be like Snake ");    printUinteger(looser);
+            while(getChar()!='\n');
+            clear();
+        }
+    else    {
+        clear();
+
+            print("Draw\n");
+            while(getChar()!='\n');
+            print("Both are extremely bad");
+            while(getChar()!='\n');
+            clear();
+    }
+    
+    return 1;
     
 }
 
-// snake space:
+int useKey(tSnake mySnake, unsigned char key, unsigned char * snakeKeys) {
+    
+    if (key == snakeKeys[0])    {
+
+        changeSnakeDirection(mySnake, LEFT);
+        return 1;
+} 
+    else if (key == snakeKeys[1])   {
+        // Notar que la matriz que imprimer los pixeles crece para abajo.
+        changeSnakeDirection(mySnake, UP);
+        return 1;
+} 
+    else if (key == snakeKeys[2])   {
+    
+        changeSnakeDirection(mySnake, DOWN);
+        return 1;
+} 
+    else if (key == snakeKeys[3])   {
+
+        changeSnakeDirection(mySnake, RIGHT);
+        return 1;
+} 
+    
+// No es ninguna de las anteriores.
+    return 0;
+    
+}
 
 void spawnSnake(tSnake babySnake)   {
     
-    for(int i=0; i<3; i++)  {
-        babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
-        babySnake->body[i].y = (ROWS / 2);
-        babySnake->body[i].direction = RIGHT;
-    }
-    
     babySnake->headPos = 2;
     babySnake->eating = 0;
+
+    for(int i=0; i<=babySnake->headPos; i++)  {
+        babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
+    // Consideracion para que no spawneen las snakes en la misma posicion.
+        babySnake->body[i].y = (ROWS / 2) - babySnake->id - 1;
+        babySnake->body[i].direction = RIGHT;
+        
+    }    
+
+
+}
+
+
+void spawnApple(tApple apple, tSnake snake1, tSnake snake2)   {
+    int x; 
+    int y; 
+    int tryAgain = 1;
+        int i;
+
+    while(tryAgain) {
+
+        x = randInt(1, ROWS-1);
+        y = randInt(1, COLUMNS-1);
+
+            i=0;
+
+            do      {          
+                tryAgain = snake1->body[i].x == x && snake1->body[i].y == y;
+                ++i;
+            }
+            while(i<=snake1->headPos && !tryAgain);
+        
+            while(i<=snake2->headPos && !tryAgain)      {          
+                tryAgain = snake2->body[i].x == x && snake2->body[i].y == y;
+                ++i;
+            }
+            
+
+    } 
+
+    apple->x = x;
+    apple->y = y;
+
 }
 
 static int isOpositeDirection(tDirection dir1, tDirection dir2) {
     
-    return  (dir1 == RIGHT && dir2 == LEFT) || (dir2 == RIGHT && dir1 == LEFT) ||
-            (dir1 == UP && dir2 == DOWN) || (dir2 == DOWN && dir1 == UP);
+    return  (dir1 == RIGHT && dir2 == LEFT) || (dir1 == LEFT && dir2 == RIGHT) ||
+            (dir1 == UP && dir2 == DOWN) || (dir1 == DOWN && dir2 == UP);
             
 }
 
 void changeSnakeDirection(tSnake snake, tDirection newDirection)   {
     
-// Si la direccion es opuesta a la direccion a la que estaba yendo no deberia cambiar de direccion.
+// Si la direccion es opuesta a la direccion a la que va el cuerpo proximo a la cabeza, no deberia cambiar de direccion.
 // Si es solo una cabeza se contempla que se pueda mover en cualquier direccion.
 
     if (snake->headPos==0 || 
-        !isOpositeDirection(snake->body[snake->headPos].direction, newDirection)) 
+        !isOpositeDirection(snake->body[snake->headPos-1].direction, newDirection)) 
      
            snake->body[snake->headPos].direction = newDirection;
     
    
 }
 
-void refreshSnakeDirections(tSnake snake)    {
+static void refreshSnakeDirections(tSnake snake)    {
     for(int i=0; i<snake->headPos; ++i) 
         snake->body[i].direction = snake->body[i+1].direction;
 }
@@ -125,12 +265,26 @@ static void moveBody(tSnake snake, unsigned int bodyPos) {
 
 }
 
-static int checkCrash(tSnake snake)    {
+static int checkCrash(tSnake snake, struct snakeBody otherSnakeHead )    {
     for(int i=0; i<snake->headPos; ++i) {
+    // Checkea cuerpito por cuerpito 
         if (snake->body[snake->headPos].x == snake->body[i].x &&
-            snake->body[snake->headPos].y == snake->body[i].y)
-            return 1;
+            snake->body[snake->headPos].y == snake->body[i].y)  {
+                // Pierde @snake.
+                return 1;
+            }
+        if(getPlayers()==2 && otherSnakeHead.x == snake->body[i].x &&
+            otherSnakeHead.y == snake->body[i].y)   {
+                // Pierde @otherSnake.
+                return 2;
+            }
+            
     }
+
+    if(getPlayers()==2 && otherSnakeHead.x  == snake->body[snake->headPos].x &&
+            otherSnakeHead.y == snake->body[snake->headPos].y)
+        // Empate tecnico.
+            return 3;
 
 // Checkear si toco una pared es simplement checkear si la cabeza toco la pared
 // pues el cuerpo nunca debería poder hacerlo.
@@ -141,141 +295,61 @@ static int checkCrash(tSnake snake)    {
         snake->body[snake->headPos].y == ROWS;
 }
 
-int moveSnake(tSnake snake)    {
+int moveSnake(tSnake snake, struct snakeBody otherSnakeHead)    {
    
     if(snake->eating)  {
 
-        snake->body[snake->headPos + 1].x = snake->body[snake->headPos].x; 
-        snake->body[snake->headPos + 1].y = snake->body[snake->headPos].y; 
-        snake->body[snake->headPos + 1].direction = snake->body[snake->headPos].direction;
-        moveBody(snake, ++(snake->headPos));
+        int auxX = snake->body[snake->headPos].x; 
+        int auxY = snake->body[snake->headPos].y; 
+        tDirection auxDirection = snake->body[snake->headPos].direction;
+
+        moveBody(snake, (snake->headPos)++);
+
+        snake->body[snake->headPos] = snake->body[snake->headPos-1];
+
+        snake->body[snake->headPos-1].x = auxX;
+        snake->body[snake->headPos-1].y = auxY;
+        snake->body[snake->headPos-1].direction = auxDirection;
 
         snake->eating = 0;
     }
      
     else    {
         
+        if(snake->id == 1)  {
+
+            behindSnakesXY[0] = snake->body[0].x;
+            behindSnakesXY[1] = snake->body[0].y;
+        }
+        else    {
+            behindSnakesXY[2] = snake->body[0].x;
+            behindSnakesXY[3] = snake->body[0].y;
+        }
+        
+        
+
         for(int i=0; i<=snake->headPos; ++i) 
             moveBody(snake, i);
+
+        refreshSnakeDirections(snake);
+
     }    
     
-    return checkCrash(snake);
+    return checkCrash(snake, otherSnakeHead);
 }
 
-
-static void printDirection(tDirection direction) {
-
-    switch(direction) {
-        
-        case RIGHT: {
-            print("RIGHT");
-            break;
-        }
-        case LEFT: {
-            print("LEFT");
-            break;
-        }
-        case DOWN: {
-            print("DOWN");
-            break;
-        }
-        case UP: {
-            print("UP");
-            break;
-        }
-        
-        default:    {
-            print("Direction not defined");
-            break;
-        }
-    }
-}
-
-static void printSnakeBody(struct snakeBody body)    {
-
-    putEnter();
-
-    print("x: ");   printUinteger(body.x);
-    putEnter();
-    print("y: ");   printUinteger(body.y);
-    putEnter();
-    print("Direction: ");   printDirection(body.direction);
-
-    putEnter();
-}
-
-void printSnakeInfo(tSnake snake)   {
-
-    
-    print("Snake length: ");   printUinteger(snake->headPos+1);
-    putEnter();
-    print("Snake is");
-    snake->eating ? print(" ") : print(" not ");
-    print("eating");  
-    putnEnters(2);
-
-    print("Head info: ");
-    printSnakeBody(snake->body[snake->headPos]);
-
-
-    for(int i=snake->headPos-1; i>=0; --i)    {
-        
-        putEnter();
-        print("Body ");
-        printUinteger(snake->headPos - i);
-        print(" info:");
-        printSnakeBody(snake->body[i]);
-        putEnter();
-    }
-
-}
 
 void feedSnake(tApple apple, tSnake snake)   {
 
     if (snake->body[snake->headPos].x == apple->x && 
-    snake->body[snake->headPos].y == apple->y)  
-
+    snake->body[snake->headPos].y == apple->y)  {
+        
         snake->eating = 1;
+    }
+        
 }
 
-// Apple space:
 
-void spawnApple(tApple apple, tSnake snake)   {
-    
-    int x; 
-    int y; 
-    int tryAgain = 1;
-
-    int i;
-
-    while(tryAgain) {
-
-        x = randInt(0, ROWS);
-        y = randInt(0, COLUMNS);
-
-        i=0;
-
-        do      {          
-            
-            tryAgain = snake->body[i].x == x && snake->body[i].y == y;
-            ++i;
-        }
-        while(i<=snake->headPos && !tryAgain);
-    } 
-
-}
-
-void printAppleInfo(tApple apple)    {
-
-    print("Apple: ");
-
-    putEnter();
-
-    print("x: ");   printUinteger(apple->x);
-    putEnter();
-    print("y: ");   printUinteger(apple->y);
-
-    putEnter();
-
-
+int isSnakeKey(unsigned char key)    {
+    return snakeKeys[key];
 }

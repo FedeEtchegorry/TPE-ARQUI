@@ -5,6 +5,7 @@
 #include <buffer.h>
 #include <rtcDriver.h>
 #include <time.h>
+#include <speaker.h>
 
 static int characterColor=WHITE;
 
@@ -69,14 +70,36 @@ void sysKillBuffer()	{
 	cleanBuffer();
 }
 
-void sysDraw(int x, int y, int size)	{
-	snakeBodyDrawer(y,x,size);
+void sysDraw( int model, int x, int y, char color)	{
+    if (!getSnakeStatus()) {
+        nowSnakeIsOn();
+    }
+	if(	model == HEAD_LEFT || model == HEAD_RIGHT ||
+		model == HEAD_UP || model == HEAD_DOWN	)	{
+		
+		snakeHeadDrawer(model, x, y, color);
+		return;
+	}
+	if(model == SQUARE)	{
+		coloredSquareDrawer(x, y, color);
+		return;
+	}
+	if(model == APPLE)	{
+		appleDraw(x,y);
+		return;
+	}
 
+}
+
+void sysClear()	{
+	fillScreen(BLACK);
+    resetPosition();
+    resetBuffer();
 }
 
 void timeManager(){
     char* time=getTime();
-    printTextDefault(time, WHITE, BLACK);
+    printTextDefault(time, characterColor, BLACK);
 }
 void makeTextBigger(){
     biggerText();
@@ -93,6 +116,22 @@ void exitProgram(){
     fillScreen(BLACK);
     haltcpu();          //queda trabado acá y no puede hacer nada más
 
+}
+void playSong(int i){
+    switch (i) {
+        case TETRIS:
+            playTetris();
+            return;
+        case JINGLEBELLS:
+            playJingleBells();
+            return;
+        case EAT_APPLE:
+            beep();
+            return;
+        case SNAKE_DIED:
+            playMario();
+            return;
+    }
 }
 
 static unsigned long seed = 0x5A5A5A5A;
@@ -112,10 +151,12 @@ unsigned long rand()	{
 
 	ans += ((unsigned long) currentTime) << 11;
 
-	seed = seed ^ ans;
-	ans -= seed;
+	seed = seed * ans;
+	ans = ans ^ seed;
 
 	ans *= ticks_elapsed();
+
+	for(int w = 0; w<10000; w++);
 
 	return ans & 0x7fffffff;
 
