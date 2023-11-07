@@ -31,13 +31,13 @@ int alarmAtTicks(int at){
     return ticks%at==0;
 }
 
-int alarmAtDecimal(double at){
-    int target_ticks = (int)(at * 19);
-    return alarmAtTicks(target_ticks);
-}
-void waitTime(double at){
-    int ticks_now=ticks;
-    while(ticks<(ticks_now+at*19)){
-        ;
-    }
-}
+//int alarmAtDecimal(double at){
+//    int target_ticks = (int)(at * 19);
+//    return alarmAtTicks(target_ticks);
+//}
+//void waitTime(double at){
+//    int ticks_now=ticks;
+//    while(ticks<(ticks_now+at*19)){
+//        ;
+//    }
+//}

@@ -1,10 +1,11 @@
 #ifndef _REGISTERS_H
 #define _REGISTERS_H
-
+#include <stdint.h>
 
 unsigned long long* register_saviour();
 void registerRetriever();
-void outputRegisterCaller(unsigned long long* registerArray,int i);
-void registerToString(unsigned long long value);
+void outputRegisterCaller(uint64_t * registerArray,int i);
+void registerToString(uint64_t value);
+void registerPrintFull(uint64_t *registerInfo);
 
 #endif

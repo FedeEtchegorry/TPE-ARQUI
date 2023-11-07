@@ -4,7 +4,8 @@ GLOBAL picMasterMask
 GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
-GLOBAL saveState
+
+
 GLOBAL register_saviour
 
 
@@ -23,6 +24,7 @@ GLOBAL _exception6Handler
 EXTERN irqDispatcher
 EXTERN int_80
 EXTERN exceptionDispatcher
+EXTERN getStackBase
 
 SECTION .text
 
@@ -91,6 +93,7 @@ saveState:
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
+
 	call exceptionDispatcher
 
 	popState
@@ -214,42 +217,79 @@ _irq60Handler:
 	
 
 
-;Zero Division Exception
-_exception0Handler:
-	exceptionHandler 0
-;Invalid Opcode Exception
-_exception6Handler:
-    exceptionHandler 6
-	
-
 haltcpu:
 	cli
 	hlt
 	ret
 ;;guarda los registros de uso general en un arreglo, devuelvo el puntero por rax
 register_saviour:
-    mov [register_array],     rax
-    mov [register_array+8],   rbx
-    mov [register_array+16],  rcx
-    mov [register_array+24],  rdx
-    mov [register_array+32],  rsi
-    mov [register_array+40],  rdi
-    mov [register_array+48],  rbp
-    mov [register_array+56],  rsp
-    mov [register_array+64],  r8
-    mov [register_array+72],  r9
-    mov [register_array+80],  r10
-    mov [register_array+88],  r11
-    mov [register_array+96],  r12
-    mov [register_array+104], r13
-    mov [register_array+112], r14
-    mov [register_array+120], r15
+    pushState
+    mov rax, [rsp]
+    mov [register_array], rax
+    mov rax, [rsp+8]
+    mov [register_array+8], rax
+    mov rax, [rsp+16]
+    mov [register_array+16], rax
+    mov rax, [rsp+24]
+    mov [register_array+24], rax
+    mov rax, [rsp+32]
+    mov [register_array+32], rax
+    mov rax, [rsp+40]
+    mov [register_array+40], rax
+    mov rax, [rsp+48]
+    mov [register_array+48], rax
+    mov rax, [rsp+56]
+    mov [register_array+56], rax
+    mov rax, [rsp+64]
+    mov [register_array+64], rax
+    mov rax, [rsp+72]
+    mov [register_array+72], rax
+    mov rax, [rsp+80]
+    mov [register_array+80], rax
+    mov rax, [rsp+88]
+    mov [register_array+88], rax
+    mov rax, [rsp+96]
+    mov [register_array+96], rax
+    mov rax, [rsp+104]
+    mov [register_array+104], rax
+    mov rax, [rsp+112]
+    mov [register_array+112], rax
+    mov rax, rsp
+    mov [register_array+120], rax
+    popState
+    mov rax, register_array
     ret
 
-call_stack:
-    mov rax, [rsp]
+
+    popState
+    mov rax, register_array
+    ret
+
+
+;Zero Division Exception
+_exception0Handler:
+    exceptionHandler 0
+    call getStackBase
+    mov [rsp+24], rax
+    mov rax, userland
+    mov [rsp], rax
+    iretq
+;Invalid Opcode Exception
+_exception6Handler:
+    exceptionHandler 6
+    call getStackBase
+    mov [rsp+24], rax
+    mov rax, userland
+    mov [rsp], rax
+    iretq
+get_stored_info:
+    mov rax, register_array
+    ret
 
 
 SECTION .bss
 	aux: resq 1
-	register_array resq 16
+	register_array resq 17
+	stackbase resq 1
+SECTION .rodata
+    userland equ 0x400000
