@@ -94,6 +94,7 @@ void sysDraw( int model, int x, int y, char color)	{
 void sysClear()	{
 	fillScreen(BLACK);
     resetPosition();
+    resetBuffer();
 }
 
 void timeManager(){

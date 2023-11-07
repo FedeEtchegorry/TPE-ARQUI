@@ -12,12 +12,14 @@ static void zero_division();
 static void invalid_opcode();
 
 void exceptionDispatcher(int exception) {
-	if (exception == ZERO_EXCEPTION_ID){
-		zero_division();
-	} else
-        if (exception==INVALID_OPCODE_EXCEPTION_ID){
-		invalid_opcode();
-	};	
+    switch (exception) {
+        case ZERO_EXCEPTION_ID:
+            zero_division();
+        case INVALID_OPCODE_EXCEPTION_ID:
+            invalid_opcode();
+        default:
+            break;
+    }
 }
 
 static void zero_division() {

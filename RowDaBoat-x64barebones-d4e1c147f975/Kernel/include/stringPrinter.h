@@ -18,6 +18,7 @@ void biggerText();
 void smallerText();
 void refillScreen();
 void changeColors(int fgcolor);
+void resetBuffer();
 
 
 

@@ -1,6 +1,3 @@
-
-
-
 GLOBAL _cli
 GLOBAL _sti
 GLOBAL picMasterMask
@@ -9,8 +6,9 @@ GLOBAL haltcpu
 GLOBAL _hlt
 GLOBAL saveState
 GLOBAL register_saviour
-global play_sound
-global nosound
+
+GLOBAL play_sound
+GLOBAL nosound
 
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler

@@ -151,6 +151,9 @@ void refillScreen() {
     }
 
 }
+void resetBuffer(){
+    positionTraveller=position;
+}
 
 
 
