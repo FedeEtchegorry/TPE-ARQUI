@@ -50,6 +50,7 @@ void startSnake(unsigned int players){
 
                 spawnApple(myApple, snake1, snake2);
                 drawApple(myApple);
+                play_song(3);
                 
             }
     
@@ -111,7 +112,7 @@ int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead)   {
     else if (looser != 3)   {
 
             clear();
-
+            play_song(4);
             print("Snake ");    printUinteger(looser);
             print(" just crashed\n");
             while(getChar()!='\n');
@@ -126,7 +127,7 @@ int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead)   {
         }
     else    {
         clear();
-
+            play_song(4);
             print("Draw\n");
             while(getChar()!='\n');
             print("Both are extremely bad");
