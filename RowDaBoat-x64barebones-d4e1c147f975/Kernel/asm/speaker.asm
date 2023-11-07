@@ -5,6 +5,8 @@ GLOBAL nosound
 ;;pone un sonido en el speaker
 play_sound:
 ;;cargo la frecuencia
+        push rbp
+        mov rbp, rsp
         push rcx
         push rdx
         mov al, 0xB6            ; Cargar 0xB6 en AL
@@ -28,6 +30,8 @@ play_sound:
     exit:
         pop rdx
         pop rcx
+        mov rsp, rbp
+        pop rbp
         ret
 
 ; Function to silence the sound

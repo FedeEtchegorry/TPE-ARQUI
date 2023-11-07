@@ -1,6 +1,7 @@
-
+#include <stdint.h>
 #include <colours.h>
 #include <videoDriver.h>
+#include <registers.h>
 
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OPCODE_EXCEPTION_ID 6
@@ -11,7 +12,10 @@
 static void zero_division();
 static void invalid_opcode();
 
-void exceptionDispatcher(int exception) {
+uint64_t *registros;
+
+void exceptionDispatcher(int exception, uint64_t* registers) {
+    registros=registers;
     switch (exception) {
         case ZERO_EXCEPTION_ID:
             zero_division();
@@ -22,13 +26,16 @@ void exceptionDispatcher(int exception) {
     }
 }
 
+
 static void zero_division() {
-	// Handler para manejar excepcíon
 	printTextDefault(ZERO_EXCEPTION_MESSAGE, RED, BLACK);
-	//TO_DO : Llamar al shel
+    registerPrintFull(registros);
+}
+void jumper(){
 
 }
 
 static void invalid_opcode(){
 	printTextDefault(INVALID_OPCODE_MESSAGE, RED, BLACK);
+    registerPrintFull(registros);
 }
