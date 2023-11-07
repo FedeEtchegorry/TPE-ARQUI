@@ -45,13 +45,13 @@ void playDefault(){
 
 void playTetris(){
     for (int index = 0; index < 40; index++) {
-        playFrecuency(0.3*timeTetris[index], tetrisSong[index]*2);
+        playFrecuency(0.4*timeTetris[index], tetrisSong[index]*2);
     }
     nosound();
 }
 void playJingleBells(){
     for (int index = 0; index < 23; index++){
-        playFrecuency(0.2*timeJB[index], jingleBells[index]*2);
+        playFrecuency(0.3*timeJB[index], jingleBells[index]*2);
     }
     nosound();
 }
