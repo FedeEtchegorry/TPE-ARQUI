@@ -147,7 +147,7 @@ void printSnakeInfo2(tSnake snake) {
 
 }
 
-void deleteSnakeInfo()  {
+void cleanSankeText()  {
     for(int i=0; i<200; ++i) {
         putBackSpace();
     }
@@ -157,7 +157,7 @@ void printSnakeScore(tSnake snake)  {
 
 
     print("Snake ");  printUinteger(snake->id);
-    print(": ");    printUinteger(snake->headPos - 2);
+    print(": ");    printUinteger(snake->headPos);
 
 }
 

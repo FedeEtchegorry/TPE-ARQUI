@@ -3,7 +3,7 @@
 #include <frontSnake.h>
 #include <defs.h>
 
-#define TICKS_UNTIL_PRINT 300000
+#define TICKS_UNTIL_PRINT 100000
 
 void startSnake(unsigned int players){
 
@@ -47,7 +47,7 @@ void startSnake(unsigned int players){
                 return;
 
             if(snake1->eating)   {
-
+                cleanSankeText();
                 printSnakeScore(snake1);
                 spawnApple(myApple, snake1, snake2);         
                 drawApple(myApple);
@@ -60,6 +60,7 @@ void startSnake(unsigned int players){
                     return;
             
                 if(snake2->eating)   {
+                    cleanSankeText();
                     printSnakeScore(snake2);
                     spawnApple(myApple, snake1, snake2);
                     drawApple(myApple);
@@ -80,12 +81,12 @@ void startSnake(unsigned int players){
         }
             if( key == 'p')     {
 
-                deleteSnakeInfo();
+                cleanSankeText();
                 print("PAUSED");
             // Espera:
                 while(getChar()!='p');
 
-                deleteSnakeInfo();
+                cleanSankeText();
                 printSnakeScore(snake1);
                 if(getPlayers()==2)
                     printSnakeScore(snake2);
