@@ -24,11 +24,8 @@
     void printSnakeInfo(tSnake snake);
     
     // Lo mismo sin enters :)
-    void printSnakeInfo2(tSnake snake, tApple apple);
+    void printSnakeInfo2(tSnake snake);
 
     void printAppleInfo(tApple apple);
-
-    static unsigned int behindSnakesXY[4];
-    void correctSnakeDraw(tSnake snake1, tSnake snake2);
 
 #endif

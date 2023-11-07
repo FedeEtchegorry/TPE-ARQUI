@@ -3,7 +3,7 @@
 #include <frontSnake.h>
 #include <defs.h>
 
-#define TICKS_UNTIL_PRINT 170000
+#define TICKS_UNTIL_PRINT 300000
 
 void startSnake(unsigned int players){
 
@@ -46,9 +46,6 @@ void startSnake(unsigned int players){
             if(creep(snake1, myApple, snake2->body[snake2->headPos]))
                 return;
 
-        // Necesario para borrar la cola de la snake al mover.
-            correctSnakeDraw(snake1, snake2);
-
             if(snake1->eating)   {
 
                 spawnApple(myApple, snake1, snake2);
@@ -68,7 +65,9 @@ void startSnake(unsigned int players){
                 }
             }
 
-            // printSnakeInfo2(snake1, myApple);
+            drawSnake(snake1);
+            if(getPlayers()==2)
+                drawSnake(snake2);
         }
 
         key = getChar();
@@ -79,7 +78,13 @@ void startSnake(unsigned int players){
                 key += 32;  // Lo paso a minusc.
         }
             if( key == 'p')     {
+                printSnakeInfo2(snake1);
+                if(getPlayers()==2) 
+                    printSnakeInfo2(snake2);
+            // Espera:
                 while(getChar()!='p');
+
+                deleteSnakeInfo();
         }    
             else if(!useKey(snake1, key, keysSnake1) && getPlayers()==2)    {
 
@@ -101,7 +106,6 @@ int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead)   {
         
                 
             feedSnake(myApple, mySnake);
-            drawSnake(mySnake);
             return 0;
     }
     else if (looser != 3)   {
@@ -164,14 +168,14 @@ int useKey(tSnake mySnake, unsigned char key, unsigned char * snakeKeys) {
 
 void spawnSnake(tSnake babySnake)   {
     
-    babySnake->headPos = 2;
+    babySnake->headPos = 1;
     babySnake->eating = 0;
 
     for(int i=0; i<=babySnake->headPos; i++)  {
         babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
     // Consideracion para que no spawneen las snakes en la misma posicion.
         babySnake->body[i].y = (ROWS / 2) - babySnake->id - 1;
-        babySnake->body[i].direction = RIGHT;
+        babySnake->body[i].direction = babySnake->id==1? RIGHT : LEFT;
         
     }    
 
@@ -297,6 +301,7 @@ static int checkCrash(tSnake snake, struct snakeBody otherSnakeHead )    {
 
 int moveSnake(tSnake snake, struct snakeBody otherSnakeHead)    {
    
+
     if(snake->eating)  {
 
         int auxX = snake->body[snake->headPos].x; 
@@ -316,17 +321,8 @@ int moveSnake(tSnake snake, struct snakeBody otherSnakeHead)    {
      
     else    {
         
-        if(snake->id == 1)  {
-
-            behindSnakesXY[0] = snake->body[0].x;
-            behindSnakesXY[1] = snake->body[0].y;
-        }
-        else    {
-            behindSnakesXY[2] = snake->body[0].x;
-            behindSnakesXY[3] = snake->body[0].y;
-        }
-        
-        
+    // Para borrar la posicion anterior de la cola.
+        drawBLackSquare(snake->body[0].x, snake->body[0].y);
 
         for(int i=0; i<=snake->headPos; ++i) 
             moveBody(snake, i);
