@@ -76,7 +76,8 @@ saveState:
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
-	
+	call register_saviour
+	mov rsi, rax
 	call irqDispatcher
 	
 	; signal pic EOI (End of Interrupt)

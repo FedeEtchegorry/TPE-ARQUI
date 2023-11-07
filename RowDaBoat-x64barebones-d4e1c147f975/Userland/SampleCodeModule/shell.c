@@ -48,7 +48,7 @@ void read(unsigned char * buffer)   {
     }
     buffer[i] = '\0';
 }
-void getMenu(unsigned char* buffer){
+void getMenu(char* buffer){
     int i=0;
     buffer=stringNormalizer(buffer);
     stringTrimmerBySpace(buffer, function, argument);
@@ -83,17 +83,19 @@ void snake(){
     if (strEquals("1", argument))   {
 
         startSnake(1);
-        
+        initShell();
+
     }
         
     else if (strEquals("2", argument))  {
 
         startSnake(2);
+        initShell();
     }
         
     else print("Arguments are necessary or the argument written is not defined");
 
-    initShell();   
+
 }
 void textSize(){
    if (strEquals("smaller", argument)){

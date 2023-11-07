@@ -54,10 +54,6 @@ void int_80(int id, unsigned int rbx,  char * rcx, unsigned int rdx, char rsi, u
             timeManager();
             break;
         }
-		case SYSTEM_KILLBUFFER_ID :	{
-			sysKillBuffer();
-			break;
-		}
 		case SYSTEM_DRAW_ID : {
 			sysDraw(rbx, rdx, rdi, rsi);
 			break;

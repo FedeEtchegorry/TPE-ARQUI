@@ -220,12 +220,13 @@ void render(char *bitmap, int fgcolor, int bgcolor, int yinit, int xinit, int ch
     }
 }
 
-void deleteSlash(){
-    drawCharWithoutDisplacement('\0',BLACK, BLACK);
-}
 
+void scroll();
 void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
     render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize );
+}
+void deleteSlash(){
+    drawCharWithoutDisplacement('\0',BLACK, BLACK);
 }
 void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
     render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
@@ -241,6 +242,7 @@ void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
         render(font8x8_basic[c], fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     }
 }
+
 
 void drawRegisters(int value){
     char buffer[256] = {0};
