@@ -7,13 +7,13 @@
 
     void drawMap();
 
-    void drawSnake(tSnake snake, tApple apple);
+    void drawSnake(tSnake snake);
+    void drawApple(tApple apple);
     
-    // drawAppleSimulation():
 
     // Simula @iterations spawns de manzanas en snake.
     // Si @iterations = 0, simula infinitamente.
-    void drawAppleSimulation(unsigned int iterations);
+    // void drawAppleSimulation(unsigned int iterations);
 
     // printSnakeInfo():
 
@@ -23,6 +23,7 @@
 
     void printAppleInfo(tApple apple);
 
-
+    static unsigned int behindSnakesXY[4];
+    void correctSnakeDraw(tSnake snake1, tSnake snake2);
 
 #endif

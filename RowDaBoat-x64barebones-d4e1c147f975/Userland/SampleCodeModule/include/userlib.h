@@ -15,7 +15,13 @@
 
     unsigned char getAndPrintChar();
 
-    void draw(int model, int x, int y);
+    void draw(int model, int x, int y, char color);
+
+    void drawBLackSquare(unsigned int x, unsigned int y);
+    void drawGreenSquare(unsigned int x, unsigned int y);
+    void drawRedSquare(unsigned int x, unsigned int y);
+    void drawYellowSquare(unsigned int x, unsigned int y);
+    void drawWhiteSquare(unsigned int x, unsigned int y);
 
     void clear();
 
@@ -50,6 +56,8 @@
     unsigned int strToUint(char * s);
 
     int isDigit(unsigned char c);
+
+    int isUpper(unsigned char c);
 
     int getUintDigits(unsigned int n );
 

@@ -41,12 +41,18 @@
     #define HEAD_RIGHT  0x01
     #define HEAD_UP     0x02
     #define HEAD_DOWN   0x03
-    #define BODY        0x04
+    #define SQUARE      0x04
     #define APPLE       0x05
-    #define EMPTY       0xA0
+
+// sysDraw @color (en rsi):
+//  RED    0x00
+//  GREEN  0x01
+//  YELLOW 0x02
+//  WHITE  0x03
+//  BLACK  0x04   
 
 // Pinta un pixel:
-    void sysDraw(int model, int x, int y );
+    void sysDraw(int model, int x, int y, char color);
 
 // Borra toda la pantalla:
     void sysClear();

@@ -6,28 +6,24 @@
 void drawMap()  {
     clear();
     for(int i=0; i<=COLUMNS; ++i)    {
-        draw(0x04, i, 0);
-        draw(0x04, i, ROWS);
+        drawWhiteSquare(i, 0);
+        drawWhiteSquare(i, ROWS);
     }
     for(int i=0; i<=ROWS; ++i)    {
-        draw(0x04, 0, i);
-        draw(0x04, COLUMNS, i);
+        drawWhiteSquare(0, i);
+        drawWhiteSquare(COLUMNS, i);
     }
 }
 
 
-void drawSnake(tSnake snake, tApple apple)  {
-    
-// Borramos la posicion anterior del ultimo cuerpito, si es que no coincide con la cabeza.
-    if(snake->lastPos.x != snake->body[snake->headPos].x ||
-        snake->lastPos.y != snake->body[snake->headPos].y)   {
-            
-            draw(0xA0, snake->lastPos.x, snake->lastPos.y);
-        }      
-        
-    
-    for(int i=0; i<snake->headPos; i++)    
-        draw(0x04, snake->body[i].x, snake->body[i].y);
+void drawSnake(tSnake snake)  {
+    if(snake->id == 1)
+        for(int i=0; i<snake->headPos; i++)    
+            drawGreenSquare(snake->body[i].x, snake->body[i].y);
+
+    if(snake->id == 2)
+        for(int i=0; i<snake->headPos; i++)    
+            drawYellowSquare(snake->body[i].x, snake->body[i].y);
     
     int headModel;
     switch(snake->body[snake->headPos].direction)    {
@@ -49,35 +45,76 @@ void drawSnake(tSnake snake, tApple apple)  {
             break;
         }
     }
-    draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y);
-    draw(0x05, apple->x, apple->y);
-    
+    if(snake->id == 1)
+        
+        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x01);
+
+    if(snake->id == 2)
+        
+        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x02);
+
 }
 
-void drawAppleSimulation(unsigned int iterations)  {
-
-    tSnake mySnake;
-    tApple myApple; 
-
-	spawnSnake(mySnake);
-
-	spawnApple(myApple, mySnake);
-
-    drawMap();
+void correctSnakeDraw(tSnake snake1, tSnake snake2)  {
     
-    if(iterations==0)   {
-        while(1)    {
-            spawnApple(myApple, mySnake);
-            drawSnake(mySnake, myApple);
-        }
-        return;
+    int todraw = 1;
+
+    // Borramos la posicion anterior del ultimo cuerpito, si es que no coincide con la cabeza.
+        if(behindSnakesXY[0] != snake1->body[snake1->headPos].x ||
+            behindSnakesXY[1] != snake1->body[snake1->headPos].y)   { 
+
+                if(getPlayers()==2) {
+                    for(int i=0; i<=snake2->headPos && todraw; ++i)   {
+                        todraw =  (behindSnakesXY[0] != snake2->body[i].x || behindSnakesXY[1] != snake2->body[i].y);
+                    }
+                }
+                if(todraw)
+                    drawBLackSquare(behindSnakesXY[0], behindSnakesXY[1]);
+            }      
+        
+        if(getPlayers()==2 && (behindSnakesXY[2] != snake2->body[snake2->headPos].x ||
+            behindSnakesXY[3] != snake2->body[snake2->headPos].y))   { 
+                
+                todraw = 1;
+
+                for(int i=0; i<=snake1->headPos && todraw; ++i)   {
+                    todraw =  (behindSnakesXY[2] != snake1->body[i].x || behindSnakesXY[3] != snake1->body[i].y);
+                }
+                
+                if(todraw)
+                    drawBLackSquare(behindSnakesXY[2], behindSnakesXY[3]);
+            } 
     }
-    else
-        for(int i=0; i<iterations; ++i)    {
-            spawnApple(myApple, mySnake);
-            drawSnake(mySnake, myApple);
-        }
+
+void drawApple(tApple apple)    {
+    draw(0x05, apple->x, apple->y, 0x00);
 }
+
+// TO DO: Borrar, no lo borro de una por se un sueño frustrado :(
+// void drawAppleSimulation(unsigned int iterations)  {
+
+//     tSnake mySnake;
+//     tApple myApple; 
+
+// 	spawnSnake(mySnake);
+
+// 	spawnApple(myApple, mySnake);
+
+//     drawMap();
+    
+//     if(iterations==0)   {
+//         while(1)    {
+//             spawnApple(myApple, mySnake);
+//             drawSnake(mySnake, myApple);
+//         }
+//         return;
+//     }
+//     else
+//         for(int i=0; i<iterations; ++i)    {
+//             spawnApple(myApple, mySnake);
+//             drawSnake(mySnake, myApple);
+//         }
+// }
 
 
 static void printDirection(tDirection direction) {

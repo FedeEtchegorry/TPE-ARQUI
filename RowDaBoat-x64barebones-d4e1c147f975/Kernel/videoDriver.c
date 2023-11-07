@@ -300,40 +300,56 @@ static char apple           [8]={0x00, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C}
 #define PIXELSIZE 16
 #define cordsNormalize(x,y) {(x)*=PIXELSIZE;(y)*=PIXELSIZE;}
 
-void snakeHeadDrawer(int direction, int x, int y)   {
+void snakeHeadDrawer(int direction, int x, int y, char color)   {
     cordsNormalize(x,y);
 
+    unsigned long toFill;
+
+    switch (color)  {
+
+        case 0:     toFill = RED;       break;
+        case 1:     toFill = GREEN;     break;
+        case 2:     toFill = YELLOW;    break;
+        case 4:     toFill = WHITE;     break;
+
+        default:    toFill = GREEN;     break;
+    }
+
     switch (direction) {
-/*LEFT*/    case 0: render(snakeHeadLeft,  GREEN, BLACK, y, x, PIXELSIZE); break;
-/*RIGHT*/   case 1: render(snakeHeadRight, GREEN, BLACK, y, x, PIXELSIZE); break;
-/*UP*/      case 2: render(snakeHeadUp,    GREEN, BLACK, y, x, PIXELSIZE); break;
-/*DOWN*/    case 3: render(snakeHeadDown,  GREEN, BLACK, y, x, PIXELSIZE); break;
+/*LEFT*/    case 0: render(snakeHeadLeft,  toFill, BLACK, y, x, PIXELSIZE); break;
+/*RIGHT*/   case 1: render(snakeHeadRight, toFill, BLACK, y, x, PIXELSIZE); break;
+/*UP*/      case 2: render(snakeHeadUp,    toFill, BLACK, y, x, PIXELSIZE); break;
+/*DOWN*/    case 3: render(snakeHeadDown,  toFill, BLACK, y, x, PIXELSIZE); break;
             default: break;
     }
 }
-void snakeBodyDrawer(int x, int y){
+
+void coloredSquareDrawer(int x, int y, char color){
+
+    unsigned long toFill;
+
+    switch (color)  {
+
+        case 0:     {toFill = RED;       break;}
+        case 1:     {toFill = GREEN;     break;}
+        case 2:     {toFill = YELLOW;    break;}
+        case 3:     {toFill = WHITE;     break;}
+        case 4:     {toFill = BLACK;     break;}
+
+        default:    {toFill = GREEN;     break;}
+    }
+
     cordsNormalize(x,y);
-    render(snakeBody, GREEN, BLACK, y, x, PIXELSIZE);
+    render(snakeBody, toFill, BLACK, y, x, PIXELSIZE);
 }
+
+
 void appleDraw(int x, int y){
 
     cordsNormalize(x,y);
     render(apple, RED, BLACK, y, x, PIXELSIZE);
 }
 
-void blackSquareDrawer(int x, int y)    {
-    cordsNormalize(x,y);
-    render(snakeBody, BLACK, BLACK, y, x, PIXELSIZE);
-}
-
-// Hecha por un inexperto en el manejo de videoDriver.
-void drawPixel(int y, int x, int size, char * draw, int colour)  {
-    switch ( colour )   {
-        case 0: render(draw, WHITE, BLACK, y, x, size); break;
-        default: break;
-    }
-    
-}
 
 
 

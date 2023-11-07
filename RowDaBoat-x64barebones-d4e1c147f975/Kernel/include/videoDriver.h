@@ -36,10 +36,8 @@ void cleanLastLine();
 void setCharWidth(unsigned int size);
 void resetPosition();
 
-void snakeHeadDrawer(int direction, int initPosY, int initPosX);
-void snakeBodyDrawer(int initPosY, int initPosX);
+void snakeHeadDrawer(int direction, int initPosY, int initPosX, char color);
+void coloredSquareDrawer(int x, int y, char color);
 void appleDraw(int x, int y);
-void blackSquareDrawer(int x, int y);
-void drawPixel(int y, int x, int size, char * draw, int colour);
 
 #endif

@@ -203,10 +203,12 @@ draw:
     push rbx
     push rdi
     push rdx
+    push rsi
 
     mov rbx, rdi    ; 1er arg en C
     mov rdi, rdx    ; 3er arg
     mov rdx, rsi    ; 2do arg
+    mov rsi, rcx    ; 4to arg
 
     mov rax, 0x44
     int 0x80
@@ -214,6 +216,7 @@ draw:
     pop rbx
     pop rdi
     pop rdx
+    pop rsi
 
     mov rsp, rbp
     pop rbp

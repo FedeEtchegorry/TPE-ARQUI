@@ -7,6 +7,15 @@
     #define COLUMNS 28
     #define SLOTS ROWS*COLUMNS
 
+    static unsigned int playersInGame = 0;
+    #define getPlayers() (playersInGame)
+    #define setPlayers(x) (getPlayers() = (x))
+
+    static int incorrectplayers()    {
+        return getPlayers()>2 || getPlayers() == 0;
+    }
+
+
     typedef enum Direction { RIGHT, LEFT, DOWN, UP} tDirection;
 
     struct snakeBody {
@@ -20,11 +29,9 @@
 
         struct snakeBody body[SLOTS];
 
+        unsigned int id;
         unsigned int headPos;
         unsigned char eating;           // flag.
-
-        struct snakeBody lastPos;       // Previa posicion de la cola. 
-                                        // Necesario para dibujar la serpiente.
 
     } * tSnake;
 
@@ -34,9 +41,13 @@
         unsigned int y;
     } * tApple;
 
+// Comienza el juego.
+    void startSnake(unsigned int players);
 
-// Parcialmente imprime info de la snake y se puede jugar un poquito (TO DO).
-    void startSnake(int players);
+// Acciona. Devuelve 1 si muere.
+    int creep(tSnake mySnake, tApple myApple);
+
+    int useKey(tSnake mySnake, unsigned char key, unsigned char * snakeKeys);
 
 //  Instancia snake.
     void spawnSnake(tSnake babySnake);
@@ -55,10 +66,16 @@
 
     int moveSnake(tSnake snake);
 
-    void spawnApple(tApple apple, tSnake snake);
+    void spawnApple(tApple apple, tSnake snake1, tSnake snake2);
 
     void feedSnake(tApple apple, tSnake snake);
 
+//  Devuelve 1 si es una tecla valida, validan los ascii de keysSnake1, keysSnake2 y 'p'.
+//  El criterio de validacion esta predefinido en el archivo defs.h.
+
     int isSnakeKey(unsigned char key);
+
+static unsigned char keysSnake1[4] = {'a', 's', 'w', 'd'};
+static unsigned char keysSnake2[4] = {'j', 'k', 'i', 'l'};
 
 #endif
