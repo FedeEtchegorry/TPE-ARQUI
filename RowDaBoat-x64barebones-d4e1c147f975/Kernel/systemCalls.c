@@ -124,12 +124,16 @@ void playSong(int i){
     switch (i) {
         case TETRIS:
             playTetris();
+            return;
         case JINGLEBELLS:
             playJingleBells();
+            return;
         case EAT_APPLE:
             beep();
+            return;
         case SNAKE_DIED:
             playMario();
+            return;
     }
 }
 

@@ -21,6 +21,7 @@ GLOBAL _irq05Handler
 GLOBAL _irq60Handler
 
 GLOBAL _exception0Handler
+GLOBAL _exception6Handler
 
 EXTERN irqDispatcher
 EXTERN int_80
@@ -219,13 +220,15 @@ _irq60Handler:
 ;Zero Division Exception
 _exception0Handler:
 	exceptionHandler 0
+_exception6Handler:
+    exceptionHandler 6
 	
 
 haltcpu:
 	cli
 	hlt
 	ret
-
+;;guarda los registros de uso general en un arreglo, devuelvo el puntero por rax
 register_saviour:
     mov [register_array],     rax
     mov [register_array+8],   rbx
@@ -243,37 +246,40 @@ register_saviour:
     mov [register_array+104], r13
     mov [register_array+112], r14
     mov [register_array+120], r15
-    mov rax, register_array
     ret
 
+call_stack:
+    mov rax, [rsp]
+
+
+;;pone un sonido en el speaker
 play_sound:
-    pushState
+        pushState
 ;;cargo la frecuencia
-
-        mov al, 0xB6            ; Cargar el valor 0xB6 en AL
-        out 0x43, al            ; Escribir AL en el puerto 0x43 (PIT command)
-        mov ax, 1193180         ; Cargar el valor 1193180 en AX
+        push rax
+        push rcx
+        push rdx
+        mov al, 0xB6            ; Cargar 0xB6 en AL
+        out 0x43, al            ; Escribir AL en el port 0x43 (PIT command) indica que se van a enviar 2 datos al port 0x42
+        mov ax, 1193180         ; Cargar 1193180 en AX
         mov rdx, 0
-        div di                  ; Dividir EAX por el argumento nFrequence
-        mov dl, al
-        mov al, ah
-        out 0x42, al            ; Escribir AL en el puerto 0x42 (PIT data)
-        mov al, dl              ; Mover el byte bajo del resultado a AL
-        out 0x42, al            ; Escribir AL en el puerto 0x42 (PIT data)
-
-
-
-;;prendo el speaker
-    in      al, 0x61         ;;lee el valor del puerto
-    mov     cl, al
-    or      cl, 3
-    cmp     al, cl
-    jz      exit
-    mov     al, cl
-    out     0x61, al         ;;sobreescribo el puerto con la nueva configuracion
-    popState
-exit:
-    ret
+        div di                  ; Dividir EAX por la frecuencia
+        mov dl, al              ; Guardo el bit bajo de rax
+        mov al, ah              ; Guardo el bit alto de rax
+        out 0x42, al            ; Escribir AL en el port 0x42 (PIT data)
+        mov al, dl              ; Mover el bit guardado temporalmente en dl
+        out 0x42, al            ; Escribir AL en el port 0x42 (PIT data)
+    ;;prendo el speaker
+        in      al, 0x61         ;;lee el valor del puerto
+        mov     cl, al
+        or      cl, 3
+        cmp     al, cl
+        jz      exit
+        mov     al, cl
+        out     0x61, al         ;;sobreescribo el puerto con la nueva configuracion
+    exit:
+        popState
+        ret
 
 ; Function to silence the sound
 nosound:

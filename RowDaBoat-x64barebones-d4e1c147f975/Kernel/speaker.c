@@ -9,6 +9,7 @@
 #define SOL  392
 #define SI 494
 #define LA 440
+
 #define DO2  523
 #define RE2  587
 #define MI2  659
@@ -16,7 +17,6 @@
 #define SOL2  784
 #define LA2  880
 
-#define DO_BEMOL3 554
 uint16_t jingleBells[] = {MI, MI, MI, MI, MI, MI, MI, SOL, DO, RE, MI,
                           FA, FA, FA,  MI, MI, MI, RE, RE, RE, MI, RE, SOL};
 uint16_t timeJB[]={1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 4, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 2};
@@ -28,14 +28,13 @@ uint32_t death2[]={SI, FA2, FA2, FA2, MI2, RE2, DO2, MI, SOL, MI, DO} ;
 double tiempo[]={0.5, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 2};
 
 static int initFreq=1000;
-static double defaultTime=0.5;
+static double defaultTime=0.00005;
 void playFrecuency(double time, unsigned int frequency) {
     play_sound(frequency);
     uint64_t i=(time)*250000000;
     while(i!=0){
         i--;
     }
-    //waitTime(time);
     nosound();
 }
 void playDefault(){

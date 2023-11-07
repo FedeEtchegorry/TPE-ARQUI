@@ -9,21 +9,21 @@ extern unsigned long long* register_saviour();
 
 static char output[17]={'\0'};
 void registerToString(unsigned long long value) {
-    char temp[17]; // A buffer to hold the converted hexadecimal number
+    char temp[17]; //buffer temp para ir guardando el numero
     int index = 0;
     do {
         int digit = value & 0xF;
         temp[index++] = (digit < 10) ? (char)('0' + digit) : (char)('a' + digit - 10);
         value >>= 4;
     } while (value > 0);
-
+    //la longitud de mi string depende del indice
     int length = index;
 
-    // Reverse the string in the output buffer
+    // empiexo a dar vuelta el string
     for (int i = 0; i < length; i++) {
         output[i] = temp[length - 1 - i];
     }
-
+    //le pongo NULL al final
     output[length] = '\0';
 }
 

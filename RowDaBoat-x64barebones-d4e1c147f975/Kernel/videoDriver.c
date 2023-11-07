@@ -230,7 +230,7 @@ void drawCharWithoutDisplacement(unsigned char c,int fgcolor, int bgcolor){
 void drawCharOnCurrentPos(unsigned char c,int fgcolor, int bgcolor){
     render(font8x8_basic[c],fgcolor, bgcolor, ((currentPosition / VBE_mode_info->width) * charSize), currentPosition, charSize);
     currentPosition+=charSize;
-    if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*3>=VBE_mode_info->height) {
+    if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*4>=VBE_mode_info->height) {
         scroll();
     }
 }
@@ -251,7 +251,7 @@ void drawRegisters(int value){
 
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
-    if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*3>=VBE_mode_info->height) {
+    if ((currentPosition/VBE_mode_info->width)*charSize+VBE_mode_info->bpp*4>=VBE_mode_info->height) {
         scroll();
     }
 }
