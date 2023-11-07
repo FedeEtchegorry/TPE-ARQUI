@@ -4,6 +4,7 @@ GLOBAL _sti
 GLOBAL picMasterMask
 GLOBAL picSlaveMask
 GLOBAL haltcpu
+GLOBAL printRegAsm
 GLOBAL _hlt
 GLOBAL saveState
 
@@ -20,6 +21,7 @@ GLOBAL _exception0Handler
 EXTERN irqDispatcher
 EXTERN int_80
 EXTERN exceptionDispatcher
+EXTERN printRegisters
 
 SECTION .text
 
@@ -135,6 +137,10 @@ saveState:
 	iretq
 %endmacro
 
+printRegAsm:
+	mov qword rdi, registers
+	call printRegisters
+	ret
 
 _hlt:
 	sti
@@ -266,3 +272,26 @@ haltcpu:
 
 SECTION .bss
 	aux: resq 1
+
+	GLOBAL registers
+	registers:
+	.drax resq 1
+	.drbx resq 1
+	.drcx resq 1
+	.drdx resq 1
+	.drsi resq 1
+	.drdi resq 1
+	.drsp resq 1
+	.drbp resq 1
+	.dr8  resq 1
+	.dr9  resq 1
+	.dr10 resq 1
+	.dr11 resq 1
+	.dr12 resq 1
+	.dr13 resq 1
+	.dr14 resq 1
+	.dr15 resq 1
+	.dss  resq 1
+	.dcs  resq 1
+	.drfl resq 1
+	.drip resq 1

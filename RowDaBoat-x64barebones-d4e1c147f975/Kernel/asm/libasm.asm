@@ -1,7 +1,9 @@
 GLOBAL cpuVendor
+GLOBAL inb
+GLOBAL outb
 
 section .text
-	
+
 cpuVendor:
 	push rbp
 	mov rbp, rsp
@@ -26,4 +28,26 @@ cpuVendor:
 	pop rbp
 	ret
 
+inb:				; Funciones para el funcionamiento del speaker
+	push rbp
+	mov rbp, rsp
+
+    mov rdx,rdi
+    in al,dx		; pasaje en 8 bits
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+outb:
+	push rbp
+	mov rbp, rsp
+
+    mov rax, rsi    
+    mov rdx, rdi
+	out dx, al		; pasaje en 8 bits
+
+	mov rsp, rbp
+	pop rbp
+	ret
 

@@ -1,5 +1,5 @@
-#ifndef _SOUND_DRIVER_H
-#define _SOUND_DRIVER_H
+#ifndef _SPEAKER_H
+#define _SPEAKER_H
 
 #include <stdint.h>
 // beep :)
