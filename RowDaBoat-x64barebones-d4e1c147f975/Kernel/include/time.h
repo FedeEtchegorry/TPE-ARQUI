@@ -10,6 +10,6 @@ void reset_timer();
 int alarmAt(int at);
 int alarmAtDecimal(double at);
 int alarmAtTicks(int at);
-int waitTime(double at);
+void waitTime(double at);
 
 #endif
