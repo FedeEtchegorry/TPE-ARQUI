@@ -48,7 +48,8 @@ void startSnake(unsigned int players){
 
             if(snake1->eating)   {
 
-                spawnApple(myApple, snake1, snake2);
+                printSnakeScore(snake1);
+                spawnApple(myApple, snake1, snake2);         
                 drawApple(myApple);
                 
             }
@@ -59,7 +60,7 @@ void startSnake(unsigned int players){
                     return;
             
                 if(snake2->eating)   {
-
+                    printSnakeScore(snake2);
                     spawnApple(myApple, snake1, snake2);
                     drawApple(myApple);
                 }
@@ -78,13 +79,18 @@ void startSnake(unsigned int players){
                 key += 32;  // Lo paso a minusc.
         }
             if( key == 'p')     {
-                printSnakeInfo2(snake1);
-                if(getPlayers()==2) 
-                    printSnakeInfo2(snake2);
+
+                deleteSnakeInfo();
+                print("PAUSED");
             // Espera:
                 while(getChar()!='p');
 
                 deleteSnakeInfo();
+                printSnakeScore(snake1);
+                if(getPlayers()==2)
+                    printSnakeScore(snake2);
+
+                
         }    
             else if(!useKey(snake1, key, keysSnake1) && getPlayers()==2)    {
 
@@ -113,15 +119,29 @@ int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead)   {
             play_song(4);
 
             clear();
-            print("Snake ");    printUinteger(looser);
+            print("Snake ");    
+            if(looser == 1)
+                printUinteger(mySnake->id);
+            else
+                printUinteger(mySnake->id==1? 2 : 1);
+                
             print(" just crashed\n");
             while(getChar()!='\n');
 
-            print("Snake ");    printUinteger(looser);
+            print("Snake ");   
+            if(looser == 1)
+                printUinteger(mySnake->id);
+            else
+                printUinteger(mySnake->id==1? 2 : 1);
             print(" is a looser\n");
             while(getChar()!='\n');
 
-            print("Don't be like Snake ");    printUinteger(looser);
+            print("Don't be like Snake ");    
+            
+            if(looser == 1)
+                printUinteger(mySnake->id);
+            else
+                printUinteger(mySnake->id==1? 2 : 1);
             while(getChar()!='\n');
             clear();
         }
@@ -341,9 +361,7 @@ void feedSnake(tApple apple, tSnake snake)   {
 
     if (snake->body[snake->headPos].x == apple->x && 
     snake->body[snake->headPos].y == apple->y)  {
-        
-        play_song(3);
-
+    
         snake->eating = 1;
     }
         
