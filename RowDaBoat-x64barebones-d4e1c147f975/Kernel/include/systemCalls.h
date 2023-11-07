@@ -13,7 +13,7 @@
 #define BIGGER_TEXT                     0xA1
 #define RANDLONG_ID                     0x12
 #define RECOLOR                         0xA2
-#define TETRIS                          0xDE
+#define SONG                            0xDE
     
 
 // write @fd codes: (en rbx)
@@ -67,6 +67,12 @@
 
 // retorna un numero pseudo-random
     unsigned long rand();
+//sonidos/Canciones disponibles para usar
+    #define TETRIS 1
+    #define JINGLEBELLS 2
+    #define EAT_APPLE 3
+    #define SNAKE_DIED 4
+
 //pone la canción del tetris
-    void playTetrisSong();
+    void playSong(int which);
 #endif

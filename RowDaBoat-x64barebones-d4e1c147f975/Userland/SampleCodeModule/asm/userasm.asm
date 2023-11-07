@@ -11,7 +11,7 @@ GLOBAL make_text_smaller
 GLOBAL make_text_bigger
 GLOBAL rand
 GLOBAL recolor
-GLOBAL play_tetris_song
+GLOBAL play_song
 
 extern strLength
 section .text
@@ -252,16 +252,19 @@ recolor:
     mov rsp, rbp
     pop rbp
     ret
-play_tetris_song:
+play_song:
     push rbp
     mov rbp, rsp
 
+    push rbx
     push rax
 
     mov rax, 0xDE
+    mov rbx, rdi    ;el numero que responde a que canción llamo
     int 0x80
 
     pop rax
+    pop rbx
 
     mov rsp, rbp
     pop rbp

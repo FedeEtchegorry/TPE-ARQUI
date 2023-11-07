@@ -22,11 +22,16 @@ uint32_t tetrisSong[]={MI2, SI, DO2, RE2, DO2, SI, LA, LA, DO2, MI2, RE2, DO2, S
                        10000, RE2, FA2, LA2, SOL2, FA2, MI2, DO2, MI2, RE2, DO2, SI, SI, DO2, RE2, MI2, DO2, LA, LA, 10000};
 double timeTetris[]={1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 0.5,
                 1, 0.5, 1, 0.5, 0.5, 1.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 0.5};
+uint32_t marioSong[]={MI, RE, DO, LA, SOL, FA, MI};
+double timeMario[]={1,1,1,1,1,1,1};
 static int initFreq=1000;
 static double defaultTime=0.5;
 void playFrecuency(double time, unsigned int frequency) {
     play_sound(frequency);
-    waitTime(time);
+    uint64_t i=(time)*250000000;
+    while(i!=0){
+        i--;
+    }
     nosound();
 }
 void playDefault(){
@@ -42,10 +47,14 @@ void playTetris(){
     nosound();
 }
 void playJingleBells(){
-    int i=0;
-    while(i<23){
-        playFrecuency(0.3*timeJB[i], jingleBells[i]*2);
-        i++;
+    for (int index = 0; index < 23; index++){
+        playFrecuency(0.2*timeJB[index], jingleBells[index]*2);
+    }
+    nosound();
+}
+void playMario(){
+    for (int index = 0; index < 7; index++) {
+        playFrecuency(0.3*timeMario[index], marioSong[index]);
     }
     nosound();
 }

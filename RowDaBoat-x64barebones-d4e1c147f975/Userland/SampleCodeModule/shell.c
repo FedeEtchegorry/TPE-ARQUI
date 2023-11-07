@@ -5,17 +5,18 @@
 
 
 typedef void (*shellFunctions)(void);
-static shellFunctions menuFunctions[AVAILABLE_FUNCTIONS]={&help, &snake, &time, &textSize,&colorChanging, &exitProgram, &clear, &tetrisSong};
-static char* menuNames[AVAILABLE_FUNCTIONS]= {"help", "snake", "time", "size", "color", "exit", "clear","tetris"};
+static shellFunctions menuFunctions[AVAILABLE_FUNCTIONS]={&help, &snake, &time, &textSize,&colorChanging, &exitProgram, &clear, &tetrisSong, &jingleBellsSong};
+static char* menuNames[AVAILABLE_FUNCTIONS]= {"help", "snake", "time", "size", "color", "exit", "clear","tetris", "jinglebells"};
 static char* menuDescriptions[AVAILABLE_FUNCTIONS]={
                             "Gives information about the available commands to execute.",
-                            "Starts a new Snake game, add '1' or '2' as argument according to the ammount of players wanted",
+                            "Starts a new Snake game, add '1' or '2' as argument according to the amount of players wanted",
                             "Prints the RTC's time on the screen .",
                             "Changes font size unless minimum/maximum size has been reached. Use argument 'small' or 'bigger' after the space",
                             "Changes the font's color, available arguments are 'white', 'red', 'blue', 'green', 'yellow', 'orange', 'violet'",
                             "Closes the Shell and finishes the execution of the software.",
                             "Cleans the terminal.",
-                            "Plays tetris music."
+                            "Plays tetris music.",
+                            "Plays jinglebells"
                             };
 //TODO aceptar colores en entrada estandar para imprimirlos
 static char function[15]={'\0'};
@@ -133,5 +134,8 @@ void colorChanging(){
 
 }
 void tetrisSong(){
-    play_tetris_song();
+    play_song(1);
+}
+void jingleBellsSong(){
+    play_song(2);
 }

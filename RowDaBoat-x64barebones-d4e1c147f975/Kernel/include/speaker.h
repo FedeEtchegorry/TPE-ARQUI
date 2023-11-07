@@ -11,4 +11,5 @@ void nosound();
 void beep();
 void playFrecuency(double time, unsigned int frecuency);
 void playTetris();
+void playMario();
 #endif

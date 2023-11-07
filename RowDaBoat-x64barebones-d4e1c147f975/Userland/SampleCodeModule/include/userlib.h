@@ -39,7 +39,7 @@
 
     void recolor(unsigned int colour);
 
-    void play_tetris_song();
+    void play_song(int name);
 
 //  Strings:
 

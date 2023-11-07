@@ -120,9 +120,17 @@ void exitProgram(){
     haltcpu();          //queda trabado acá y no puede hacer nada más
 
 }
-void playTetrisSong(){
-    playTetris();
-    nosound();
+void playSong(int i){
+    switch (i) {
+        case TETRIS:
+            playTetris();
+        case JINGLEBELLS:
+            playJingleBells();
+        case EAT_APPLE:
+            beep();
+        case SNAKE_DIED:
+            playMario();
+    }
 }
 
 static unsigned long seed = 0x5A5A5A5A;
