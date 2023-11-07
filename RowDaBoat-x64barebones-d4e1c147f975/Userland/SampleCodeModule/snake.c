@@ -50,7 +50,6 @@ void startSnake(unsigned int players){
 
                 spawnApple(myApple, snake1, snake2);
                 drawApple(myApple);
-                play_song(3);
                 
             }
     
@@ -343,6 +342,8 @@ void feedSnake(tApple apple, tSnake snake)   {
     if (snake->body[snake->headPos].x == apple->x && 
     snake->body[snake->headPos].y == apple->y)  {
         
+        play_song(3);
+
         snake->eating = 1;
     }
         
