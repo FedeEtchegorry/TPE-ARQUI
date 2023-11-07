@@ -26,6 +26,8 @@
     // Lo mismo sin enters :)
     void printSnakeInfo2(tSnake snake);
 
+    void deleteSnakeInfo();
+
     void printAppleInfo(tApple apple);
 
 #endif

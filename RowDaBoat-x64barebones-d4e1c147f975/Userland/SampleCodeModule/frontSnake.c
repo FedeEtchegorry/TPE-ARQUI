@@ -18,10 +18,10 @@ void drawMap()  {
 
 void drawSnake(tSnake snake)  {
     if(snake->id == 1)
-        drawGreenSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
+        drawYellowSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
 
     else    
-        drawYellowSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
+        drawRedSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
     
 
     int headModel;
@@ -46,11 +46,11 @@ void drawSnake(tSnake snake)  {
     }
     if(snake->id == 1)
         
-        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x01);
+        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x02);
 
     else
         
-        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x02);
+        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x00);
 
 }
 

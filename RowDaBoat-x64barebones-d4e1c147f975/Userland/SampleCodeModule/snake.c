@@ -111,8 +111,9 @@ int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead)   {
     }
     else if (looser != 3)   {
 
-            clear();
             play_song(4);
+
+            clear();
             print("Snake ");    printUinteger(looser);
             print(" just crashed\n");
             while(getChar()!='\n');
@@ -126,8 +127,10 @@ int creep(tSnake mySnake, tApple myApple, struct snakeBody otherSnakeHead)   {
             clear();
         }
     else    {
-        clear();
+            
             play_song(4);
+            clear();
+            
             print("Draw\n");
             while(getChar()!='\n');
             print("Both are extremely bad");
@@ -175,9 +178,8 @@ void spawnSnake(tSnake babySnake)   {
     for(int i=0; i<=babySnake->headPos; i++)  {
         babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
     // Consideracion para que no spawneen las snakes en la misma posicion.
-        babySnake->body[i].y = (ROWS / 2) - babySnake->id - 1;
-        babySnake->body[i].direction = babySnake->id==1? RIGHT : LEFT;
-        
+        babySnake->body[i].y = (ROWS / 2) + babySnake->id;
+        babySnake->body[i].direction = RIGHT;
     }    
 
 
