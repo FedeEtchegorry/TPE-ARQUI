@@ -15,7 +15,6 @@
         return getPlayers()>2 || getPlayers() == 0;
     }
 
-
     typedef enum Direction { RIGHT, LEFT, DOWN, UP} tDirection;
 
     struct snakeBody {
@@ -40,6 +39,15 @@
         unsigned int x;
         unsigned int y;
     } * tApple;
+
+    static tSnake snake1;
+    static tSnake snake2;
+    static tApple myApple; 
+
+    static void snakesConfig()  {
+        snake1->id = 1;
+        snake2->id = 2;
+    }
 
 // Comienza el juego.
     void startSnake(unsigned int players);

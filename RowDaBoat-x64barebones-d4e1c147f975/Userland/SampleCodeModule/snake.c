@@ -14,9 +14,7 @@ void startSnake(unsigned int players){
         return;
     }
 
-    tSnake snake1;
-    tSnake snake2;
-    tApple myApple; 
+    snakesConfig();
 
     spawnSnake(snake1);
     snake1->id = 1;
@@ -69,22 +67,18 @@ void startSnake(unsigned int players){
 
         if(isSnakeKey(key))  {
 
-            if(isUpper(key))
+            if(isUpper(key))    {
                 key += 32;  // Lo paso a minusc.
-
-        // A continuacion el codigo busca ser una forma hiper-mega-eficiente para no hacer:
-
-             useKey(snake1, key, keysSnake1);
-             if(getPlayers()==2)
-                useKey(snake2, key, keysSnake2);
-             if( key == 'p')
-                while(getChar()!='p');
-
-            // if(!useKey(snake1, key, keysSnake1) && 
-            //     (getPlayers()!=2 && !useKey(snake2, key, keysSnake2)))
+        }
+            if( key == 'p')     {
                 
-            //     while(getChar()!='p'); // Si no es ninguna tecla para controlar snakes, es el boton de pausa.
+                while(getChar()!='p');
+        }    
+            else if(!useKey(snake1, key, keysSnake1) && getPlayers()==2)    {
 
+                useKey(snake2, key, keysSnake2);
+        }            
+        
         }
 
     }
@@ -147,20 +141,14 @@ void spawnSnake(tSnake babySnake)   {
     babySnake->headPos = 2;
     babySnake->eating = 0;
 
-    int shifting = getPlayers() - 1;
-
     for(int i=0; i<=babySnake->headPos; i++)  {
         babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
-        babySnake->body[i].y = (ROWS / 2);
+    // Consideracion para que no spawneen las snakes en la misma posicion.
+        babySnake->body[i].y = (ROWS / 2) - babySnake->id - 1;
         babySnake->body[i].direction = RIGHT;
         
-    // Consideracion para que no spawneen las snakes en la misma posicion.
-        for(int j =0; j<shifting && shifting>0;++j)   {
+    }    
 
-            babySnake->body[i].y-=2;
-        }
-        shifting--;
-    }
 
 }
 

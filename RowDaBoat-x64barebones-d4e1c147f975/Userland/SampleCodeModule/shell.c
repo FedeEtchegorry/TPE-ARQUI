@@ -80,7 +80,6 @@ void time(){
 
 void snake(){
 
-    killBuffer();
     if (strEquals("1", argument))   {
 
         startSnake(1);
