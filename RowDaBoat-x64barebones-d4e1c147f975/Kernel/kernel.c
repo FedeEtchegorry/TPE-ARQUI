@@ -57,8 +57,7 @@ void * initializeKernelBinary()
 int main(){
 
 	load_idt();
-    playMario();
-	((EntryPoint)sampleCodeModuleAddress)();
+    ((EntryPoint)sampleCodeModuleAddress)();
 
 	printTextDefault("Termino sampleCodeModule", WHITE, BLACK);
 
