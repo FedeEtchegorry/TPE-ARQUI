@@ -76,8 +76,7 @@ saveState:
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
-	call register_saviour
-	mov rsi, rax
+	
 	call irqDispatcher
 	
 	; signal pic EOI (End of Interrupt)
@@ -91,14 +90,27 @@ saveState:
 
 
 %macro exceptionHandler 1
-	pushState
+	
 
+	call register_saviour
+	mov rsi, rax
 	mov rdi, %1 ; pasaje de parametro
 
 	call exceptionDispatcher
 
-	popState
-	iretq
+	call getStackBase
+    mov [rsp+24], rax
+
+	mov byte [rsp+8], 0x08
+
+	mov byte [rsp+32], 0x00
+
+	mov byte [rsp+16], 0x202	
+
+    mov rax, userland
+    mov [rsp], rax
+    iretq
+
 %endmacro
 
 
@@ -264,19 +276,12 @@ register_saviour:
 ;Zero Division Exception
 _exception0Handler:
     exceptionHandler 0
-    call getStackBase
-    mov [rsp+24], rax
-    mov rax, userland
-    mov [rsp], rax
-    iretq
+
+
 ;Invalid Opcode Exception
 _exception6Handler:
     exceptionHandler 6
-    call getStackBase
-    mov [rsp+24], rax
-    mov rax, userland
-    mov [rsp], rax
-    iretq
+
 get_stored_info:
     mov rax, register_array
     ret
