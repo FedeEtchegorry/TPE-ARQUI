@@ -261,12 +261,6 @@ register_saviour:
     mov rax, register_array
     ret
 
-
-    popState
-    mov rax, register_array
-    ret
-
-
 ;Zero Division Exception
 _exception0Handler:
     exceptionHandler 0
