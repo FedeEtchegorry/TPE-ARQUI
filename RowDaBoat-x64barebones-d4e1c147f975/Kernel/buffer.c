@@ -7,6 +7,10 @@
 static unsigned char buffer [BUFFER_SIZE];
 static int next = BUFFER_FIRSTPOS;
 
+
+void cleanBuffer()  {
+    next = BUFFER_FIRSTPOS;
+}
 int bufferIsEmpty() {
     return next == BUFFER_FIRSTPOS;
 }
@@ -39,6 +43,15 @@ int putString(const unsigned char * s)    {
 unsigned char readChar() {
     return bufferIsEmpty()? 0 : buffer[--next];
 }
+void peekAllBuffer(unsigned char * string, int dim) {
+
+    int i = BUFFER_FIRSTPOS;
+    for(; i<dim-1 && i<next; ++i)
+        string[i] = buffer[i];
+
+    string[i] = '\0';
+}
+
 
 void readBuffer(unsigned char * string, int dim)    {
     
@@ -47,17 +60,7 @@ void readBuffer(unsigned char * string, int dim)    {
 
 }
 
-void peekAllBuffer(unsigned char * string, int dim) {
 
-    int i = BUFFER_FIRSTPOS;
-    for(; i<dim-1 && i<next; ++i)    
-        string[i] = buffer[i];
 
-    string[i] = '\0';
-}
-
-void cleanBuffer()  {
-    next = BUFFER_FIRSTPOS;
-}
 
 

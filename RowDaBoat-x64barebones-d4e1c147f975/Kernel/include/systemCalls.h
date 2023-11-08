@@ -6,7 +6,6 @@
 #define SYSTEM_READ_ID                  0x03
 #define SYSTEM_WRITE_ID                 0x04
 #define SYSTEM_TIME_ID                  0x98
-#define SYSTEM_KILLBUFFER_ID            0x99
 #define SYSTEM_DRAW_ID                  0x44
 #define SYSTEM_CLEAR_ID                 0x45
 #define SMALLER_TEXT                    0xA0
@@ -32,9 +31,7 @@
 
 // Carga en el buffer lo que hay en @s:
     void sysRead(unsigned int fd, const  char * s, char c);
-    
-// Borra el buffer:
-    void killBuffer();
+
 
 // sysDraw @model codes (en rbx):
     #define HEAD_LEFT   0x00

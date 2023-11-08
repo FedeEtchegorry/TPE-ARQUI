@@ -26,8 +26,11 @@ double timeTetris[]={1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5,
 uint32_t death2[]={SI, FA2, FA2, FA2, MI2, RE2, DO2, MI, SOL, MI, DO} ;
 double tiempo[]={0.5, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 2};
 
-static int initFreq=1000;
-static double defaultTime=0.00005;
+static int initFreq=400;
+static double defaultTime=0.05;
+
+void play_sound(frequency);
+void nosound();
 void playFrecuency(double time, unsigned int frequency) {
     play_sound(frequency);
     uint64_t i=(time)*250000000;
@@ -61,6 +64,6 @@ void playMario(){
 }
 
 void beep(){
-    play_sound(initFreq);
+    playFrecuency(defaultTime, initFreq);
     nosound();
 }

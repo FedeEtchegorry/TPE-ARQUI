@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <colours.h>
 #include <videoDriver.h>
+#include <stringPrinter.h>
 #include <registers.h>
 
 #define ZERO_EXCEPTION_ID 0

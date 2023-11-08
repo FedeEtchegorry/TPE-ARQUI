@@ -11,6 +11,8 @@ int position=0;
 int positionTraveller=0;
 
 int canBlink=1;
+void printCharDefault(char c,int fgcolor, int bgcolor);
+void refillScreen();
 
 void printTextDefault(char* string, int fgcolor, int bgcolor) {
     blockBlink();

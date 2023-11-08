@@ -6,7 +6,7 @@
     
     void initShell();
     void read(unsigned char * buffer);
-    void getMenu(unsigned char* buffer);
+    void getMenu(char* buffer);
     void help();
     void time();
     void snake();
