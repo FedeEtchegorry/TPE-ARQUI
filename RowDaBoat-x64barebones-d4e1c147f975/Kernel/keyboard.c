@@ -16,18 +16,7 @@ static char kbd_US [81][2] =   {
         {'U',0}/* Up Arrow */,{0,0}/* Page Up */,{0,0},{'L',0}/* Left Arrow */,{0,0},{'R',0}/* Right Arrow */,{0,0},{0,0},{'D',0}/* Down Arrow */
 };
 
-void up_arrow(){
 
-}
-void down_arrow(){
-
-}
-void left_arrow(){
-
-}
-void right_arrow(){
-
-}
 char map(unsigned char c)  {
     char letter=kbd_US[c][0];
     if (letter=='\a' && !registerScreenOn){                 //con esto se llama a los registros
@@ -56,13 +45,7 @@ char map(unsigned char c)  {
             default: return ((caps-shift)?((caps && letter>='0' && letter<='9')?letter:kbd_US[c][1]):(shift && letter>='0' && letter<='9')?kbd_US[c][1]:letter);   //con esto se verifica cual de los dos elems de cada subarray debe devolver. Además verifica que solo shift puede modificar el retorno de numeros y sus simbolos, caps no los activa
         }
     }
-    switch (letter) {
-        case 'U': up_arrow();
-        case 'D': down_arrow();
-        case 'L': left_arrow();
-        case 'R': right_arrow();
-        }
-        return '\0';
-    }
+    return '\0';
+}
 
 
