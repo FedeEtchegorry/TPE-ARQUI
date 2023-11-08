@@ -15,22 +15,22 @@
 
 // Ingresa un caracter en el Buffer.
 // Si el buffer estaba lleno, vuelve al principio pisando lo anterior.
-    void putChar(unsigned char c);
+    void putChar(char c);
 
 // Ingresa un string en el Buffer.
 // Retorna -1 si no había suficiente espacio, si esto sucede el buffer queda como estaba antes de llamar a putString()
 // Si pudo ingresarlo correctamente retorna la longitud de @s, sin contar el cero del final.
-    int putString(const unsigned char * s);
+    int putString(const char * s);
     
 // Obtiene el ultimo caracter, borrandolo del Buffer.
 // Si el buffer esta vacío devuelve el caracter nulo: '\0'.
-    unsigned char readChar();
+    char readChar();
 
 // Copia todo el buffer en @string, dejandolo vacio.
-    void readBuffer(unsigned char * string, int dim);
+    void readBuffer(char * string, int dim);
 
 // Copia todo el buffer en @string.
-    void peekAllBuffer(unsigned char * string, int dim);
+    void peekAllBuffer(char * string, int dim);
 
 // Limpia el Buffer.
     void cleanBuffer();

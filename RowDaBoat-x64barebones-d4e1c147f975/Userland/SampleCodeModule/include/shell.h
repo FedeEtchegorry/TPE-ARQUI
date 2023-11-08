@@ -5,7 +5,7 @@
     #define AVAILABLE_FUNCTIONS 9
     
     void initShell();
-    void read(unsigned char * buffer);
+    void read(char * buffer);
     void getMenu(char* buffer);
     void help();
     void time();

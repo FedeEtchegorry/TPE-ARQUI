@@ -50,7 +50,7 @@ void buildTwoDigitsData(char* buffer, int dataTime){
     }
 }
 char* getTime(){
-    int hours = decode(timeParam(HOURS)) + UTC_MINUS_3;
+    int hours = decode(timeParam(HOURS));
     int minutes = decode(timeParam(MINUTES));
     int seconds = decode(timeParam(SECONDS));
     int day = decode(timeParam(DAY));

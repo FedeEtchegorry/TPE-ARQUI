@@ -37,7 +37,7 @@ void outputRegisterCaller(uint64_t * registerArray,int i){
     printRegisterDefault("\n");
 }
 void registerRetriever() {
-    uint64_t* registerArray=register_saviour();
+    uint64_t* registerArray=(uint64_t*)register_saviour();
     for (int i = 0; i < 16; i++) {
         printRegisterDefault(registrerNames[i]);
         outputRegisterCaller(registerArray, i);

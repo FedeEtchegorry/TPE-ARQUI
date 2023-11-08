@@ -6,7 +6,7 @@ int caps=0;
 int shift=0;
 int registerScreenOn=0;
 
-static unsigned char kbd_US [81][2] =   {
+static char kbd_US [81][2] =   {
         {0,0},  {'|',0}, {'1','!'}, {'2','"'}, {'3','#'},{'4','$'}, {'5','%'}, {'6','&'}, {'7','/'}, {'8','('}, {'9',')'}, {'0','='}, {'\'','\?'},{0,0}, {'\b','\b'},
         {'\t','\t'}/*Tab*/,{'q','Q'}, {'w','W'}, {'e','E'}, {'r','R'}, {'t','T'}, {'y','Y'}, {'u','U'}, {'i','I'}, {'o','O'}, {'p','P'}, {0,0}, {'+','*'}, {'\n','\n'},
         {0,0}/*CTRL*/,{'a', 'A'}, {'s', 'S'}, {'d', 'D'}, {'f', 'F'}, {'g', 'G'}, {'h', 'H'}, {'j', 'J'}, {'k', 'K'}, {'l', 'L'}, {'}',']'}, {0,0},{0,0}, {'S',0}, {'}',']'},
@@ -28,7 +28,7 @@ void left_arrow(){
 void right_arrow(){
 
 }
-unsigned char map(unsigned char c)  {
+char map(unsigned char c)  {
     char letter=kbd_US[c][0];
     if (letter=='\a' && !registerScreenOn){                 //con esto se llama a los registros
         registerScreenOn = 1;

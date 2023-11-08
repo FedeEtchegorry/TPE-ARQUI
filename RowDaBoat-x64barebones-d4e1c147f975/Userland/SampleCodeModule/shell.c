@@ -23,11 +23,10 @@ static char function[15]={'\0'};
 static char argument[15]={'\0'};
 
 void initShell()    {
-    killBuffer();
     print(INIT_MESSAGE);
 }
 
-void read(unsigned char * buffer)   {
+void read(char * buffer)   {
     print("$> ");
     int i=0;
     char c;

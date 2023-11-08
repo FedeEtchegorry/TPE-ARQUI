@@ -4,7 +4,7 @@
 #define TRUE 1
 #define FALSE 0
 
-static unsigned char buffer [BUFFER_SIZE];
+static char buffer [BUFFER_SIZE];
 static int next = BUFFER_FIRSTPOS;
 
 
@@ -19,7 +19,7 @@ int bufferIsFull()  {
     return next == BUFFER_SIZE-1;
 }
 
-void putChar(unsigned char c)   {
+void putChar(char c)   {
     
     if(bufferIsFull())
         cleanBuffer();
@@ -27,7 +27,7 @@ void putChar(unsigned char c)   {
     buffer[next++] = c;
 }
 
-int putString(const unsigned char * s)    {
+int putString(const  char * s)    {
     cleanBuffer();
     int i=0;
 	while(s[i]!=0)    {
@@ -40,10 +40,10 @@ int putString(const unsigned char * s)    {
     return i;
 }
 
-unsigned char readChar() {
+char readChar() {
     return bufferIsEmpty()? 0 : buffer[--next];
 }
-void peekAllBuffer(unsigned char * string, int dim) {
+void peekAllBuffer(char * string, int dim) {
 
     int i = BUFFER_FIRSTPOS;
     for(; i<dim-1 && i<next; ++i)
@@ -53,7 +53,7 @@ void peekAllBuffer(unsigned char * string, int dim) {
 }
 
 
-void readBuffer(unsigned char * string, int dim)    {
+void readBuffer(char * string, int dim)    {
     
     peekAllBuffer(string, dim);
     cleanBuffer();

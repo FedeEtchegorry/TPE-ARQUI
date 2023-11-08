@@ -10,8 +10,10 @@
 static int characterColor=WHITE;
 
 extern void haltcpu();
+void coloredSquareDrawer(int x, int y, char color);
+void appleDraw(int x, int y);
 
-unsigned char sysWrite(unsigned int fd, unsigned int count)	{
+char sysWrite(unsigned int fd, unsigned int count)	{
 
 	switch(fd)	{
 	// STDOUT : Salida estandar.
@@ -38,7 +40,7 @@ unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 			break;
 		}
 		case RETURNANDSTDOUT_CHAR :	{
-			unsigned char c = readChar();
+			char c = readChar();
 			printCharDefault(c, characterColor, BLACK);
 			return c;
 		}
@@ -50,7 +52,7 @@ unsigned char sysWrite(unsigned int fd, unsigned int count)	{
 	return 0;
 }
 
-void sysRead( unsigned int fd, const  char * s, char c)	{
+void sysRead( unsigned int fd, const char * s, char c)	{
     switch(fd)	{
 		case STRING :	{
 			putString(s);

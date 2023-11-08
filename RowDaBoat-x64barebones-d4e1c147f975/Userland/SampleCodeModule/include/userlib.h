@@ -13,7 +13,7 @@
 
     void putChar(char c);
 
-    unsigned char getAndPrintChar();
+    char getAndPrintChar();
 
     void draw(int model, int x, int y, char color);
 
@@ -24,8 +24,6 @@
     void drawWhiteSquare(unsigned int x, unsigned int y);
 
     void clear();
-
-    void killBuffer();
 
     void exit_shell();
 

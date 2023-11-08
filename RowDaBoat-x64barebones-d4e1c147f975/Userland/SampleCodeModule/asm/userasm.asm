@@ -49,7 +49,7 @@ print:
 	pop rbp
 	ret
 
-; unsigned char getChar()
+; char getChar()
 getChar:
 
     push rbp

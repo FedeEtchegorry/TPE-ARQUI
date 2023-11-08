@@ -19,20 +19,19 @@ void putTab()   {
     putChar('\t');
 }
 char* stringNormalizer(char* origString){
-    char* aux;
     int i=0, j=0;
     while (origString[i]!='\0'){
         if (origString[i]>='A' && origString[i]<='Z'){
-            aux[j++]=origString[i++]+32;
+            origString[j++]=origString[i++]+32;
         } else if (origString[i]==' '){
-            aux[j++]=' ';
+            origString[j++]=' ';
             while (origString[i]==' ')
                 i++;
         } else
-            aux[j++]=origString[i++];
+            origString[j++]=origString[i++];
     }
-    aux[j]='\0';
-    return aux;
+    origString[j]='\0';
+    return origString;
 }
 ////asume que el string solo tiene dos palabras separadas por espacio, donde quiero devolver las 2;
 int stringTrimmerBySpace(char* origString, char* aux1, char* aux2) {

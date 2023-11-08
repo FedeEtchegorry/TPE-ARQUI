@@ -7,8 +7,8 @@
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OPCODE_EXCEPTION_ID 6
 
-#define ZERO_EXCEPTION_MESSAGE ((unsigned char *)"Excepcion numero 0: Divide por cero")
-#define INVALID_OPCODE_MESSAGE ((unsigned char *)"Excepcion numero 1: Operacion Invalida")
+#define ZERO_EXCEPTION_MESSAGE ("Excepcion numero 0: Divide por cero")
+#define INVALID_OPCODE_MESSAGE ("Excepcion numero 1: Operacion Invalida")
 
 static void zero_division(uint64_t * registers);
 static void invalid_opcode(uint64_t * registers);
