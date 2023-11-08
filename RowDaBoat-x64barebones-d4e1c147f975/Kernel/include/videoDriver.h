@@ -35,7 +35,6 @@ void blockBlink();
 void cleanLastLine();
 void setCharWidth(unsigned int size);
 void resetPosition();
-void drawRegisters(int value);
 void snakeHeadDrawer(int direction, int initPosY, int initPosX, char color);
 void snakeBodyDrawer(int initPosY, int initPosX, int size);
 void drawPixel(int y, int x, int size, char * draw, int colour);
