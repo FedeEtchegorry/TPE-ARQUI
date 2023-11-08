@@ -8,14 +8,13 @@ extern int timeParam(int argument);
 char numberBuffer[20]={'\0'};
 
 unsigned int decode(unsigned int time){
-    return (time>>4)* 10 + (time & 0x0F);				//FUNCION QUE PASA EL TIEMPO EN BCD(binary coded decimal) a un numero en decimal
+    return (time>>4)* 10 + (time & 0x0F);				//Funcion que pasa el tiempo en BCD(binary coded decimal) a un numero en decimal
 }
 static uint32_t numberToBase(uint64_t value, char * buffer, uint32_t base){
     char *p = buffer;
     char *p1, *p2;
     uint32_t digits = 0;
 
-    //Calculate characters for each digit
     do
     {
         uint32_t remainder = value % base;

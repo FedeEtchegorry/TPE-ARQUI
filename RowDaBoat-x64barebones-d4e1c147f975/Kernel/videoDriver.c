@@ -244,12 +244,6 @@ void drawCharOnPreviousPosition(unsigned char c,int fgcolor, int bgcolor){
 }
 
 
-void drawRegisters(int value){
-    char buffer[256] = {0};
-    uintToBase(value, buffer, 16);
-    printTextDefault(buffer, BLACK, WHITE);
-    printNewline();
-}
 
 void newline(){
     currentPosition+=VBE_mode_info->width*((currentPosition/VBE_mode_info->width)+1)-currentPosition ;
