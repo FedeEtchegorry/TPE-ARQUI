@@ -3,7 +3,7 @@
 #include <frontSnake.h>
 #include <defs.h>
 
-#define TICKS_UNTIL_PRINT 100000
+#define TICKS_UNTIL_PRINT 300000
 
 void startSnake(unsigned int players){
 
@@ -70,6 +70,9 @@ void startSnake(unsigned int players){
             drawSnake(snake1);
             if(getPlayers()==2)
                 drawSnake(snake2);
+
+
+
         }
 
         key = getChar();
@@ -91,6 +94,9 @@ void startSnake(unsigned int players){
                 if(getPlayers()==2)
                     printSnakeScore(snake2);
 
+
+                drawMap();
+                drawApple(myApple);
                 
         }    
             else if(!useKey(snake1, key, keysSnake1) && getPlayers()==2)    {
