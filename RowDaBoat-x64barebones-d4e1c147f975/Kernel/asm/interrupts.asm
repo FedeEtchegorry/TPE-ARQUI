@@ -90,7 +90,10 @@ saveState:
 
 
 %macro exceptionHandler 1
-	
+    mov [raxAux], rax
+    mov rax, [rsp]
+    mov [register_array+128], rax
+    mov rax, [raxAux]
 
 	call register_saviour
 	mov rsi, rax
@@ -102,9 +105,7 @@ saveState:
     mov [rsp+24], rax
 
 	mov byte [rsp+8], 0x08
-
 	mov byte [rsp+32], 0x00
-
 	mov byte [rsp+16], 0x202	
 
     mov rax, userland
@@ -237,7 +238,6 @@ haltcpu:
 ;;guarda los registros de uso general en un arreglo, devuelvo el puntero por rax
 register_saviour:
     pushState
-    mov rax, [rsp]
     mov [register_array], rax
     mov rax, [rsp+8]
     mov [register_array+8], rax
@@ -282,14 +282,12 @@ _exception0Handler:
 _exception6Handler:
     exceptionHandler 6
 
-get_stored_info:
-    mov rax, register_array
-    ret
-
 
 SECTION .bss
 	aux: resq 1
 	register_array resq 17
-	stackbase resq 1
+	ripSave resq 1
+	raxAux resq 1
+
 SECTION .rodata
     userland equ 0x400000

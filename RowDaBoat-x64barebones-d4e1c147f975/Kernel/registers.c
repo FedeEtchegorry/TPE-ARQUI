@@ -46,9 +46,12 @@ void registerRetriever() {
 void registerPrintFull(uint64_t * registerInfo){
     fillScreen(0x0);
     resetPosition();
-    for (int i = 0; i < 16; i++) {
+    int i=0;
+    for (; i < 16; i++) {
         printRegisterDefault(registrerNames[i]);
         outputRegisterCaller(registerInfo, i);
     }
+    printRegisterDefault("RIP: 0x");
+    outputRegisterCaller(registerInfo, i);
 }
 
