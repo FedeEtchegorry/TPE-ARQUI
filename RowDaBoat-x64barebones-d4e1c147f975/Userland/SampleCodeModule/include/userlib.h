@@ -45,6 +45,8 @@
 
     void play_song(int name);
 
+    extern void invalidOpcode();
+
 //  Strings:
 
     unsigned int strLength(const char * str);

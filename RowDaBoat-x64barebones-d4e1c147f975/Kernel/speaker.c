@@ -19,7 +19,7 @@
 uint16_t jingleBells[] = {MI, MI, MI, MI, MI, MI, MI, SOL, DO, RE, MI,
                           FA, FA, FA,  MI, MI, MI, RE, RE, RE, MI, RE, SOL};
 uint16_t timeJB[]={1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 4, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 2};
-uint32_t tetrisSong[]={/*MI2*/0, SI, DO2, RE2, DO2, SI, LA, LA, DO2, MI2, RE2, DO2, SI, SI, DO2, RE2, MI2, DO2, LA, LA,
+uint32_t tetrisSong[]={MI2, SI, DO2, RE2, DO2, SI, LA, LA, DO2, MI2, RE2, DO2, SI, SI, DO2, RE2, MI2, DO2, LA, LA,
                        10000, RE2, FA2, LA2, SOL2, FA2, MI2, DO2, MI2, RE2, DO2, SI, SI, DO2, RE2, MI2, DO2, LA, LA, 10000};
 double timeTetris[]={1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 0.5,
                 1, 0.5, 1, 0.5, 0.5, 1.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 0.5};

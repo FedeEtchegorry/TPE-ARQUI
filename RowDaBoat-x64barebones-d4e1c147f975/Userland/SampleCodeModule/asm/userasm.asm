@@ -12,8 +12,10 @@ GLOBAL make_text_bigger
 GLOBAL rand
 GLOBAL recolor
 GLOBAL play_song
+GLOBAL invalidOpcode
 
 extern strLength
+
 section .text
 	
 ; void print(unsigned * char string)
@@ -271,4 +273,14 @@ play_song:
 
     mov rsp, rbp
     pop rbp
+    ret
+
+
+invalidOpcode:
+
+    ud2 ; Instruccion deisenañada para disparar invalid opcode
+
+; Otra forma seria:
+;   db 0xFF
+
     ret
