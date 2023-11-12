@@ -2,7 +2,7 @@
 #define _SHELL_H
 
     #define INIT_MESSAGE "Welcome to shell, write help if you want to know the available options\n"
-    #define AVAILABLE_FUNCTIONS 9
+    #define AVAILABLE_FUNCTIONS 11
     
     void initShell();
     void read(char * buffer);
@@ -15,4 +15,6 @@
     void colorChanging();
     void tetrisSong();
     void jingleBellsSong();
+    void div0();
+    
 #endif
