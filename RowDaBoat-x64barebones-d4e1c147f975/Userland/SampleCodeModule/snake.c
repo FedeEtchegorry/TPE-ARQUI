@@ -332,7 +332,7 @@ int moveSnake(tSnake snake, struct snakeBody otherSnakeHead)    {
    
 
     if(snake->eating)  {
-
+        play_song(3);
         int auxX = snake->body[snake->headPos].x; 
         int auxY = snake->body[snake->headPos].y; 
         tDirection auxDirection = snake->body[snake->headPos].direction;
