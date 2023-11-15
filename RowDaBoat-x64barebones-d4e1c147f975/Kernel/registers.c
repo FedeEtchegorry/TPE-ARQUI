@@ -19,7 +19,7 @@ void registerToString(uint64_t value) {
         int digit = value & 0xF;
         temp[index++] = (digit < 10) ? (char)('0' + digit) : (char)('a' + digit - 10);
         value >>= 4;
-    } while (index<value);
+    } while (value>0);
     //la longitud de mi string depende del indice
     int length = index;
 
