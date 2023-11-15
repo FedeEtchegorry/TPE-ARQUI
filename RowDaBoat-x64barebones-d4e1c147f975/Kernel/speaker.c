@@ -27,7 +27,7 @@ uint32_t death2[]={SI, FA2, FA2, FA2, MI2, RE2, DO2, MI, SOL, MI, DO} ;
 double tiempo[]={0.5, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 2};
 
 static int initFreq=400;
-static double defaultTime=0.05;
+static double defaultTime=0.1;
 
 void play_sound(unsigned int frequency);
 void nosound();
