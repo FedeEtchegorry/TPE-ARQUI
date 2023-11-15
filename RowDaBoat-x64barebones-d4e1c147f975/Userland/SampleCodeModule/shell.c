@@ -80,19 +80,8 @@ void getMenu(char* buffer){
     print("Unknown Command");
     print("\n");
 }
-int checkArguments(){
-    if(argument[0]!='\0') {
-        print("\n");
-        print("This function should not have arguments");
-        print("\n");
-        return 0;
-    }
-    return 1;
-}
+
 void help(){
-    if(!checkArguments()){
-        return;
-    }
     putnEnters(2);
     for (int i = 0; i<AVAILABLE_FUNCTIONS; i++) {
         print(menuNames[i]);
@@ -102,9 +91,6 @@ void help(){
     }
 }
 void time(){
-    if(!checkArguments()){
-        return;
-    }
     time_getter();
 }
 
@@ -138,9 +124,6 @@ void textSize(){
 }
 
 void exitProgram(){
-    if(!checkArguments()){
-        return;
-    }
     exit_shell();
 }
 void colorChanging(){
@@ -169,22 +152,13 @@ void colorChanging(){
 
 }
 void tetrisSong(){
-    if(!checkArguments()){
-        return;
-    }
     play_song(1);
 }
 void jingleBellsSong(){
-    if(!checkArguments()){
-        return;
-    }
     play_song(2);
 }
 
 void div0() {
-    if(!checkArguments()){
-        return;
-    }
     int i= 1/0;
 }
 
