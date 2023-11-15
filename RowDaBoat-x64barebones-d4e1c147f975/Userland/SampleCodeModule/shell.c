@@ -33,20 +33,34 @@ void read(char * buffer)   {
     int i=0;
     char c;
     while((c = getChar())!='\n')    {
-        if (c=='\0')
-            ;
-        else if(c=='\b') {
-            if(i!=0)    {
-                putChar(c);
-                buffer[--i] = '\0';
-            }
-        }
-        else    {
-            buffer[i++] = c;
-            putChar(buffer[i-1]);
+        
+        if (c!='\0')    {
+            
+            if(c=='\b' ) {
 
-        }
+                if(i!=0)    {
+                
+                    int pixelsToDelete = (buffer[i-1] == '\t')? 3 : 1; //Si borro un tab queda en 3 sino queda en 1
+                    
+                    for(int j=0; j<pixelsToDelete; ++j) {
+
+                        putChar('\b');
+                    }
+                    
+                    buffer[--i] = '\0';
+                }
+                
+            }
+
+            else    {
+
+                buffer[i++] = c;
+                putChar(buffer[i-1]);
+                
+            }
+        }        
     }
+
     buffer[i] = '\0';
 }
 void getMenu(char* buffer){
