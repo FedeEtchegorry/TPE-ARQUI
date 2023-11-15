@@ -278,7 +278,7 @@ play_song:
 
 invalidOpcode:
 
-    ud2 ; Instruccion deisenañada para disparar invalid opcode
+    ud2 ; Instruccion diseñada para disparar invalid opcode
 
 ; Otra forma seria:
 ;   db 0xFF
