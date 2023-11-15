@@ -40,6 +40,12 @@ void playFrecuency(double time, unsigned int frequency) {
     }
     nosound();
 }
+
+void beep(){
+    playFrecuency(defaultTime, initFreq);
+    nosound();
+}
+
 void playDefault(){
     beep();
     nosound();
@@ -64,7 +70,3 @@ void playMario(){
     nosound();
 }
 
-void beep(){
-    playFrecuency(defaultTime, initFreq);
-    nosound();
-}
