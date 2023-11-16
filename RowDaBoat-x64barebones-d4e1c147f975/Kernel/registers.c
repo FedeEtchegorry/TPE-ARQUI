@@ -23,7 +23,7 @@ void registerToString(uint64_t value) {
     //la longitud de mi string depende del indice
     int length = index;
 
-    // empiexo a dar vuelta el string
+    // empiezo a dar vuelta el string
     for (int i = 0; i < length; i++) {
         output[i] = temp[length - 1 - i];
     }

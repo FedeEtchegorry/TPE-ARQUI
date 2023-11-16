@@ -19,15 +19,11 @@ static char kbd_US [81][2] =   {
 
 char map(unsigned char c)  {
     char letter=kbd_US[c][0];
-    if (letter=='\a' && !registerScreenOn){                 //con esto se llama a los registros
-        registerScreenOn = 1;
-        registerPrintInit();
-        return '\0';
+    if (letter=='\a'){                 //con esto se llama a los registros
+        return '\a';
     }
-    if (kbd_US[c-128][0]=='\a'){        //c-128 me dice si se soltó
-        registerScreenOn = 0;
-        refillScreen();
-        return '\0';
+    if (kbd_US[c-128][0]=='\a'){        //c-128 me dice si se soltó f1 para los registros
+        return '\r';
     }
     if (letter=='S') {     //me fijo si tengo el shift, c-128 sirve para ver si se soltó
         shift = 1;

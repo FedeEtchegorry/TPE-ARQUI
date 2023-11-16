@@ -27,9 +27,22 @@ void irqDispatcher(uint64_t irq) {
 void int_20() {
 	timer_handler();
 }
+static int printingRegisters=0;
 
 void int_21() {
-    putChar(map(keyboard_handler()));
+    char key=map(keyboard_handler());
+    if(!printingRegisters)	{
+        if(key == '\a')	{	// Si se quieren imprimir los registros
+            printingRegisters=1;
+            registerPrintInit();
+        }
+        else
+            putChar(key);
+    }
+    if (key=='\r') {
+        refillScreen();
+        printingRegisters = 0;
+        }
 }
 
 // Syscalls:

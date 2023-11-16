@@ -85,6 +85,7 @@ void startSnake(unsigned int players){
             if( key == 'p')     {
 
                 cleanSankeText();
+                clear();
                 print("PAUSED");
             // Espera:
                 while(getChar()!='p');
