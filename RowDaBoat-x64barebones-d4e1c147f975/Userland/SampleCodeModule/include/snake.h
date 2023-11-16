@@ -1,8 +1,8 @@
 #ifndef _SNAKE_H
 #define _SNAKE_H
 
-    #define ROWS 20
-    #define COLUMNS 20
+    #define ROWS 30
+    #define COLUMNS 30
     #define SLOTS ROWS*COLUMNS
 
 /*---------------Players managment---------------------*/

@@ -35,17 +35,21 @@ char* stringNormalizer(char* origString){
 }
 ////asume que el string solo tiene dos palabras separadas por espacio, donde quiero devolver las 2;
 int stringTrimmerBySpace(char* origString, char* aux1, char* aux2) {
+    aux2[0] = '\0';
     int i = 0, j = 0, k = 0;
     while (origString[i] != ' ' && origString[i] != '\0') {
         aux1[j++] = origString[i++];
     }
-    aux1[j]='\0';
-    i++;    //omito el espacio
-    while (origString[i] != '\0') {
-        aux2[k++] = origString[i++];
+    aux1[j] = '\0';
+    if (origString[i] != '\0') {
+        i++; // //salteo el espacio
+        while (origString[i] != '\0') {
+            aux2[k++] = origString[i++];
+        }
+        aux2[k] = '\0';
     }
-    aux2[k]='\0';
-    return(aux2[0]!='\0');
+
+    return k; // devuelvo longitud de aux2
 
 }
 

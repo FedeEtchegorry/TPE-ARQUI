@@ -44,14 +44,20 @@ void read(char * buffer)   {
     buffer[i] = '\0';
 }
 
-    static char function[15]={'\0'};
-    static char argument[15]={'\0'};
-
+    static char function[25]={'\0'};
+    static char argument[25]={'\0'};
+    static int hasArgs=0;
 void getMenu(char* buffer){
     
     int i=0;
     buffer=stringNormalizer(buffer);
-    stringTrimmerBySpace(buffer, function, argument);
+    hasArgs=stringTrimmerBySpace(buffer, function, argument);
+    if (hasArgs==25 || function[24]!='\0') {
+        print("\n");
+        print("You're trying to overflow the buffer, aren't you? By the way, that's an Unknown Command");
+        print("\n");
+        return;
+    }
     while (menuNames[i]){
         if (strEquals(menuNames[i], function)) {
             print("\n");
@@ -67,6 +73,10 @@ void getMenu(char* buffer){
 }
 
 void help(){
+    if (hasArgs){
+        print("Function doesn't have arguments");
+        return;
+    }
     putnEnters(2);
     for (int i = 0; i<AVAILABLE_FUNCTIONS; i++) {
         print(menuNames[i]);
@@ -76,26 +86,28 @@ void help(){
     }
 }
 void time(){
+    if (hasArgs){
+        print("Function doesn't have arguments");
+        return;
+    }
     time_getter();
 }
 
 void snake(){
 
     if (strEquals("1", argument))   {
-
         startSnake(1);
-
+        initShell();
     }
         
-    else if (strEquals("2", argument))  {
-
+    else if (argument[0]=='2' && argument[1]=='\0')  {
         startSnake(2);
-
+        initShell();
     }
         
     else print("Arguments are necessary or the argument written is not defined");
 
-    initShell();
+
 
 }
 void textSize(){
@@ -109,6 +121,10 @@ void textSize(){
 }
 
 void exitProgram(){
+    if (hasArgs){
+        print("Function doesn't have arguments");
+        return;
+    }
     exit_shell();
 }
 void colorChanging(){
@@ -137,13 +153,25 @@ void colorChanging(){
 
 }
 void tetrisSong(){
+    if (hasArgs){
+        print("Function doesn't have arguments");
+        return;
+    }
     play_song(1);
 }
 void jingleBellsSong(){
+    if (hasArgs){
+        print("Function doesn't have arguments");
+        return;
+    }
     play_song(2);
 }
 
 void div0() {
+    if (hasArgs){
+        print("Function doesn't have arguments");
+        return;
+    }
     int i= 1/0;
 }
 
