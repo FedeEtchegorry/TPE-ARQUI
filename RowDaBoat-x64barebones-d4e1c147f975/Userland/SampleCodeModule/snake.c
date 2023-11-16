@@ -18,18 +18,12 @@ void startSnake(unsigned int players){
     tSnake snake2;
     tApple myApple; 
 
-    snakesConfig(snake1, snake2);
-
-    spawnSnake(snake1);
-    snake1->id = 1;
+    spawnSnake(snake1,1);
     if(getPlayers()==2) {
-        spawnSnake(snake2);
-        snake2->id = 2;
+        spawnSnake(snake2, 2);
     }
 
 	spawnApple(myApple, snake1, snake2);
-
-    
 
     drawMap();
     drawApple(myApple);
@@ -197,15 +191,16 @@ int useKey(tSnake mySnake, unsigned char key, unsigned char * snakeKeys) {
     
 }
 
-void spawnSnake(tSnake babySnake)   {
+void spawnSnake(tSnake babySnake, unsigned int id)   {
     
     babySnake->headPos = 1;
     babySnake->eating = 0;
+    babySnake->id = id;
 
     for(int i=0; i<=babySnake->headPos; i++)  {
         babySnake->body[i].x = (COLUMNS / 2) - 1 + i;
     // Consideracion para que no spawneen las snakes en la misma posicion.
-        babySnake->body[i].y = (ROWS / 2) + babySnake->id;
+        babySnake->body[i].y = (ROWS / 2) + 2*babySnake->id;
         babySnake->body[i].direction = RIGHT;
     }    
 
@@ -299,7 +294,7 @@ static void moveBody(tSnake snake, unsigned int bodyPos) {
 
 }
 
-static int checkCrash(tSnake snake, struct snakeBody otherSnakeHead )    {
+int checkCrash(tSnake snake, struct snakeBody otherSnakeHead )    {
     for(int i=0; i<snake->headPos; ++i) {
     // Checkea cuerpito por cuerpito 
         if (snake->body[snake->headPos].x == snake->body[i].x &&

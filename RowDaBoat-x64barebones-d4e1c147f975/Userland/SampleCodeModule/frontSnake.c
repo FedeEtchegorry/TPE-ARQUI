@@ -13,15 +13,17 @@ void drawMap()  {
         drawWhiteSquare(0, i);
         drawWhiteSquare(COLUMNS, i);
     }
+
+    print("Press p for pause.\nPlease, consider use pause before checking registers.\n");
 }
 
 
 void drawSnake(tSnake snake)  {
     if(snake->id == 1)
-        drawYellowSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
+        drawGreenSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
 
     else    
-        drawRedSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
+        drawYellowSquare(snake->body[snake->headPos-1].x, snake->body[snake->headPos-1].y);
     
 
     int headModel;
@@ -46,11 +48,11 @@ void drawSnake(tSnake snake)  {
     }
     if(snake->id == 1)
         
-        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x02);
+        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x01);
 
     else
         
-        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x00);
+        draw(headModel, snake->body[snake->headPos].x, snake->body[snake->headPos].y, 0x02);
 
 }
 
@@ -117,17 +119,6 @@ void printSnakeInfo(tSnake snake)   {
 
     print("Head info: ");
     printSnakeBody(snake->body[snake->headPos]);
-
-
-    // for(int i=snake->headPos-1; i>=0; --i)    {
-        
-    //     putEnter();
-    //     print("Body ");
-    //     printUinteger(snake->headPos - i);
-    //     print(" info:");
-    //     printSnakeBody(snake->body[i]);
-    //     putEnter();
-    // }
 
 }
 

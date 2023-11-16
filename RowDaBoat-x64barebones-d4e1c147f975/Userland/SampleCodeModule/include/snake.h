@@ -1,10 +1,8 @@
 #ifndef _SNAKE_H
 #define _SNAKE_H
 
-    #include <randlib.h>
-
-    #define ROWS 28
-    #define COLUMNS 28
+    #define ROWS 20
+    #define COLUMNS 20
     #define SLOTS ROWS*COLUMNS
 
 /*---------------Players managment---------------------*/
@@ -43,11 +41,6 @@
     } * tApple;
 
 
-    static void snakesConfig(tSnake snake1, tSnake snake2)  {
-        snake1->id = 1;
-        snake2->id = 2;
-    }
-
 // Comienza el juego.
     void startSnake(unsigned int players);
 
@@ -56,8 +49,10 @@
 
     int useKey(tSnake mySnake, unsigned char key, unsigned char * snakeKeys);
 
+    int checkCrash(tSnake snake, struct snakeBody otherSnakeHead);
+
 //  Instancia snake.
-    void spawnSnake(tSnake babySnake);
+    void spawnSnake(tSnake babySnake, unsigned int id);
 
     void changeSnakeDirection(tSnake snake, tDirection newDirection);
 
