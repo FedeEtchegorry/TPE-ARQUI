@@ -44,15 +44,15 @@ void read(char * buffer)   {
     buffer[i] = '\0';
 }
 
-    static char function[25]={'\0'};
-    static char argument[25]={'\0'};
+    static char function[15]={'\0'};
+    static char argument[15]={'\0'};
     static int hasArgs=0;
 void getMenu(char* buffer){
     
     int i=0;
     buffer=stringNormalizer(buffer);
     hasArgs=stringTrimmerBySpace(buffer, function, argument);
-    if (hasArgs==25 || function[24]!='\0') {
+    if (hasArgs==15 || function[14]!='\0') {
         print("\n");
         print("You're trying to overflow the buffer, aren't you? By the way, that's an Unknown Command");
         print("\n");
